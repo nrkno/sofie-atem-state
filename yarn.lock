@@ -283,7 +283,7 @@ asynckit@^0.4.0:
 
 "atem-connection@git+https://github.com/nrkno/tv-automation-atem-connection#dist":
   version "0.0.0"
-  resolved "git+https://github.com/nrkno/tv-automation-atem-connection#aaf98f9ad5171c6fdb8ee5f2f8db029dc6dd8731"
+  resolved "git+https://github.com/nrkno/tv-automation-atem-connection#6e6b677ab6ceb0b45629b1fa32fd17521a0c377a"
   dependencies:
     pngjs "^3.3.2"
     tslib "^1.9.0"
