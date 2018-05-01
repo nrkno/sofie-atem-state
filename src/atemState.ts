@@ -4,15 +4,6 @@ import {
 	VideoState } from 'atem-connection'
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 
-export interface ChangeRecord {
-	kind: String,
-	path: Array<String | Number>,
-	lhs?: string | number | boolean | Object,
-	rhs?: string | number | boolean | Object,
-	index?: number,
-	item?: Object
-}
-
 export class AtemState {
 	private _state: StateObject
 
