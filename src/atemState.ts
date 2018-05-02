@@ -102,7 +102,7 @@ export class AtemState {
 
 		for (const mixEffectId in oldState.video.ME) {
 			const oldTransitionProperties = oldState.video.ME[mixEffectId].transitionProperties
-			const newTransitionProperties = oldState.video.ME[mixEffectId].transitionProperties
+			const newTransitionProperties = newState.video.ME[mixEffectId].transitionProperties
 			let props: Partial<{ selection: number, style: number }> = {}
 
 			if (oldTransitionProperties.selection !== newTransitionProperties.selection) {
@@ -136,7 +136,7 @@ export class AtemState {
 		 */
 		for (const mixEffectId in oldState.video.ME) {
 			const oldTransitionSettings = oldState.video.ME[mixEffectId].transitionSettings
-			const newTransitionSettings = oldState.video.ME[mixEffectId].transitionSettings
+			const newTransitionSettings = newState.video.ME[mixEffectId].transitionSettings
 
 			const dipProperties: Partial<VideoState.DipTransitionSettings> = {}
 			for (let key in oldTransitionSettings.dip) {
@@ -170,7 +170,7 @@ export class AtemState {
 					(mixProperties as any)[key] = (newTransitionSettings.mix as any)[key]
 				}
 			}
-			if (Object.keys(mixEffectId).length > 0) {
+			if (Object.keys(mixProperties).length > 0) {
 				let command = new AtemCommands.TransitionMixCommand()
 				command.mixEffect = Number(mixEffectId)
 				command.updateProps(mixProperties)
