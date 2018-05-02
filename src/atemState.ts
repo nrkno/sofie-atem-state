@@ -20,9 +20,9 @@ export class AtemState {
 	}
 
 	diffStates (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-		const commands: Array<AbstractCommand> = []
+		let commands: Array<AbstractCommand> = []
 
-		commands.concat(this.resolveVideoState(oldState, newState))
+		commands = commands.concat(this.resolveVideoState(oldState, newState))
 
 		return commands
 	}
@@ -34,19 +34,19 @@ export class AtemState {
 	}
 
 	private resolveVideoState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-		const commands: Array<AbstractCommand> = []
+		let commands: Array<AbstractCommand> = []
 
-		commands.concat(this.resolveMixEffectsState(oldState, newState))
+		commands = commands.concat(this.resolveMixEffectsState(oldState, newState))
 
 		return commands
 	}
 
 	private resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-		const commands: Array<AbstractCommand> = []
+		let commands: Array<AbstractCommand> = []
 
 		for (const mixEffectId in oldState.video.ME) {
 			const oldMixEffect = oldState.video.ME[mixEffectId]
-			const newMixEffect = oldState.video.ME[mixEffectId]
+			const newMixEffect = newState.video.ME[mixEffectId]
 
 			if (oldMixEffect.previewInput !== newMixEffect.previewInput) {
 				const command = new AtemCommands.PreviewInputCommand()
@@ -62,7 +62,7 @@ export class AtemState {
 				//   Upstream Keyer is set for next transition
 				const command = new AtemCommands.ProgramInputCommand()
 				command.mixEffect = Number(mixEffectId)
-				command.properties.source = newMixEffect.previewInput
+				command.updateProps({ source: newMixEffect.programInput })
 				commands.push(command)
 			}
 
@@ -91,8 +91,8 @@ export class AtemState {
 			// @todo: fadeToBlack
 		}
 
-		commands.concat(this.resolveTransitionPropertiesState(oldState, newState))
-		commands.concat(this.resolveTransitionSettingsState(oldState, newState))
+		commands = commands.concat(this.resolveTransitionPropertiesState(oldState, newState))
+		commands = commands.concat(this.resolveTransitionSettingsState(oldState, newState))
 
 		return commands
 	}
