@@ -1,8 +1,9 @@
 import {
-	AtemState as StateObject,
 	Commands as AtemCommands,
+	Enums as ConnectionEnums,
 	VideoState } from 'atem-connection'
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
+import { Enums, State as StateObject } from '.'
 
 export class AtemState {
 	private _state: StateObject
@@ -44,33 +45,60 @@ export class AtemState {
 	private resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 		let commands: Array<AbstractCommand> = []
 
+		commands = commands.concat(this.resolveTransitionPropertiesState(oldState, newState))
+		commands = commands.concat(this.resolveTransitionSettingsState(oldState, newState))
+
 		for (const mixEffectId in oldState.video.ME) {
 			const oldMixEffect = oldState.video.ME[mixEffectId]
 			const newMixEffect = newState.video.ME[mixEffectId]
 
-			if (oldMixEffect.previewInput !== newMixEffect.previewInput) {
-				const command = new AtemCommands.PreviewInputCommand()
-				command.mixEffect = Number(mixEffectId)
-				command.properties.source = newMixEffect.previewInput
-				commands.push(command)
+			if (newMixEffect.input && newMixEffect.transition) {
+				if (typeof oldMixEffect.input === 'undefined') {
+					oldMixEffect.input = oldMixEffect.programInput
+				}
+				if (newMixEffect.input !== oldMixEffect.input) {
+					const command = new AtemCommands.PreviewInputCommand()
+					command.mixEffect = Number(mixEffectId)
+					command.updateProps({ source: newMixEffect.input })
+					commands.push(command)
+
+					if (newMixEffect.transition === Enums.TransitionStyle.CUT) {
+						const command = new AtemCommands.CutCommand()
+						command.mixEffect = Number(mixEffectId)
+						commands.push(command)
+					} else {
+						if (newMixEffect.transition !== newMixEffect.transitionProperties.style) { // set style before auto transition command
+							const command = new AtemCommands.TransitionPropertiesCommand()
+							command.mixEffect = Number(mixEffectId)
+							command.updateProps({ style: newMixEffect.transition! as ConnectionEnums.TransitionStyle })
+							commands.push(command)
+						}
+
+						const command = new AtemCommands.AutoTransitionCommand()
+						command.mixEffect = Number(mixEffectId)
+						commands.push(command)
+					}
+				}
+			} else {
+				if (oldMixEffect.previewInput !== newMixEffect.previewInput) {
+					const command = new AtemCommands.PreviewInputCommand()
+					command.mixEffect = Number(mixEffectId)
+					command.updateProps({ source: newMixEffect.previewInput })
+					commands.push(command)
+				}
+				if (oldMixEffect.programInput !== newMixEffect.programInput) {
+					// @todo: check if we need to use the cut command?
+					// use cut command if:
+					//   DSK is tied
+					//   Upstream Keyer is set for next transition
+					const command = new AtemCommands.ProgramInputCommand()
+					command.mixEffect = Number(mixEffectId)
+					command.updateProps({ source: newMixEffect.programInput })
+					commands.push(command)
+				}
 			}
 
-			if (oldMixEffect.programInput !== newMixEffect.programInput) {
-				// @todo: check if we need to use the cut command?
-				// use cut command if:
-				//   DSK is tied
-				//   Upstream Keyer is set for next transition
-				const command = new AtemCommands.ProgramInputCommand()
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps({ source: newMixEffect.programInput })
-				commands.push(command)
-			}
-
-			if (!oldMixEffect.inTransition && newMixEffect.inTransition) {
-				const command = new AtemCommands.AutoTransitionCommand()
-				command.mixEffect = Number(mixEffectId)
-				commands.push(command)
-			} else if (!oldMixEffect.inTransition && oldMixEffect.transitionPosition !== newMixEffect.transitionPosition) {
+			if (newMixEffect.inTransition && oldMixEffect.transitionPosition !== newMixEffect.transitionPosition) {
 				const command = new AtemCommands.TransitionPositionCommand()
 				command.mixEffect = Number(mixEffectId)
 				command.updateProps({
@@ -90,9 +118,6 @@ export class AtemState {
 
 			// @todo: fadeToBlack
 		}
-
-		commands = commands.concat(this.resolveTransitionPropertiesState(oldState, newState))
-		commands = commands.concat(this.resolveTransitionSettingsState(oldState, newState))
 
 		return commands
 	}
