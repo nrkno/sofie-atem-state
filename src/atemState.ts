@@ -29,15 +29,24 @@ export class AtemState {
 	}
 
 	applyCommands (commands: Array<AbstractCommand>) {
-		for (let command of commands) {
-			command.applyToState(this._state) // do we care about the read only parameters?
-		}
+		commands = commands
+		//
 	}
 
 	private resolveVideoState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 		let commands: Array<AbstractCommand> = []
 
 		commands = commands.concat(this.resolveMixEffectsState(oldState, newState))
+
+		// resolve auxilliaries:
+		for (const index in newState.video.auxilliaries) {
+			if (oldState.video.auxilliaries[index] !== newState.video.auxilliaries[index]) {
+				const command = new AtemCommands.AuxSourceCommand()
+				command.auxBus = Number(index)
+				command.updateProps({ source: newState.video.auxilliaries[index] })
+				commands.push(command)
+			}
+		}
 
 		return commands
 	}
