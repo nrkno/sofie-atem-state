@@ -24,9 +24,4 @@ export class AtemState {
 
 		return commands
 	}
-
-	applyCommands (commands: Array<AbstractCommand>) {
-		commands = commands
-		//
-	}
 }
