@@ -14,7 +14,7 @@ export function resolveMediaPlayerState (oldState: StateObject, newState: StateO
 		const props: Partial<MediaState.MediaPlayer> = {}
 
 		for (let key in newPlayer) {
-			if ((newPlayer as any)[key] !== (newPlayer as any)[key]) {
+			if ((newPlayer as any)[key] !== (oldPlayer as any)[key]) {
 				(props as any)[key] = (newPlayer as any)[key]
 			}
 		}
