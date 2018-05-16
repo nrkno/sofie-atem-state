@@ -109,8 +109,14 @@ test('Unit: mix effect: auto command, new transition', function () {
 		source: 1
 	})
 
-	expect(commands[1].rawName).toEqual('DAut')
-	expect((commands[1] as Commands.CutCommand).mixEffect).toEqual(0)
+	expect(commands[1].rawName).toEqual('TrSS')
+	expect((commands[1] as Commands.TransitionPropertiesCommand).mixEffect).toEqual(0)
+	expect(commands[1].properties).toMatchObject({
+		style: Enums.TransitionStyle.WIPE
+	})
+
+	expect(commands[2].rawName).toEqual('DAut')
+	expect((commands[2] as Commands.CutCommand).mixEffect).toEqual(0)
 
 	STATE2.video.ME[0].input = 0
 })
@@ -192,7 +198,7 @@ test('Unit: mix effect: transition settings: DVE', function () {
 
 	expect(commands[0].rawName).toEqual('TDvP')
 	expect((commands[0] as Commands.TransitionDVECommand).mixEffect).toEqual(0)
-	expect(commands[0].MaskFlags).toEqual(4095)
+	expect(commands[0].flag).toEqual(4095)
 	expect(commands[0].properties).toMatchObject({
 		rate: 50,
 		logoRate: 50,
