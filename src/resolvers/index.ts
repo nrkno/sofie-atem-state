@@ -1,9 +1,8 @@
 import {
-	Commands as AtemCommands,
-	Enums as ConnectionEnums,
-	VideoState } from 'atem-connection'
+	Commands as AtemCommands
+} from 'atem-connection'
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
-import { Enums, State as StateObject } from '../'
+import { State as StateObject } from '../'
 
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
