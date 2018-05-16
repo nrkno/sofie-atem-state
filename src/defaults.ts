@@ -1,15 +1,35 @@
 import { VideoState, Enums } from 'atem-connection'
+import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
 
 export namespace Defaults {
 	export namespace Video {
 		export const defaultInput = 0 // black
 		export const defaultRate = 25 // 1 second
 
-		export const DownStreamKeyer: VideoState.DownstreamKeyer = {
+		export const DownStreamKeyer: DSK.DownstreamKeyer = {
 			onAir: false,
 			inTransition: false,
 			isAuto: false,
-			remainingFrames: defaultRate
+			remainingFrames: defaultRate,
+			sources: {
+				fillSource: defaultInput,
+				cutSource: defaultInput
+			},
+			properties: {
+				tie: false,
+				rate: defaultRate,
+				preMultiply: false,
+				clip: 0,
+				gain: 0,
+				invert: false,
+				mask: {
+					enabled: false,
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0
+				}
+			}
 		}
 
 		export const DipTransitionSettings: VideoState.DipTransitionSettings = {

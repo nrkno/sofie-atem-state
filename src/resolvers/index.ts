@@ -1,6 +1,5 @@
 import {
-	Commands as AtemCommands
-} from 'atem-connection'
+	Commands as AtemCommands } from 'atem-connection'
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../'
 
