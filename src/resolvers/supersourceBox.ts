@@ -8,8 +8,8 @@ export function resolveSupersourceBoxState (oldState: StateObject, newState: Sta
 	const commands: Array<AbstractCommand> = []
 
 	for (const index in newState.video.superSourceBoxes) {
-		const newBox = newState.video.superSourceBoxes[index]
-		const oldBox = oldState.video.superSourceBoxes[index]
+		const newBox = newState.video.superSourceBoxes[index] || {}
+		const oldBox = oldState.video.superSourceBoxes[index] || {}
 		const props: Partial<VideoState.SuperSourceBox> = {}
 
 		for (let key in newBox) {
