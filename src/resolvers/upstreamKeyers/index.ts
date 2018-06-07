@@ -3,10 +3,13 @@ import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @
 import { State as StateObject } from '../../'
 import { UpstreamKeyerMaskSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
 
+import { resolveDVEKeyerState } from './dveKeyer'
+
 export function resolveUpstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 	let commands: Array<AbstractCommand> = []
 
 	commands = commands.concat(resolveUpstreamKeyerMaskState(oldState, newState))
+	commands = commands.concat(resolveDVEKeyerState(newState, oldState))
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
