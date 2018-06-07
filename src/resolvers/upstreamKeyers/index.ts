@@ -1,9 +1,12 @@
 import { Commands as AtemCommands } from 'atem-connection'
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../../'
+import { UpstreamKeyerMaskSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
 
 export function resolveUpstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 	let commands: Array<AbstractCommand> = []
+
+	commands = commands.concat(resolveUpstreamKeyerMaskState(oldState, newState))
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
@@ -45,6 +48,33 @@ export function resolveUpstreamKeyerState (oldState: StateObject, newState: Stat
 				command.updateProps({
 					onAir: newKeyer.onAir
 				})
+				commands.push(command)
+			}
+		}
+	}
+
+	return commands
+}
+
+export function resolveUpstreamKeyerMaskState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
+	let commands: Array<AbstractCommand> = []
+
+	for (const mixEffectId in oldState.video.ME) {
+		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
+			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const props: Partial<UpstreamKeyerMaskSettings> = {}
+			if (oldKeyer.maskEnabled !== newKeyer.maskEnabled) props.maskEnabled = newKeyer.maskEnabled
+			if (oldKeyer.maskLeft !== newKeyer.maskLeft) props.maskLeft = newKeyer.maskLeft
+			if (oldKeyer.maskRight !== newKeyer.maskRight) props.maskRight = newKeyer.maskRight
+			if (oldKeyer.maskTop !== newKeyer.maskTop) props.maskTop = newKeyer.maskTop
+			if (oldKeyer.maskBottom !== newKeyer.maskBottom) props.maskBottom = newKeyer.maskBottom
+
+			if (Object.keys(props).length > 0) {
+				const command = new AtemCommands.MixEffectKeyMaskSetCommand()
+				command.upstreamKeyerId = Number(upstreamKeyerId)
+				command.mixEffect = Number(mixEffectId)
+				command.updateProps(props)
 				commands.push(command)
 			}
 		}
