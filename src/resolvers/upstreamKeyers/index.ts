@@ -5,6 +5,7 @@ import { UpstreamKeyerMaskSettings } from 'atem-connection/dist/state/video/upst
 
 import { resolveDVEKeyerState } from './dveKeyer'
 import { resolveChromaKeyerState } from './chromaKeyer'
+import { resolveLumaKeyerState } from './lumaKeyer'
 
 export function resolveUpstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 	let commands: Array<AbstractCommand> = []
@@ -12,6 +13,7 @@ export function resolveUpstreamKeyerState (oldState: StateObject, newState: Stat
 	commands = commands.concat(resolveUpstreamKeyerMaskState(oldState, newState))
 	commands = commands.concat(resolveDVEKeyerState(newState, oldState))
 	commands = commands.concat(resolveChromaKeyerState(newState, oldState))
+	commands = commands.concat(resolveLumaKeyerState(newState, oldState))
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
