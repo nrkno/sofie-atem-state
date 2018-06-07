@@ -5,11 +5,14 @@ import {
 import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { Enums, State as StateObject } from '../'
 
+import { resolveUpstreamKeyerState } from './upstreamKeyers'
+
 export function resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
 	let commands: Array<AbstractCommand> = []
 
 	commands = commands.concat(resolveTransitionPropertiesState(oldState, newState))
 	commands = commands.concat(resolveTransitionSettingsState(oldState, newState))
+	commands = commands.concat(resolveUpstreamKeyerState(oldState, newState))
 
 	for (const mixEffectId in oldState.video.ME) {
 		const oldMixEffect = oldState.video.ME[mixEffectId]
