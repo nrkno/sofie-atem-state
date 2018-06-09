@@ -1,4 +1,4 @@
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
+import { Commands } from 'atem-connection'
 import { State as StateObject } from '.'
 import * as Resolvers from './resolvers'
 
@@ -13,12 +13,12 @@ export class AtemState {
 		return this._state
 	}
 
-	diffState (newState: StateObject): Array<AbstractCommand> {
+	diffState (newState: StateObject): Array<Commands.AbstractCommand> {
 		return this.diffStates(this._state, newState)
 	}
 
-	diffStates (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-		let commands: Array<AbstractCommand> = []
+	diffStates (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
+		let commands: Array<Commands.AbstractCommand> = []
 
 		commands = commands.concat(Resolvers.videoState(oldState, newState))
 

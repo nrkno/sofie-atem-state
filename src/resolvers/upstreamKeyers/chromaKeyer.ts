@@ -1,10 +1,9 @@
 import { Commands as AtemCommands } from 'atem-connection'
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../../'
 import { UpstreamKeyerChromaSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
 
-export function resolveChromaKeyerState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	let commands: Array<AbstractCommand> = []
+export function resolveChromaKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
