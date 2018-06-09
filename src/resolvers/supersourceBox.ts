@@ -1,11 +1,10 @@
 import {
 	Commands as AtemCommands, VideoState
 } from 'atem-connection'
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../'
 
-export function resolveSupersourceBoxState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	const commands: Array<AbstractCommand> = []
+export function resolveSupersourceBoxState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const index in newState.video.superSourceBoxes) {
 		const newBox = newState.video.superSourceBoxes[index] || {}

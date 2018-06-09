@@ -1,12 +1,11 @@
 import {
 	Commands as AtemCommands
 } from 'atem-connection'
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../'
 import { DownstreamKeyerProperties, DownstreamKeyerMask } from 'atem-connection/dist/state/video/downstreamKeyers'
 
-export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	let commands: Array<AbstractCommand> = []
+export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveDownstreamKeyerMaskState(oldState, newState))
 	commands = commands.concat(resolveDownstreamKeyerPropertiesState(oldState, newState))
@@ -43,8 +42,8 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 	return commands
 }
 
-export function resolveDownstreamKeyerPropertiesState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	const commands: Array<AbstractCommand> = []
+export function resolveDownstreamKeyerPropertiesState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const index in newState.video.downstreamKeyers) {
 		const oldProps = oldState.video.downstreamKeyers[index].properties
@@ -90,8 +89,8 @@ export function resolveDownstreamKeyerPropertiesState (oldState: StateObject, ne
 	return commands
 }
 
-export function resolveDownstreamKeyerMaskState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	const commands: Array<AbstractCommand> = []
+export function resolveDownstreamKeyerMaskState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const index in newState.video.downstreamKeyers) {
 		const oldProps = oldState.video.downstreamKeyers[index].properties.mask

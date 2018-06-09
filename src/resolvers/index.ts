@@ -1,14 +1,13 @@
 import {
 	Commands as AtemCommands } from 'atem-connection'
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { State as StateObject } from '../'
 
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSupersourceBoxState } from './supersourceBox'
 
-export function videoState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	let commands: Array<AbstractCommand> = []
+export function videoState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveMixEffectsState(oldState, newState))
 	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))

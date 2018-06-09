@@ -2,13 +2,12 @@ import {
 	Commands as AtemCommands,
 	Enums as ConnectionEnums,
 	VideoState } from 'atem-connection'
-import AbstractCommand from 'atem-connection/dist/commands/AbstractCommand' // @todo: should come from main exports
 import { Enums, State as StateObject } from '../'
 
 import { resolveUpstreamKeyerState } from './upstreamKeyers'
 
-export function resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	let commands: Array<AbstractCommand> = []
+export function resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveTransitionPropertiesState(oldState, newState))
 	commands = commands.concat(resolveTransitionSettingsState(oldState, newState))
@@ -88,8 +87,8 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 	return commands
 }
 
-export function resolveTransitionPropertiesState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	const commands: Array<AbstractCommand> = []
+export function resolveTransitionPropertiesState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const mixEffectId in oldState.video.ME) {
 		const oldTransitionProperties = oldState.video.ME[mixEffectId].transitionProperties
@@ -114,8 +113,8 @@ export function resolveTransitionPropertiesState (oldState: StateObject, newStat
 	return commands
 }
 
-export function resolveTransitionSettingsState (oldState: StateObject, newState: StateObject): Array<AbstractCommand> {
-	const commands: Array<AbstractCommand> = []
+export function resolveTransitionSettingsState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	/**
 	 * NOTE(balte - 2018-05-01):
