@@ -13,7 +13,7 @@
         "../node_modules/*",
         "../src/types/*"
       ],
-      "node-boilerplate": [
+      "atem-state": [
         "../src/index.ts"
       ]
     },
@@ -23,11 +23,11 @@
     "traceResolution": false,
     "pretty": true,
     "lib": [
-      "es6",
-      "dom"
+      "es6"
     ],
-    "typeRoots": [
-      "node_modules/@types"
+    "types": [
+      "node",
+      "jest"
     ]
   },
   "include": [
