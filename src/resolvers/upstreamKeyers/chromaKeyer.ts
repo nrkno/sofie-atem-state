@@ -7,8 +7,18 @@ export function resolveChromaKeyerState (oldState: StateObject, newState: StateO
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldChromaKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].chromaSettings
-			const newChromaKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].chromaSettings
+			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
+			const oldChromaKeyer = oldKeyer.chromaSettings
+			const newChromaKeyer = newKeyer.chromaSettings
+			if (!oldChromaKeyer || !newChromaKeyer) {
+				continue
+			}
+
 			const props: Partial<UpstreamKeyerChromaSettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyChromaCommand.MaskFlags) {

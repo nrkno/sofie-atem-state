@@ -21,6 +21,10 @@ export function resolveUpstreamKeyerState (oldState: StateObject, newState: Stat
 			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
 			if (oldKeyer.fillSource !== newKeyer.fillSource) {
 				const command = new AtemCommands.MixEffectKeyFillSourceSetCommand()
 				command.upstreamKeyerId = Number(upstreamKeyerId)
@@ -71,6 +75,11 @@ export function resolveUpstreamKeyerMaskState (oldState: StateObject, newState: 
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
 			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
 			const props: Partial<UpstreamKeyerMaskSettings> = {}
 			if (oldKeyer.maskEnabled !== newKeyer.maskEnabled) props.maskEnabled = newKeyer.maskEnabled
 			if (oldKeyer.maskLeft !== newKeyer.maskLeft) props.maskLeft = newKeyer.maskLeft
