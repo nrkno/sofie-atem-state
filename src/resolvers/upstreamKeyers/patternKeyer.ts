@@ -21,10 +21,16 @@ export function resolvePatternKeyerState (oldState: StateObject, newState: State
 
 			const props: Partial<UpstreamKeyerPatternSettings> = {}
 
-			for (const key in AtemCommands.MixEffectKeyLumaCommand.MaskFlags) {
+			for (const key in AtemCommands.MixEffectKeyPatternCommand.MaskFlags) {
 				if ((oldPatternKeyer as any)[key] !== (newPatternKeyer as any)[key]) {
 					(props as any)[key] = (newPatternKeyer as any)[key]
 				}
+			}
+
+			if (oldPatternKeyer.style !== newPatternKeyer.style) {
+				props.positionX = newPatternKeyer.positionX
+				props.positionY = newPatternKeyer.positionY
+				props.symmetry = newPatternKeyer.symmetry
 			}
 
 			if (Object.keys(props).length > 0) {
