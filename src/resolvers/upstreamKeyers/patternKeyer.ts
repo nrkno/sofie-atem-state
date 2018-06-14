@@ -7,14 +7,30 @@ export function resolvePatternKeyerState (oldState: StateObject, newState: State
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldPatternKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].patternSettings
-			const newPatternKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].patternSettings
+			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
+			const oldPatternKeyer = oldKeyer.patternSettings
+			const newPatternKeyer = newKeyer.patternSettings
+			if (!oldPatternKeyer || !newPatternKeyer) {
+				continue
+			}
+
 			const props: Partial<UpstreamKeyerPatternSettings> = {}
 
-			for (const key in AtemCommands.MixEffectKeyLumaCommand.MaskFlags) {
+			for (const key in AtemCommands.MixEffectKeyPatternCommand.MaskFlags) {
 				if ((oldPatternKeyer as any)[key] !== (newPatternKeyer as any)[key]) {
 					(props as any)[key] = (newPatternKeyer as any)[key]
 				}
+			}
+
+			if (oldPatternKeyer.style !== newPatternKeyer.style) {
+				props.positionX = newPatternKeyer.positionX
+				props.positionY = newPatternKeyer.positionY
+				props.symmetry = newPatternKeyer.symmetry
 			}
 
 			if (Object.keys(props).length > 0) {

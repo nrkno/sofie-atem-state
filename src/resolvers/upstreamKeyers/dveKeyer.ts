@@ -7,8 +7,18 @@ export function resolveDVEKeyerState (oldState: StateObject, newState: StateObje
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldDVEKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].dveSettings
-			const newDVEKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].dveSettings
+			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
+			const oldDVEKeyer = oldKeyer.dveSettings
+			const newDVEKeyer = newKeyer.dveSettings
+			if (!oldDVEKeyer || !newDVEKeyer) {
+				continue
+			}
+
 			const props: Partial<UpstreamKeyerDVESettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyDVECommand.MaskFlags) {

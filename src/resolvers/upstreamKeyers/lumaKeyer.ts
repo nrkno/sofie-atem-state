@@ -7,8 +7,18 @@ export function resolveLumaKeyerState (oldState: StateObject, newState: StateObj
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldLumaKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].lumaSettings
-			const newLumaKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId].lumaSettings
+			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+			if (!oldKeyer || !newKeyer) {
+				continue
+			}
+
+			const oldLumaKeyer = oldKeyer.lumaSettings
+			const newLumaKeyer = newKeyer.lumaSettings
+			if (!oldLumaKeyer || !newLumaKeyer) {
+				continue
+			}
+
 			const props: Partial<UpstreamKeyerLumaSettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyLumaCommand.MaskFlags) {

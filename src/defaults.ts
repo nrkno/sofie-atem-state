@@ -1,4 +1,5 @@
 import { VideoState, Enums } from 'atem-connection'
+import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
 
 export namespace Defaults {
@@ -105,7 +106,145 @@ export namespace Defaults {
 			transitionPosition: 0,
 			fadeToBlack: false,
 			transitionProperties: TransitionProperties as VideoState.TransitionProperties,
-			transitionSettings: TransitionSettings
+			transitionSettings: TransitionSettings,
+			upstreamKeyers: []
+		}
+
+		export function UpstreamKeyer (id: number): USK.UpstreamKeyer {
+			return {
+				upstreamKeyerId: id,
+				mixEffectKeyType: Enums.MixEffectKeyType.Luma,
+				flyEnabled: false,
+				fillSource: 0,
+				cutSource: 0,
+				maskEnabled: false,
+				maskTop: 0,
+				maskBottom: 0,
+				maskLeft: 0,
+				maskRight: 0,
+				onAir: false,
+
+				dveSettings: {
+					borderEnabled: false,
+					shadowEnabled: false,
+					borderBevel: Enums.BorderBevel.None,
+					rate: 1,
+
+					sizeX: 0,
+					sizeY: 0,
+					positionX: 0,
+					positionY: 0,
+					rotation: 0,
+					borderOuterWidth: 0,
+					borderInnerWidth: 0,
+					borderOuterSoftness: 0,
+					borderInnerSoftness: 0,
+					borderBevelSoftness: 0,
+					borderBevelPosition: 0,
+					borderOpacity: 0,
+					borderHue: 0,
+					borderSaturation: 0,
+					borderLuma: 0,
+					lightSourceDirection: 0,
+					lightSourceAltitude: 0,
+
+					maskEnabled: false,
+					maskTop: 0,
+					maskBottom: 0,
+					maskLeft: 0,
+					maskRight: 0
+				},
+
+				chromaSettings: {
+					hue: 0,
+					gain: 0,
+					ySuppress: 0,
+					lift: 0,
+					narrow: false
+				},
+
+				lumaSettings: {
+					preMultiplied: false,
+					clip: 0,
+					gain: 0,
+					invert: false
+				},
+
+				patternSettings: {
+					style: Enums.Pattern.LeftToRightBar,
+					size: 0,
+					symmetry: 0,
+					softness: 0,
+					positionX: 0,
+					positionY: 0,
+					invert: false
+				},
+
+				// @todo should these be defined if the atem doesnt support it?
+				flyKeyframes: [
+					{
+						keyFrameId: 0,
+
+						sizeX: 0,
+						sizeY: 0,
+						positionX: 0,
+						positionY: 0,
+						rotation: 0,
+						borderOuterWidth: 0,
+						borderInnerWidth: 0,
+						borderOuterSoftness: 0,
+						borderInnerSoftness: 0,
+						borderBevelSoftness: 0,
+						borderBevelPosition: 0,
+						borderOpacity: 0,
+						borderHue: 0,
+						borderSaturation: 0,
+						borderLuma: 0,
+						lightSourceDirection: 0,
+						lightSourceAltitude: 0,
+
+						maskEnabled: false,
+						maskTop: 0,
+						maskBottom: 0,
+						maskLeft: 0,
+						maskRight: 0
+					},
+					{
+						keyFrameId: 1,
+
+						sizeX: 0,
+						sizeY: 0,
+						positionX: 0,
+						positionY: 0,
+						rotation: 0,
+						borderOuterWidth: 0,
+						borderInnerWidth: 0,
+						borderOuterSoftness: 0,
+						borderInnerSoftness: 0,
+						borderBevelSoftness: 0,
+						borderBevelPosition: 0,
+						borderOpacity: 0,
+						borderHue: 0,
+						borderSaturation: 0,
+						borderLuma: 0,
+						lightSourceDirection: 0,
+						lightSourceAltitude: 0,
+
+						maskEnabled: false,
+						maskTop: 0,
+						maskBottom: 0,
+						maskLeft: 0,
+						maskRight: 0
+					}
+				],
+
+				flyProperties: {
+					isASet: false,
+					isBSet: false,
+					isAtKeyFrame: Enums.IsAtKeyFrame.None,
+					runToInfiniteIndex: 0
+				}
+			}
 		}
 
 		export const SuperSourceBox: VideoState.SuperSourceBox = {
