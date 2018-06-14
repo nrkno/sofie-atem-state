@@ -11,10 +11,10 @@ export function resolveUpstreamKeyerState (oldState: StateObject, newState: Stat
 	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveUpstreamKeyerMaskState(oldState, newState))
-	commands = commands.concat(resolveDVEKeyerState(newState, oldState))
-	commands = commands.concat(resolveChromaKeyerState(newState, oldState))
-	commands = commands.concat(resolveLumaKeyerState(newState, oldState))
-	commands = commands.concat(resolvePatternKeyerState(newState, oldState))
+	commands = commands.concat(resolveDVEKeyerState(oldState, newState))
+	commands = commands.concat(resolveChromaKeyerState(oldState, newState))
+	commands = commands.concat(resolveLumaKeyerState(oldState, newState))
+	commands = commands.concat(resolvePatternKeyerState(oldState, newState))
 
 	for (const mixEffectId in oldState.video.ME) {
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {

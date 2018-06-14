@@ -173,70 +173,14 @@ export namespace Defaults {
 				patternSettings: {
 					style: Enums.Pattern.LeftToRightBar,
 					size: 0,
-					symmetry: 0,
+					symmetry: 5000,
 					softness: 0,
-					positionX: 0,
-					positionY: 0,
+					positionX: 500,
+					positionY: 500,
 					invert: false
 				},
 
-				// @todo should these be defined if the atem doesnt support it?
-				flyKeyframes: [
-					{
-						keyFrameId: 0,
-
-						sizeX: 0,
-						sizeY: 0,
-						positionX: 0,
-						positionY: 0,
-						rotation: 0,
-						borderOuterWidth: 0,
-						borderInnerWidth: 0,
-						borderOuterSoftness: 0,
-						borderInnerSoftness: 0,
-						borderBevelSoftness: 0,
-						borderBevelPosition: 0,
-						borderOpacity: 0,
-						borderHue: 0,
-						borderSaturation: 0,
-						borderLuma: 0,
-						lightSourceDirection: 0,
-						lightSourceAltitude: 0,
-
-						maskEnabled: false,
-						maskTop: 0,
-						maskBottom: 0,
-						maskLeft: 0,
-						maskRight: 0
-					},
-					{
-						keyFrameId: 1,
-
-						sizeX: 0,
-						sizeY: 0,
-						positionX: 0,
-						positionY: 0,
-						rotation: 0,
-						borderOuterWidth: 0,
-						borderInnerWidth: 0,
-						borderOuterSoftness: 0,
-						borderInnerSoftness: 0,
-						borderBevelSoftness: 0,
-						borderBevelPosition: 0,
-						borderOpacity: 0,
-						borderHue: 0,
-						borderSaturation: 0,
-						borderLuma: 0,
-						lightSourceDirection: 0,
-						lightSourceAltitude: 0,
-
-						maskEnabled: false,
-						maskTop: 0,
-						maskBottom: 0,
-						maskLeft: 0,
-						maskRight: 0
-					}
-				],
+				flyKeyframes: [],
 
 				flyProperties: {
 					isASet: false,
@@ -244,6 +188,36 @@ export namespace Defaults {
 					isAtKeyFrame: Enums.IsAtKeyFrame.None,
 					runToInfiniteIndex: 0
 				}
+			}
+		}
+
+		export function flyKeyframe (id: number): USK.UpstreamKeyerFlyKeyframe {
+			return {
+				keyFrameId: id,
+
+				sizeX: 0,
+				sizeY: 0,
+				positionX: 0,
+				positionY: 0,
+				rotation: 0,
+				borderOuterWidth: 0,
+				borderInnerWidth: 0,
+				borderOuterSoftness: 0,
+				borderInnerSoftness: 0,
+				borderBevelSoftness: 0,
+				borderBevelPosition: 0,
+				borderOpacity: 0,
+				borderHue: 0,
+				borderSaturation: 0,
+				borderLuma: 0,
+				lightSourceDirection: 0,
+				lightSourceAltitude: 0,
+
+				maskEnabled: false,
+				maskTop: 0,
+				maskBottom: 0,
+				maskLeft: 0,
+				maskRight: 0
 			}
 		}
 
