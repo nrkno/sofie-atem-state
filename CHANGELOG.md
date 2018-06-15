@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/nrk/tv-automation-atem-state/compare/0.1.1...0.1.2) (2018-06-14)
+
+
+### Bug Fixes
+
+* defaults should be based on capabilites ([434edff](https://github.com/nrk/tv-automation-atem-state/commit/434edff))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/nrk/tv-automation-atem-state/compare/0.1.0...0.1.1) (2018-06-14)
 
