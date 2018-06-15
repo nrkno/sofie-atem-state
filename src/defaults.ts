@@ -77,10 +77,10 @@ export namespace Defaults {
 			pattern: 1,
 			borderWidth: 0,
 			borderInput: defaultInput,
-			symmetry: 0,
+			symmetry: 5000,
 			borderSoftness: 0,
-			xPosition: 0,
-			yPosition: 0,
+			xPosition: 5000,
+			yPosition: 5000,
 			reverseDirection: false,
 			flipFlop: false
 		}
@@ -226,7 +226,7 @@ export namespace Defaults {
 			source: defaultInput,
 			x: 0,
 			y: 0,
-			size: 1,
+			size: 1000,
 			cropped: false,
 			cropTop: 0,
 			cropBottom: 0,
