@@ -1,6 +1,6 @@
 {
   "name": "atem-state",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Typescript Node.js library for comparing ATEM states",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
