@@ -71,6 +71,14 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 			})
 			commands.push(command)
 		}
+		if (oldMixEffect.inTransition && !newMixEffect.inTransition) {
+			const command = new AtemCommands.TransitionPositionCommand()
+			command.mixEffect = Number(mixEffectId)
+			command.updateProps({
+				handlePosition: 10000 // finish transition
+			})
+			commands.push(command)
+		}
 
 		if (oldMixEffect.transitionPreview !== newMixEffect.transitionPreview) {
 			const command = new AtemCommands.PreviewTransitionCommand()
