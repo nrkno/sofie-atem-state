@@ -146,6 +146,21 @@ test('Unit: mix effect: transition position', function () {
 	STATE2.video.ME[0].transitionPosition = 0
 })
 
+test('Unit: mix effect: from transition, to no transition', function () {
+	STATE1.video.ME[0].inTransition = true
+	STATE1.video.ME[0].transitionPosition = 500
+	const commands = ME.resolveMixEffectsState(STATE1 as StateObject, STATE2 as StateObject)
+
+	expect(commands[0].rawName).toEqual('TrPs')
+	expect((commands[0] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
+	expect(commands[0].properties).toMatchObject({
+		handlePosition: 10000
+	})
+
+	STATE1.video.ME[0].inTransition = false
+	STATE1.video.ME[0].transitionPosition = 0
+})
+
 test('Unit: mix effect: transition properties', function () {
 	STATE2.video.ME[0].transitionProperties.selection = 3
 	STATE2.video.ME[0].transitionProperties.style = 1
