@@ -1,6 +1,6 @@
 import * as CK from '../chromaKeyer'
 import { State as StateObject, Defaults } from '../../../'
-import { Commands, Atem, Enums } from 'atem-connection'
+import { Commands } from 'atem-connection'
 
 const STATE1 = new StateObject()
 STATE1.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))

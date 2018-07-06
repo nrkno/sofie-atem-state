@@ -1,6 +1,6 @@
 import * as DVE from '../dveKeyer'
 import { State as StateObject, Defaults } from '../../../'
-import { Commands, Atem, Enums } from 'atem-connection'
+import { Commands, Enums } from 'atem-connection'
 
 const STATE1 = new StateObject()
 STATE1.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))
