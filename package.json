@@ -108,7 +108,7 @@
     "source"
   ],
   "dependencies": {
-    "atem-connection": "^0.1.7",
+    "atem-connection": "^0.2.1",
     "tslib": "^1.9.2"
   },
   "standard-version": {

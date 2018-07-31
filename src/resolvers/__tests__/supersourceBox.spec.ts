@@ -39,13 +39,13 @@ const STATE2 = {
 	}
 }
 
-test('Unit: media player: same state gives no commands', function () {
+test('Unit: super source boxes: same state gives no commands', function () {
 	// same state gives no commands:
 	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE1 as StateObject)
 	expect(commands.length).toEqual(0)
 })
 
-test('Unit: media player: status command', function () {
+test('Unit: super source boxes: status command', function () {
 	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].rawName).toEqual('SSBP')
@@ -63,4 +63,38 @@ test('Unit: media player: status command', function () {
 		cropLeft: 1,
 		cropRight: 1
 	})
+})
+
+test('Unit: super source boxes: box removed', function () {
+	const ssBox = STATE2.video.superSourceBoxes[0]
+	STATE2.video.superSourceBoxes[0] = undefined
+	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
+
+	expect(commands.length).toEqual(0)
+
+	STATE2.video.superSourceBoxes[0] = ssBox
+})
+
+test('Unit: super source boxes: new box', function () {
+	const ssBox = STATE1.video.superSourceBoxes[0]
+	STATE1.video.superSourceBoxes[0] = undefined
+	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
+
+	expect(commands[0].rawName).toEqual('SSBP')
+	expect(commands[0].boxId).toEqual(0)
+	expect(commands[0].flag).toEqual(1023)
+	expect(commands[0].properties).toMatchObject({
+		enabled: true,
+		source: 1,
+		x: 1,
+		y: 1,
+		size: 1,
+		cropped: true,
+		cropTop: 1,
+		cropBottom: 1,
+		cropLeft: 1,
+		cropRight: 1
+	})
+
+	STATE1.video.superSourceBoxes[0] = ssBox
 })

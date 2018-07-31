@@ -180,7 +180,10 @@ export namespace Defaults {
 					invert: false
 				},
 
-				flyKeyframes: [],
+				flyKeyframes: [
+					flyKeyframe(0),
+					flyKeyframe(1)
+				],
 
 				flyProperties: {
 					isASet: false,
