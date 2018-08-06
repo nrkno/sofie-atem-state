@@ -19,7 +19,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 		}
 		const oldMixEffect = oldState.video.ME[mixEffectId]
 		const newMixEffect = newState.video.ME[mixEffectId]
-
+		if (!oldMixEffect || !newMixEffect) continue
 		if (typeof newMixEffect.input !== 'undefined' && typeof newMixEffect.transition !== 'undefined') {
 			if (typeof oldMixEffect.input === 'undefined') {
 				oldMixEffect.input = oldMixEffect.programInput
