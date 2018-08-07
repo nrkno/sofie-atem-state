@@ -2,7 +2,7 @@ import { AtemState, VideoState } from 'atem-connection'
 import { Enums } from './enums'
 
 export class AtemVideoState extends VideoState.AtemVideoState {
-	ME: Array<MixEffect> = []
+	ME: { [index: string]: MixEffect } = {}
 }
 
 export interface MixEffect extends VideoState.MixEffect {

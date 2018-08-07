@@ -17,6 +17,7 @@ export function resolveUpstreamKeyerState (oldState: StateObject, newState: Stat
 	commands = commands.concat(resolvePatternKeyerState(oldState, newState))
 
 	for (const mixEffectId in oldState.video.ME) {
+		if (!newState.video.ME[mixEffectId]) continue
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
 			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
@@ -72,6 +73,7 @@ export function resolveUpstreamKeyerMaskState (oldState: StateObject, newState: 
 	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const mixEffectId in oldState.video.ME) {
+		if (!newState.video.ME[mixEffectId]) continue
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
 			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]

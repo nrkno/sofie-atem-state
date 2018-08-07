@@ -6,6 +6,7 @@ export function resolveDVEKeyerState (oldState: StateObject, newState: StateObje
 	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const mixEffectId in oldState.video.ME) {
+		if (!newState.video.ME[mixEffectId]) continue
 		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
 			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
 			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]

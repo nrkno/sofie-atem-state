@@ -14,9 +14,12 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 	commands = commands.concat(resolveUpstreamKeyerState(oldState, newState))
 
 	for (const mixEffectId in oldState.video.ME) {
+		if (!oldState.video.ME[mixEffectId] || !newState.video.ME[mixEffectId]) {
+			continue
+		}
 		const oldMixEffect = oldState.video.ME[mixEffectId]
 		const newMixEffect = newState.video.ME[mixEffectId]
-
+		if (!oldMixEffect || !newMixEffect) continue
 		if (typeof newMixEffect.input !== 'undefined' && typeof newMixEffect.transition !== 'undefined') {
 			if (typeof oldMixEffect.input === 'undefined') {
 				oldMixEffect.input = oldMixEffect.programInput
@@ -99,6 +102,9 @@ export function resolveTransitionPropertiesState (oldState: StateObject, newStat
 	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const mixEffectId in oldState.video.ME) {
+		if (!oldState.video.ME[mixEffectId] || !newState.video.ME[mixEffectId]) {
+			continue
+		}
 		const oldTransitionProperties = oldState.video.ME[mixEffectId].transitionProperties
 		const newTransitionProperties = newState.video.ME[mixEffectId].transitionProperties
 		let props: Partial<{ selection: number, style: number }> = {}
@@ -133,6 +139,9 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 	 * the types are still safe.
 	 */
 	for (const mixEffectId in oldState.video.ME) {
+		if (!oldState.video.ME[mixEffectId] || !newState.video.ME[mixEffectId]) {
+			continue
+		}
 		const oldTransitionSettings = oldState.video.ME[mixEffectId].transitionSettings
 		const newTransitionSettings = newState.video.ME[mixEffectId].transitionSettings
 
