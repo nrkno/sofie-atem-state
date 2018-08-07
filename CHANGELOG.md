@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.0...0.3.1) (2018-08-07)
+
+
+### Bug Fixes
+
+* added guards for when number of ME:s isn't equal between the ATEM and the state ([3e072b2](https://github.com/nrkno/tv-automation-atem-state/commit/3e072b2))
+* added some more guards ([cc234fe](https://github.com/nrkno/tv-automation-atem-state/commit/cc234fe))
+* typo ([126a782](https://github.com/nrkno/tv-automation-atem-state/commit/126a782))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.2.0...0.3.0) (2018-07-31)
 
