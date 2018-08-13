@@ -54,7 +54,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 				command.updateProps({ source: newMixEffect.previewInput })
 				commands.push(command)
 			}
-			if (oldMixEffect.programInput !== newMixEffect.programInput) {
+			if ((oldMixEffect.input || oldMixEffect.programInput) !== newMixEffect.programInput) {
 				// @todo: check if we need to use the cut command?
 				// use cut command if:
 				//   DSK is tied
