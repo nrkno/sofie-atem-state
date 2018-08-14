@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.2...0.3.3) (2018-08-14)
+
+
+### Bug Fixes
+
+* look at input before programInput in oldState ([d0c4b73](https://github.com/nrkno/tv-automation-atem-state/commit/d0c4b73))
+* look at old mixEffect for transitions (not new ME) ([bed621a](https://github.com/nrkno/tv-automation-atem-state/commit/bed621a))
+
+
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.1...0.3.2) (2018-08-09)
 
