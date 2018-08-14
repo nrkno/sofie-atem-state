@@ -116,7 +116,7 @@ export function resolveTransitionPropertiesState (oldState: StateObject, newStat
 			props.style = newTransitionProperties.style
 		}
 
-		if (props.selection || props.style) {
+		if (typeof props.selection !== 'undefined' || typeof props.style !== 'undefined') {
 			const command = new AtemCommands.TransitionPropertiesCommand()
 			command.mixEffect = Number(mixEffectId)
 			command.updateProps(props)
