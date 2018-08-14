@@ -35,7 +35,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 					command.mixEffect = Number(mixEffectId)
 					commands.push(command)
 				} else {
-					if (newMixEffect.transition !== newMixEffect.transitionProperties.style) { // set style before auto transition command
+					if (newMixEffect.transition !== (oldMixEffect.transition || oldMixEffect.transitionProperties.style)) { // set style before auto transition command
 						const command = new AtemCommands.TransitionPropertiesCommand()
 						command.mixEffect = Number(mixEffectId)
 						command.updateProps({ style: newMixEffect.transition! as ConnectionEnums.TransitionStyle })
@@ -54,7 +54,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 				command.updateProps({ source: newMixEffect.previewInput })
 				commands.push(command)
 			}
-			if (oldMixEffect.programInput !== newMixEffect.programInput) {
+			if ((oldMixEffect.input || oldMixEffect.programInput) !== newMixEffect.programInput) {
 				// @todo: check if we need to use the cut command?
 				// use cut command if:
 				//   DSK is tied
