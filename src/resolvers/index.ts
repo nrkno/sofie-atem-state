@@ -4,7 +4,7 @@ import { State as StateObject } from '../'
 
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
-import { resolveSupersourceBoxState } from './supersourceBox'
+import { resolveSupersourceBoxState, resolveSuperSourcePropertiesState } from './supersource'
 
 export function videoState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
 	let commands: Array<AtemCommands.AbstractCommand> = []
@@ -12,6 +12,7 @@ export function videoState (oldState: StateObject, newState: StateObject): Array
 	commands = commands.concat(resolveMixEffectsState(oldState, newState))
 	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))
 	commands = commands.concat(resolveSupersourceBoxState(oldState, newState))
+	commands = commands.concat(resolveSuperSourcePropertiesState(oldState, newState))
 
 	// resolve auxilliaries:
 	for (const index in newState.video.auxilliaries) {

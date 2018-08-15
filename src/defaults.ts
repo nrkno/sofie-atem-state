@@ -236,5 +236,28 @@ export namespace Defaults {
 			cropLeft: 0,
 			cropRight: 0
 		}
+
+		export const SuperSourceProperties: VideoState.SuperSourceProperties = {
+			artFillSource: defaultInput,
+			artCutSource: defaultInput,
+			artOption: Enums.SuperSourceArtOption.Background,
+			artPreMultiplied: false,
+			artClip: 0,
+			artGain: 0,
+			artInvertKey: false,
+			borderEnabled: false,
+			borderBevel: Enums.BorderBevel.None,
+			borderOuterWidth: 0,
+			borderInnerWidth: 0,
+			borderOuterSoftness: 0,
+			borderInnerSoftness: 0,
+			borderBevelSoftness: 0,
+			borderBevelPosition: 0,
+			borderHue: 0,
+			borderSaturation: 0,
+			borderLuma: 0,
+			borderLightSourceDirection: 0,
+			borderLightSourceAltitude: 0
+		}
 	}
 }

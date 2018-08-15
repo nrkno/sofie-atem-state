@@ -1,43 +1,25 @@
-import * as supersource from '../supersourceBox'
+import * as supersource from '../supersource'
 import { State as StateObject } from '../../'
+import { Defaults } from '../../'
 import { Commands } from 'atem-connection'
 
-const STATE1 = {
-	video: {
-		superSourceBoxes: [
-			{
-				enabled: false,
-				source: 0,
-				x: 0,
-				y: 0,
-				size: 0,
-				cropped: false,
-				cropTop: 0,
-				cropBottom: 0,
-				cropLeft: 0,
-				cropRight: 0
-			}
-		]
-	}
+const STATE1 = new StateObject()
+STATE1.video.superSourceBoxes[0] = JSON.parse(JSON.stringify(Defaults.Video.SuperSourceBox))
+STATE1.video.superSourceProperties = JSON.parse(JSON.stringify(Defaults.Video.SuperSourceProperties))
+const STATE2 = new StateObject()
+STATE2.video.superSourceBoxes[0] = {
+	enabled: true,
+	source: 1,
+	x: 1,
+	y: 1,
+	size: 1,
+	cropped: true,
+	cropTop: 1,
+	cropBottom: 1,
+	cropLeft: 1,
+	cropRight: 1
 }
-const STATE2 = {
-	video: {
-		superSourceBoxes: [
-			{
-				enabled: true,
-				source: 1,
-				x: 1,
-				y: 1,
-				size: 1,
-				cropped: true,
-				cropTop: 1,
-				cropBottom: 1,
-				cropLeft: 1,
-				cropRight: 1
-			}
-		]
-	}
-}
+STATE2.video.superSourceProperties = JSON.parse(JSON.stringify(Defaults.Video.SuperSourceProperties))
 
 test('Unit: super source boxes: same state gives no commands', function () {
 	// same state gives no commands:
@@ -97,4 +79,27 @@ test('Unit: super source boxes: new box', function () {
 	})
 
 	STATE1.video.superSourceBoxes[0] = ssBox
+})
+
+test('Unit: super source properties: same state gives no commands', function () {
+	// same state gives no commands:
+	const commands = supersource.resolveSuperSourcePropertiesState(STATE1 as StateObject, STATE1 as StateObject)
+	expect(commands.length).toEqual(0)
+})
+
+test('Unit: super source properties: some properties changed', function () {
+	STATE2.video.superSourceProperties.artFillSource = 3010
+	STATE2.video.superSourceProperties.artOption = 1 // foreground
+	const commands = supersource.resolveSuperSourcePropertiesState(STATE1 as StateObject, STATE2 as StateObject)
+	expect(commands.length).toEqual(1)
+
+	expect(commands[0].rawName).toEqual('SSrc')
+	expect(commands[0].flag).toEqual(5)
+	expect(commands[0].properties).toMatchObject({
+		artFillSource: 3010,
+		artOption: 1
+	})
+
+	STATE2.video.superSourceProperties.artFillSource = STATE1.video.superSourceProperties.artFillSource
+	STATE2.video.superSourceProperties.artOption = STATE1.video.superSourceProperties.artOption
 })
