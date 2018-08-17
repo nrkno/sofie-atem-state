@@ -285,9 +285,9 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-atem-connection@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-0.4.0.tgz#47aa528718c8fc7728e8767c1fb62a94fcf4fb1c"
+atem-connection@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-0.5.0.tgz#aaa7f702839593cc3d057617c3a392dc5a46e310"
   dependencies:
     pngjs "^3.3.2"
     tslib "^1.9.0"
