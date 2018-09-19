@@ -1,8 +1,6 @@
 # Sofie: The Modern TV News Studio Automation System (ATEM State library)
 [![CircleCI](https://circleci.com/gh/nrkno/tv-automation-atem-state.svg?style=svg)](https://circleci.com/gh/nrkno/tv-automation-atem-state)
 
-This library is used in the [state-based TV news automation system **Sofie**](https://github.com/nrkno/Sofie-TV-automation/).
+This library is used in the [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
 
-It can compare two ATEM states and generate the necessary commands for the ATEM-connection library to send to the ATEM device such that it will reach the target state.
-
-_Note: this library is a work in progress_
+It can compare two ATEM states and generate the necessary commands for the [ATEM-connection library](https://github.com/nrkno/tv-automation-atem-connection) to send to the ATEM device such that it will reach the target state.
