@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.8...0.4.0) (2018-11-02)
+
+
+### Features
+
+* rename downstreamKeyId to downstreamKeyerId ([19362fb](https://github.com/nrkno/tv-automation-atem-state/commit/19362fb))
+
+
+
 <a name="0.3.8"></a>
 ## [0.3.8](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.7...0.3.8) (2018-10-24)
 
