@@ -348,12 +348,13 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-atem-connection@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-0.7.0.tgz#823c0d561d1478acbde984b6a5e8be2672d78772"
-  integrity sha512-hvxzJ0i/1DJqEh70gAaSljcRlpVSk9GY+QloQ/gL/oCza+sV2vpfhs5JTBWNVpIpMnMnYdYhOjUJYpsRrXoPiQ==
+atem-connection@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-0.8.0.tgz#f52a46f55f8df2129563ee6bb92730381b96f8ef"
+  integrity sha512-CUs26cik58XGuJfKFXUsAsF6Mt6yEkCI5y6Bbc5McTdWOime+SHkZlLsA8LwzGRRciVVYdxTRZKAERMzzvHeHw==
   dependencies:
     exit-hook "^2.0.0"
+    nanotimer "^0.3.15"
     p-queue "^2.4.2"
     p-retry "^2.0.0"
     tslib "^1.9.0"
@@ -3520,6 +3521,11 @@ nan@^2.3.0:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.6.2.tgz#e4ff34e6c95fdfb5aecc08de6596f43605a7db45"
   integrity sha1-5P805slf37WuzAjeZZb0NgWn20U=
+
+nanotimer@^0.3.15:
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/nanotimer/-/nanotimer-0.3.15.tgz#280d277db9146eca6f8a570b572abaf2a9acc754"
+  integrity sha1-KA0nfbkUbspvilcLVyq68qmsx1Q=
 
 natural-compare@^1.4.0:
   version "1.4.0"

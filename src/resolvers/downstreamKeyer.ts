@@ -29,11 +29,11 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 
 		if (!oldDsk.isAuto && newDsk.isAuto) {
 			const command = new AtemCommands.DownstreamKeyAutoCommand()
-			command.downstreamKeyId = Number(index)
+			command.downstreamKeyerId = Number(index)
 			commands.push(command)
 		} else if (oldDsk.onAir !== newDsk.onAir) {
 			const command = new AtemCommands.DownstreamKeyOnAirCommand()
-			command.downstreamKeyId = Number(index)
+			command.downstreamKeyerId = Number(index)
 			command.properties = { onAir: newDsk.onAir }
 			commands.push(command)
 		}
@@ -80,7 +80,7 @@ export function resolveDownstreamKeyerPropertiesState (oldState: StateObject, ne
 
 		if (oldProps.tie !== newProps.tie) {
 			const command = new AtemCommands.DownstreamKeyTieCommand()
-			command.downstreamKeyId = dskIndex
+			command.downstreamKeyerId = dskIndex
 			command.updateProps({ tie: newProps.tie })
 			commands.push(command)
 		}
