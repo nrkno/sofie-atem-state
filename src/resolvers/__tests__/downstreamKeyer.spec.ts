@@ -28,14 +28,14 @@ test('Unit: Downstream keyer: auto and onAir commands', function () {
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyOnAirCommand
 	expect(firstCommand.rawName).toEqual('CDsL')
-	expect(firstCommand.downstreamKeyId).toEqual(0)
+	expect(firstCommand.downstreamKeyerId).toEqual(0)
 	expect(firstCommand.properties).toMatchObject({
 		onAir: true
 	})
 
 	const secondCommand = commands[1] as Commands.DownstreamKeyAutoCommand
 	expect(secondCommand.rawName).toEqual('DDsA')
-	expect(secondCommand.downstreamKeyId).toEqual(1)
+	expect(secondCommand.downstreamKeyerId).toEqual(1)
 	DSK1.onAir = false
 	DSK2.isAuto = false
 })
@@ -81,7 +81,7 @@ test('Unit: Downstream keyer: tie', function () {
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyTieCommand
 	expect(firstCommand.rawName).toEqual('CDsT')
-	expect(firstCommand.downstreamKeyId).toEqual(0)
+	expect(firstCommand.downstreamKeyerId).toEqual(0)
 	expect(firstCommand.properties).toMatchObject({
 		tie: true
 	})
