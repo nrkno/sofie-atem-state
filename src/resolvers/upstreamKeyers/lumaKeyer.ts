@@ -23,8 +23,9 @@ export function resolveLumaKeyerState (oldState: StateObject, newState: StateObj
 			const props: Partial<UpstreamKeyerLumaSettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyLumaCommand.MaskFlags) {
-				if ((oldLumaKeyer as any)[key] !== (newLumaKeyer as any)[key]) {
-					(props as any)[key] = (newLumaKeyer as any)[key]
+				const typedKey = key as keyof UpstreamKeyerLumaSettings
+				if (oldLumaKeyer[typedKey] !== newLumaKeyer[typedKey]) {
+					props[typedKey] = newLumaKeyer[typedKey]
 				}
 			}
 
