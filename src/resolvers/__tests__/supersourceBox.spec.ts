@@ -1,6 +1,5 @@
 import * as supersource from '../supersource'
-import { State as StateObject } from '../../'
-import { Defaults } from '../../'
+import { State as StateObject, Defaults } from '../../'
 import { Commands } from 'atem-connection'
 
 const STATE1 = new StateObject()
@@ -23,12 +22,12 @@ STATE2.video.superSourceProperties = JSON.parse(JSON.stringify(Defaults.Video.Su
 
 test('Unit: super source boxes: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE1 as StateObject)
+	const commands = supersource.resolveSupersourceBoxState(STATE1, STATE1)
 	expect(commands.length).toEqual(0)
 })
 
 test('Unit: super source boxes: status command', function () {
-	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
+	const commands = supersource.resolveSupersourceBoxState(STATE1, STATE2) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].rawName).toEqual('SSBP')
 	expect(commands[0].boxId).toEqual(0)
@@ -49,8 +48,8 @@ test('Unit: super source boxes: status command', function () {
 
 test('Unit: super source boxes: box removed', function () {
 	const ssBox = STATE2.video.superSourceBoxes[0]
-	STATE2.video.superSourceBoxes[0] = undefined
-	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
+	delete STATE2.video.superSourceBoxes[0]
+	const commands = supersource.resolveSupersourceBoxState(STATE1, STATE2) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands.length).toEqual(0)
 
@@ -59,8 +58,8 @@ test('Unit: super source boxes: box removed', function () {
 
 test('Unit: super source boxes: new box', function () {
 	const ssBox = STATE1.video.superSourceBoxes[0]
-	STATE1.video.superSourceBoxes[0] = undefined
-	const commands = supersource.resolveSupersourceBoxState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.SuperSourceBoxParametersCommand>
+	delete STATE1.video.superSourceBoxes[0]
+	const commands = supersource.resolveSupersourceBoxState(STATE1, STATE2) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].rawName).toEqual('SSBP')
 	expect(commands[0].boxId).toEqual(0)
@@ -83,14 +82,14 @@ test('Unit: super source boxes: new box', function () {
 
 test('Unit: super source properties: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = supersource.resolveSuperSourcePropertiesState(STATE1 as StateObject, STATE1 as StateObject)
+	const commands = supersource.resolveSuperSourcePropertiesState(STATE1, STATE1)
 	expect(commands.length).toEqual(0)
 })
 
 test('Unit: super source properties: some properties changed', function () {
 	STATE2.video.superSourceProperties.artFillSource = 3010
 	STATE2.video.superSourceProperties.artOption = 1 // foreground
-	const commands = supersource.resolveSuperSourcePropertiesState(STATE1 as StateObject, STATE2 as StateObject)
+	const commands = supersource.resolveSuperSourcePropertiesState(STATE1, STATE2)
 	expect(commands.length).toEqual(1)
 
 	expect(commands[0].rawName).toEqual('SSrc')

@@ -12,7 +12,7 @@ STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
 	// same state gives no commands:
 	let lk = STATE2.video.ME[0].upstreamKeyers[0].lumaSettings
-	STATE2.video.ME[0].upstreamKeyers[0].lumaSettings = undefined
+	delete STATE2.video.ME[0].upstreamKeyers[0].lumaSettings
 	const commands = LK.resolveLumaKeyerState(STATE1, STATE2)
 	expect(commands.length).toEqual(0)
 	STATE2.video.ME[0].upstreamKeyers[0].lumaSettings = lk
@@ -25,7 +25,7 @@ test('Unit: upstream keyers: luma keyer', function () {
 		gain: 2,
 		invert: true
 	}
-	const commands = LK.resolveLumaKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyLumaCommand]
+	const commands = LK.resolveLumaKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyLumaCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyLumaCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)

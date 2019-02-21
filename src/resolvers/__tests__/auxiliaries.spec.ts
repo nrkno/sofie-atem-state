@@ -15,12 +15,12 @@ const STATE2 = {
 
 test('Unit: auxiliaries: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = video.videoState(STATE1 as StateObject, STATE1 as StateObject)
+	const commands = video.videoState(STATE1 as unknown as StateObject, STATE1 as unknown as StateObject)
 	expect(commands.length).toEqual(0)
 })
 
 test('Unit: media player: status command', function () {
-	const commands = video.videoState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.AuxSourceCommand>
+	const commands = video.videoState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<Commands.AuxSourceCommand>
 
 	expect(commands[0].rawName).toEqual('AuxS')
 	expect(commands[0].auxBus).toEqual(0)

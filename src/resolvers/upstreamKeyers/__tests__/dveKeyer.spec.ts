@@ -12,7 +12,7 @@ STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
 	// same state gives no commands:
 	let dveKeyer = STATE2.video.ME[0].upstreamKeyers[0].dveSettings
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = undefined
+	delete STATE2.video.ME[0].upstreamKeyers[0].dveSettings
 	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2)
 	expect(commands.length).toEqual(0)
 	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = dveKeyer
@@ -30,7 +30,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		lightSourceDirection: 8,
 		lightSourceAltitude: 9
 	}
-	const commands = DVE.resolveDVEKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -63,7 +63,7 @@ test('Unit: upstream keyers: dve keyer: border', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderHue = 8
 	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderSaturation = 9
 	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderLuma = 10
-	const commands = DVE.resolveDVEKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -97,7 +97,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		maskLeft: 3,
 		maskRight: 4
 	}
-	const commands = DVE.resolveDVEKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
