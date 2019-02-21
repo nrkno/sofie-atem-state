@@ -12,7 +12,7 @@ STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
 	// same state gives no commands:
 	let patternKeyer = STATE2.video.ME[0].upstreamKeyers[0].patternSettings
-	STATE2.video.ME[0].upstreamKeyers[0].patternSettings = undefined
+	delete STATE2.video.ME[0].upstreamKeyers[0].patternSettings
 	const commands = PatternKeyer.resolvePatternKeyerState(STATE1, STATE2)
 	expect(commands.length).toEqual(0)
 	STATE2.video.ME[0].upstreamKeyers[0].patternSettings = patternKeyer
@@ -28,7 +28,7 @@ test('Unit: upstream keyers: pattern keyer', function () {
 		positionY: 700,
 		invert: true
 	}
-	const commands = PatternKeyer.resolvePatternKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyPatternCommand]
+	const commands = PatternKeyer.resolvePatternKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyPatternCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyPatternCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -50,7 +50,7 @@ test('Unit: upstream keyers: pattern keyer', function () {
 test('Unit: upstream keyers: pattern keyer: new pattern, no position / symmetry', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].patternSettings.positionX = 300
 	STATE2.video.ME[0].upstreamKeyers[0].patternSettings.style = Enums.Pattern.BottomRightBox
-	const commands = PatternKeyer.resolvePatternKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyPatternCommand]
+	const commands = PatternKeyer.resolvePatternKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyPatternCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyPatternCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)

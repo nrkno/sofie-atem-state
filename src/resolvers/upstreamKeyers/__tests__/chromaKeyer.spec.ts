@@ -12,7 +12,7 @@ STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
 	// same state gives no commands:
 	let ck = STATE2.video.ME[0].upstreamKeyers[0].chromaSettings
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings = undefined
+	delete STATE2.video.ME[0].upstreamKeyers[0].chromaSettings
 	const commands = CK.resolveChromaKeyerState(STATE1, STATE2)
 	expect(commands.length).toEqual(0)
 	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings = ck
@@ -24,7 +24,7 @@ test('Unit: upstream keyers: chroma keyer', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.lift = 3
 	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.narrow = true
 	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.ySuppress = 4
-	const commands = CK.resolveChromaKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyChromaCommand]
+	const commands = CK.resolveChromaKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyChromaCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyChromaCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)

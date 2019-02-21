@@ -38,7 +38,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 					if (newMixEffect.transition !== (oldMixEffect.transition || oldMixEffect.transitionProperties.style)) { // set style before auto transition command
 						const command = new AtemCommands.TransitionPropertiesCommand()
 						command.mixEffect = Number(mixEffectId)
-						command.updateProps({ style: newMixEffect.transition! as ConnectionEnums.TransitionStyle })
+						command.updateProps({ style: newMixEffect.transition as ConnectionEnums.TransitionStyle })
 						commands.push(command)
 					}
 

@@ -18,7 +18,7 @@ test('Unit: upstream keyers: same state gives no commands', function () {
 test('Unit: upstream keyers: undefined gives no error', function () {
 	// same state gives no commands:
 	let usk = STATE2.video.ME[0].upstreamKeyers[0]
-	STATE2.video.ME[0].upstreamKeyers[0] = undefined
+	delete STATE2.video.ME[0].upstreamKeyers[0]
 	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2)
 	expect(commands.length).toEqual(0)
 	STATE2.video.ME[0].upstreamKeyers[0] = usk
@@ -27,7 +27,7 @@ test('Unit: upstream keyers: undefined gives no error', function () {
 test('Unit: upstream keyers: sources', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].cutSource = 1
 	STATE2.video.ME[0].upstreamKeyers[0].fillSource = 2
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [ Commands.MixEffectKeyFillSourceSetCommand, Commands.DownstreamKeyCutSourceCommand ]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [ Commands.MixEffectKeyFillSourceSetCommand, Commands.DownstreamKeyCutSourceCommand ]
 
 	expect(commands[0].rawName).toEqual('CKeF')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -50,7 +50,7 @@ test('Unit: upstream keyers: sources', function () {
 
 test('Unit: upstream keyers: key type', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].mixEffectKeyType = Enums.MixEffectKeyType.Pattern
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyTypeSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyTypeSetCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyTypeSetCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -65,7 +65,7 @@ test('Unit: upstream keyers: key type', function () {
 
 test('Unit: upstream keyers: flyKey enabled', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].flyEnabled = !Defaults.Video.UpstreamKeyer(0).flyEnabled
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyTypeSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyTypeSetCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyTypeSetCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -80,7 +80,7 @@ test('Unit: upstream keyers: flyKey enabled', function () {
 
 test('Unit: upstream keyers: keyer on air', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].onAir = !Defaults.Video.UpstreamKeyer(0).onAir
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyOnAirCommand]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyOnAirCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyOnAirCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -95,7 +95,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 
 test('Unit: upstream keyer: mask', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].maskEnabled = true
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyMaskSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyMaskSetCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyMaskSetCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
@@ -113,7 +113,7 @@ test('Unit: upstream keyer: mask position', function () {
 	STATE2.video.ME[0].upstreamKeyers[0].maskTop = 2
 	STATE2.video.ME[0].upstreamKeyers[0].maskLeft = 3
 	STATE2.video.ME[0].upstreamKeyers[0].maskRight = 4
-	const commands = USK.resolveUpstreamKeyerState(STATE1 as StateObject, STATE2 as StateObject) as [Commands.MixEffectKeyMaskSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyMaskSetCommand]
 
 	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyMaskSetCommand().rawName)
 	expect(commands[0].mixEffect).toEqual(0)
