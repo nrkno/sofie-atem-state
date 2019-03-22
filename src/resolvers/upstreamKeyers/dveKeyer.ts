@@ -23,8 +23,9 @@ export function resolveDVEKeyerState (oldState: StateObject, newState: StateObje
 			const props: Partial<UpstreamKeyerDVESettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyDVECommand.MaskFlags) {
-				if ((oldDVEKeyer as any)[key] !== (newDVEKeyer as any)[key]) {
-					(props as any)[key] = (newDVEKeyer as any)[key]
+				const typedKey = key as keyof UpstreamKeyerDVESettings
+				if (oldDVEKeyer[typedKey] !== newDVEKeyer[typedKey]) {
+					props[typedKey] = newDVEKeyer[typedKey]
 				}
 			}
 

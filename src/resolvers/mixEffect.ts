@@ -130,14 +130,6 @@ export function resolveTransitionPropertiesState (oldState: StateObject, newStat
 export function resolveTransitionSettingsState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
 	const commands: Array<AtemCommands.AbstractCommand> = []
 
-	/**
-	 * NOTE(balte - 2018-05-01):
-	 * It's okay to use "as any" here, since all the keys come from the
-	 * transitionObjects anyway, so we may assume everything has the same
-	 * type. Unfortunately TypeScript is not able to understand that if
-	 * we copy properties of the same name between objects of the same type
-	 * the types are still safe.
-	 */
 	for (const mixEffectId in oldState.video.ME) {
 		if (!oldState.video.ME[mixEffectId] || !newState.video.ME[mixEffectId]) {
 			continue
@@ -148,8 +140,8 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 		if (newTransitionSettings.dip) {
 			const dipProperties: Partial<VideoState.DipTransitionSettings> = {}
 			for (let key in oldTransitionSettings.dip) {
-				if ((oldTransitionSettings.dip as any)[key] !== (newTransitionSettings.dip as any)[key]) {
-					(dipProperties as any)[key] = (newTransitionSettings.dip as any)[key]
+				if (oldTransitionSettings.dip[key as keyof VideoState.DipTransitionSettings] !== newTransitionSettings.dip[key as keyof VideoState.DipTransitionSettings]) {
+					dipProperties[key as keyof VideoState.DipTransitionSettings] = newTransitionSettings.dip[key as keyof VideoState.DipTransitionSettings]
 				}
 			}
 			if (Object.keys(dipProperties).length > 0) {
@@ -162,9 +154,10 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 
 		if (newTransitionSettings.DVE) {
 			const dveProperties: Partial<VideoState.DVETransitionSettings> = {}
-			for (let key in oldTransitionSettings.DVE) {
-				if ((oldTransitionSettings.DVE as any)[key] !== (newTransitionSettings.DVE as any)[key]) {
-					(dveProperties as any)[key] = (newTransitionSettings.DVE as any)[key]
+			for (const key in oldTransitionSettings.DVE) {
+				const typedKey = key as keyof VideoState.DVETransitionSettings
+				if (oldTransitionSettings.DVE[typedKey] !== newTransitionSettings.DVE[typedKey]) {
+					dveProperties[typedKey] = newTransitionSettings.DVE[typedKey]
 				}
 			}
 			if (Object.keys(dveProperties).length > 0) {
@@ -177,9 +170,10 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 
 		if (newTransitionSettings.mix) {
 			const mixProperties: Partial<VideoState.MixTransitionSettings> = {}
-			for (let key in oldTransitionSettings.mix) {
-				if ((oldTransitionSettings.mix as any)[key] !== (newTransitionSettings.mix as any)[key]) {
-					(mixProperties as any)[key] = (newTransitionSettings.mix as any)[key]
+			for (const key in oldTransitionSettings.mix) {
+				const typedKey = key as keyof VideoState.MixTransitionSettings
+				if (oldTransitionSettings.mix[typedKey] !== newTransitionSettings.mix[typedKey]) {
+					mixProperties[typedKey] = newTransitionSettings.mix[typedKey]
 				}
 			}
 			if (Object.keys(mixProperties).length > 0) {
@@ -193,8 +187,9 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 		if (newTransitionSettings.stinger) {
 			const stingerProperties: Partial<VideoState.StingerTransitionSettings> = {}
 			for (let key in oldTransitionSettings.stinger) {
-				if ((oldTransitionSettings.stinger as any)[key] !== (newTransitionSettings.stinger as any)[key]) {
-					(stingerProperties as any)[key] = (newTransitionSettings.stinger as any)[key]
+				const typedKey = key as keyof VideoState.StingerTransitionSettings
+				if (oldTransitionSettings.stinger[typedKey] !== newTransitionSettings.stinger[typedKey]) {
+					stingerProperties[typedKey] = newTransitionSettings.stinger[typedKey]
 				}
 			}
 			if (Object.keys(stingerProperties).length > 0) {
@@ -208,8 +203,9 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 		if (newTransitionSettings.wipe) {
 			const wipeProperties: Partial<VideoState.WipeTransitionSettings> = {}
 			for (let key in oldTransitionSettings.wipe) {
-				if ((oldTransitionSettings.wipe as any)[key] !== (newTransitionSettings.wipe as any)[key]) {
-					(wipeProperties as any)[key] = (newTransitionSettings.wipe as any)[key]
+				const typedKey = key as keyof VideoState.WipeTransitionSettings
+				if (oldTransitionSettings.wipe[typedKey] !== newTransitionSettings.wipe[typedKey]) {
+					wipeProperties[typedKey] = newTransitionSettings.wipe[typedKey]
 				}
 			}
 			if (Object.keys(wipeProperties).length > 0) {

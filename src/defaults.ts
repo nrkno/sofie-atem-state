@@ -1,6 +1,7 @@
 import { VideoState, Enums } from 'atem-connection'
 import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
+import { AudioChannel } from 'atem-connection/dist/state/audio'
 
 export namespace Defaults {
 	export namespace Video {
@@ -258,6 +259,16 @@ export namespace Defaults {
 			borderLuma: 0,
 			borderLightSourceDirection: 0,
 			borderLightSourceAltitude: 0
+		}
+	}
+
+	export namespace Audio {
+		export const Channel: AudioChannel = {
+			sourceType: 0,
+			portType: 1,
+			mixOption: 0,
+			gain: 0,
+			balance: 0
 		}
 	}
 }

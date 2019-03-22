@@ -12,8 +12,9 @@ export function resolveSupersourceBoxState (oldState: StateObject, newState: Sta
 		const props: Partial<VideoState.SuperSourceBox> = {}
 
 		for (let key in newBox) {
-			if ((newBox as any)[key] !== (oldBox as any)[key]) {
-				(props as any)[key] = (newBox as any)[key]
+			const typedKey = key as keyof VideoState.SuperSourceBox
+			if (newBox[typedKey] !== oldBox[typedKey]) {
+				props[typedKey] = newBox[typedKey]
 			}
 		}
 
@@ -37,8 +38,9 @@ export function resolveSuperSourcePropertiesState (oldState: StateObject, newSta
 		const props: Partial<VideoState.SuperSourceProperties> = {}
 
 		for (let key in newSsProperties) {
-			if ((newSsProperties as any)[key] !== (oldSsProperties as any)[key]) {
-				(props as any)[key] = (newSsProperties as any)[key]
+			const typedKey = key as keyof VideoState.SuperSourceProperties
+			if (newSsProperties[typedKey] !== oldSsProperties[typedKey]) {
+				props[typedKey] = newSsProperties[typedKey]
 			}
 		}
 

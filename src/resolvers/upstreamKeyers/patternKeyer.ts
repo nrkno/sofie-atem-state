@@ -23,8 +23,9 @@ export function resolvePatternKeyerState (oldState: StateObject, newState: State
 			const props: Partial<UpstreamKeyerPatternSettings> = {}
 
 			for (const key in AtemCommands.MixEffectKeyPatternCommand.MaskFlags) {
-				if ((oldPatternKeyer as any)[key] !== (newPatternKeyer as any)[key]) {
-					(props as any)[key] = (newPatternKeyer as any)[key]
+				const typedKey = key as keyof UpstreamKeyerPatternSettings
+				if (oldPatternKeyer[typedKey] !== newPatternKeyer[typedKey]) {
+					props[typedKey] = newPatternKeyer[typedKey]
 				}
 			}
 
