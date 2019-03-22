@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.4.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.4.0...0.4.1) (2019-02-21)
+# [0.5.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.4.1...0.5.0) (2019-03-22)
+
+
+### Features
+
+* Audio Channels ([0bf0af7](https://github.com/nrkno/tv-automation-atem-state/commit/0bf0af7))
 
 
 
