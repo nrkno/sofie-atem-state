@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [0.6.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.5.0...0.6.0) (2019-03-27)
+
+
+### Features
+
+* Set transition position to 0 before running auto ([bb3d9f9](https://github.com/nrkno/tv-automation-atem-state/commit/bb3d9f9))
+
+
+
 # [0.5.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.4.1...0.5.0) (2019-03-22)
 
 
