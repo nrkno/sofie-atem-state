@@ -42,6 +42,11 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 						commands.push(command)
 					}
 
+					const resetCommand = new AtemCommands.TransitionPositionCommand()
+					resetCommand.mixEffect = Number(mixEffectId)
+					resetCommand.updateProps({ handlePosition: 0 })
+					commands.push(resetCommand)
+
 					const command = new AtemCommands.AutoTransitionCommand()
 					command.mixEffect = Number(mixEffectId)
 					commands.push(command)
