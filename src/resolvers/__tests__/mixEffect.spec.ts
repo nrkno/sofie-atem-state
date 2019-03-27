@@ -91,8 +91,12 @@ test('Unit: mix effect: auto command', function () {
 		source: 1
 	})
 
-	expect(commands[1].rawName).toEqual('DAut')
-	expect((commands[1] as Commands.CutCommand).mixEffect).toEqual(0)
+	expect(commands[1].rawName).toEqual('TrPs')
+	expect((commands[1] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
+	expect((commands[1] as Commands.TransitionPositionCommand).properties.handlePosition).toEqual(0)
+
+	expect(commands[2].rawName).toEqual('DAut')
+	expect((commands[2] as Commands.AutoTransitionCommand).mixEffect).toEqual(0)
 
 	STATE2.video.ME[0].input = 0
 })
@@ -114,8 +118,12 @@ test('Unit: mix effect: auto command, new transition', function () {
 		style: Enums.TransitionStyle.WIPE
 	})
 
-	expect(commands[2].rawName).toEqual('DAut')
-	expect((commands[2] as Commands.CutCommand).mixEffect).toEqual(0)
+	expect(commands[2].rawName).toEqual('TrPs')
+	expect((commands[2] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
+	expect((commands[2] as Commands.TransitionPositionCommand).properties.handlePosition).toEqual(0)
+
+	expect(commands[3].rawName).toEqual('DAut')
+	expect((commands[3] as Commands.AutoTransitionCommand).mixEffect).toEqual(0)
 
 	STATE2.video.ME[0].input = 0
 })
@@ -149,6 +157,8 @@ test('Unit: mix effect: from transition, to no transition', function () {
 	STATE1.video.ME[0].inTransition = true
 	STATE1.video.ME[0].transitionPosition = 500
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
+
+	// console.log(commands)
 
 	expect(commands[0].rawName).toEqual('TrPs')
 	expect((commands[0] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
