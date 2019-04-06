@@ -5,6 +5,25 @@ import { compareProps } from '../util'
 
 export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
 	let commands: Array<AtemCommands.AbstractCommand> = []
+	if (!newState.audio) return commands
+
+	commands = commands.concat(resolveAudioMixerInputsState(oldState, newState))
+
+	const oldMaster = oldState.audio.master
+	const newMaster = newState.audio.master
+	const props = compareProps(oldMaster, newMaster, ['gain', 'balance', 'followFadeToBlack'])
+
+	if (Object.keys(props).length > 0) {
+		const command = new Commands.AudioMixerMasterCommand()
+		command.updateProps(props)
+		commands.push(command)
+	}
+
+	return commands
+}
+
+export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
+	let commands: Array<AtemCommands.AbstractCommand> = []
 	if (!newState.audio || !newState.audio.channels) return commands
 
 	for (const index in newState.audio.channels) {
