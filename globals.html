@@ -925,6 +925,9 @@ img { max-width: 100%; }
 			<a href="globals.html#compareprops" class="tsd-kind-icon">compare<wbr>Props</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-external">
+			<a href="globals.html#resolveaudiomixerinputsstate" class="tsd-kind-icon">resolve<wbr>Audio<wbr>Mixer<wbr>Inputs<wbr>State</a>
+		</li>
+		<li class=" tsd-kind-function tsd-is-external">
 			<a href="globals.html#resolveaudiostate" class="tsd-kind-icon">resolve<wbr>Audio<wbr>State</a>
 		</li>
 		<li class=" tsd-kind-function tsd-is-external">
@@ -1011,6 +1014,7 @@ img { max-width: 100%; }
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-function tsd-has-type-parameter tsd-is-external"><a href="globals.html#compareprops" class="tsd-kind-icon">compare<wbr>Props</a></li>
+							<li class="tsd-kind-function tsd-is-external"><a href="globals.html#resolveaudiomixerinputsstate" class="tsd-kind-icon">resolve<wbr>Audio<wbr>Mixer<wbr>Inputs<wbr>State</a></li>
 							<li class="tsd-kind-function tsd-is-external"><a href="globals.html#resolveaudiostate" class="tsd-kind-icon">resolve<wbr>Audio<wbr>State</a></li>
 							<li class="tsd-kind-function tsd-is-external"><a href="globals.html#resolvechromakeyerstate" class="tsd-kind-icon">resolve<wbr>Chroma<wbr>Keyer<wbr>State</a></li>
 							<li class="tsd-kind-function tsd-is-external"><a href="globals.html#resolvedvekeyerstate" class="tsd-kind-icon">resolveDVEKeyer<wbr>State</a></li>
@@ -1044,7 +1048,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/util.ts#L1">util.ts:1</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/util.ts#L1">util.ts:1</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1072,6 +1076,32 @@ img { max-width: 100%; }
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
+				<a name="resolveaudiomixerinputsstate" class="tsd-anchor"></a>
+				<h3>resolve<wbr>Audio<wbr>Mixer<wbr>Inputs<wbr>State</h3>
+				<ul class="tsd-signatures tsd-kind-function tsd-is-external">
+					<li class="tsd-signature tsd-kind-icon">resolve<wbr>Audio<wbr>Mixer<wbr>Inputs<wbr>State<span class="tsd-signature-symbol">(</span>oldState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StateObject</span>, newState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StateObject</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AbstractCommand</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/audio.ts#L25">resolvers/audio.ts:25</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>oldState: <span class="tsd-signature-type">StateObject</span></h5>
+							</li>
+							<li>
+								<h5>newState: <span class="tsd-signature-type">StateObject</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AbstractCommand</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function tsd-is-external">
 				<a name="resolveaudiostate" class="tsd-anchor"></a>
 				<h3>resolve<wbr>Audio<wbr>State</h3>
 				<ul class="tsd-signatures tsd-kind-function tsd-is-external">
@@ -1081,7 +1111,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/audio.ts#L6">resolvers/audio.ts:6</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/audio.ts#L6">resolvers/audio.ts:6</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1107,7 +1137,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/chromaKeyer.ts#L5">resolvers/upstreamKeyers/chromaKeyer.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/chromaKeyer.ts#L5">resolvers/upstreamKeyers/chromaKeyer.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1133,7 +1163,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/dveKeyer.ts#L5">resolvers/upstreamKeyers/dveKeyer.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/dveKeyer.ts#L5">resolvers/upstreamKeyers/dveKeyer.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1159,7 +1189,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/downstreamKeyer.ts#L92">resolvers/downstreamKeyer.ts:92</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/downstreamKeyer.ts#L92">resolvers/downstreamKeyer.ts:92</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1185,7 +1215,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/downstreamKeyer.ts#L45">resolvers/downstreamKeyer.ts:45</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/downstreamKeyer.ts#L45">resolvers/downstreamKeyer.ts:45</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1211,7 +1241,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/downstreamKeyer.ts#L7">resolvers/downstreamKeyer.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/downstreamKeyer.ts#L7">resolvers/downstreamKeyer.ts:7</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1237,7 +1267,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/lumaKeyer.ts#L5">resolvers/upstreamKeyers/lumaKeyer.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/lumaKeyer.ts#L5">resolvers/upstreamKeyers/lumaKeyer.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1263,7 +1293,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/mixEffect.ts#L9">resolvers/mixEffect.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/mixEffect.ts#L9">resolvers/mixEffect.ts:9</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1289,7 +1319,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/patternKeyer.ts#L5">resolvers/upstreamKeyers/patternKeyer.ts:5</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/patternKeyer.ts#L5">resolvers/upstreamKeyers/patternKeyer.ts:5</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1315,7 +1345,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/supersource.ts#L32">resolvers/supersource.ts:32</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/supersource.ts#L32">resolvers/supersource.ts:32</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1341,7 +1371,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/supersource.ts#L6">resolvers/supersource.ts:6</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/supersource.ts#L6">resolvers/supersource.ts:6</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1367,7 +1397,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/mixEffect.ts#L106">resolvers/mixEffect.ts:106</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/mixEffect.ts#L106">resolvers/mixEffect.ts:106</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1393,7 +1423,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/mixEffect.ts#L135">resolvers/mixEffect.ts:135</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/mixEffect.ts#L135">resolvers/mixEffect.ts:135</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1419,7 +1449,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/index.ts#L72">resolvers/upstreamKeyers/index.ts:72</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/index.ts#L72">resolvers/upstreamKeyers/index.ts:72</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1445,7 +1475,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/upstreamKeyers/index.ts#L10">resolvers/upstreamKeyers/index.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/upstreamKeyers/index.ts#L10">resolvers/upstreamKeyers/index.ts:10</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1471,7 +1501,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/c500bae/src/resolvers/index.ts#L10">resolvers/index.ts:10</a></li>
+								<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/342faea/src/resolvers/index.ts#L10">resolvers/index.ts:10</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
