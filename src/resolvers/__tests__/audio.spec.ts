@@ -57,3 +57,15 @@ test('Unit: audio: new channel', function () {
 
 	STATE1.audio.channels[1] = c
 })
+
+test('Unit: audio: master channel', function () {
+	STATE2.audio.master.gain = -10
+
+	const commands = audio.resolveAudioState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<AudioMixerInputCommand>
+	expect(commands.length).toEqual(1)
+	expect(commands[0].rawName).toEqual('AMMO')
+	expect(commands[0].properties).toMatchObject({ gain: STATE2.audio.master.gain })
+	expect(commands[0].flag).toEqual(1) // 001
+
+	STATE2.audio.master.gain = 0
+})
