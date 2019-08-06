@@ -1,19 +1,19 @@
 import {
-	Commands as AtemCommands } from 'atem-connection'
+	Commands as AtemCommands,
+	Enums } from 'atem-connection'
 import { State as StateObject } from '../'
 
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
-import { resolveSupersourceBoxState, resolveSuperSourcePropertiesState } from './supersource'
+import { resolveSuperSourceState } from './supersource'
 import { resolveAudioState } from './audio'
 
-export function videoState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.AbstractCommand> {
 	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveMixEffectsState(oldState, newState))
 	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))
-	commands = commands.concat(resolveSupersourceBoxState(oldState, newState))
-	commands = commands.concat(resolveSuperSourcePropertiesState(oldState, newState))
+	commands = commands.concat(resolveSuperSourceState(oldState, newState, version))
 	commands = commands.concat(resolveAudioState(oldState, newState))
 
 	// resolve auxilliaries:

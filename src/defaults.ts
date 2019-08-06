@@ -105,7 +105,12 @@ export namespace Defaults {
 			inTransition: false,
 			transitionPreview: false,
 			transitionPosition: 0,
-			fadeToBlack: false,
+			fadeToBlack: {
+				isFullyBlack: false,
+				remainingFrames: 0,
+				rate: defaultRate,
+				inTransition: false
+			},
 			transitionProperties: TransitionProperties as VideoState.TransitionProperties,
 			transitionSettings: TransitionSettings,
 			upstreamKeyers: []
@@ -245,7 +250,10 @@ export namespace Defaults {
 			artPreMultiplied: false,
 			artClip: 0,
 			artGain: 0,
-			artInvertKey: false,
+			artInvertKey: false
+		}
+
+		export const SuperSourceBorder: VideoState.SuperSourceBorder = {
 			borderEnabled: false,
 			borderBevel: Enums.BorderBevel.None,
 			borderOuterWidth: 0,
