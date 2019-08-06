@@ -14,5 +14,5 @@ test('Unit test: Atem State: Diff State', function () {
 	const commands = state.diffState({ video: { auxilliaries: [0, 0, 2] } } as unknown as State)
 
 	expect(commands.length).toEqual(1)
-	expect(commands[0].rawName).toEqual('AuxS')
+	expect(commands[0].rawName).toEqual('CAuS')
 })

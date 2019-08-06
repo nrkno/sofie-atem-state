@@ -40,7 +40,7 @@ test('Unit: mix effect: program input', function () {
 	STATE2.video.ME[0].programInput = 1
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('PrgI')
+	expect(commands[0].rawName).toEqual('CPgI')
 	expect((commands[0] as Commands.ProgramInputCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1
@@ -53,7 +53,7 @@ test('Unit: mix effect: preview input', function () {
 	STATE2.video.ME[0].previewInput = 1
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('PrvI')
+	expect(commands[0].rawName).toEqual('CPvI')
 	expect((commands[0] as Commands.PreviewInputCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1
@@ -67,7 +67,7 @@ test('Unit: mix effect: cut command', function () {
 	STATE2.video.ME[0].transition = Enums.TransitionStyle.CUT
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('PrvI')
+	expect(commands[0].rawName).toEqual('CPvI')
 	expect((commands[0] as Commands.PreviewInputCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1
@@ -85,13 +85,13 @@ test('Unit: mix effect: auto command', function () {
 	STATE2.video.ME[0].transition = Enums.TransitionStyle.MIX
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('PrvI')
+	expect(commands[0].rawName).toEqual('CPvI')
 	expect((commands[0] as Commands.PreviewInputCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1
 	})
 
-	expect(commands[1].rawName).toEqual('TrPs')
+	expect(commands[1].rawName).toEqual('CTPs')
 	expect((commands[1] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
 	expect((commands[1] as Commands.TransitionPositionCommand).properties.handlePosition).toEqual(0)
 
@@ -106,19 +106,19 @@ test('Unit: mix effect: auto command, new transition', function () {
 	STATE2.video.ME[0].transition = Enums.TransitionStyle.WIPE
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('PrvI')
+	expect(commands[0].rawName).toEqual(new Commands.PreviewInputCommand().rawName)
 	expect((commands[0] as Commands.PreviewInputCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1
 	})
 
-	expect(commands[1].rawName).toEqual('TrSS')
+	expect(commands[1].rawName).toEqual(new Commands.TransitionPropertiesCommand().rawName)
 	expect((commands[1] as Commands.TransitionPropertiesCommand).mixEffect).toEqual(0)
 	expect(commands[1].properties).toMatchObject({
 		style: Enums.TransitionStyle.WIPE
 	})
 
-	expect(commands[2].rawName).toEqual('TrPs')
+	expect(commands[2].rawName).toEqual(new Commands.TransitionPositionCommand().rawName)
 	expect((commands[2] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
 	expect((commands[2] as Commands.TransitionPositionCommand).properties.handlePosition).toEqual(0)
 
@@ -132,7 +132,7 @@ test('Unit: mix effect: transition preview', function () {
 	STATE2.video.ME[0].transitionPreview = true
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TrPr')
+	expect(commands[0].rawName).toEqual(new Commands.PreviewTransitionCommand().rawName)
 	expect((commands[0] as Commands.PreviewTransitionCommand).mixEffect).toEqual(0)
 
 	STATE2.video.ME[0].transitionPreview = false
@@ -143,7 +143,7 @@ test('Unit: mix effect: transition position', function () {
 	STATE2.video.ME[0].transitionPosition = 500
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TrPs')
+	expect(commands[0].rawName).toEqual(new Commands.TransitionPositionCommand().rawName)
 	expect((commands[0] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		handlePosition: 500
@@ -160,7 +160,7 @@ test('Unit: mix effect: from transition, to no transition', function () {
 
 	// console.log(commands)
 
-	expect(commands[0].rawName).toEqual('TrPs')
+	expect(commands[0].rawName).toEqual(new Commands.TransitionPositionCommand().rawName)
 	expect((commands[0] as Commands.TransitionPositionCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		handlePosition: 10000
@@ -175,8 +175,8 @@ test('Unit: mix effect: transition properties', function () {
 	STATE2.video.ME[0].transitionProperties.style = 1
 	const commands = ME.resolveTransitionPropertiesState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TrSS')
-	expect((commands[0] as Commands.PreviewTransitionCommand).mixEffect).toEqual(0)
+	expect(commands[0].rawName).toEqual(new Commands.TransitionPropertiesCommand().rawName)
+	expect((commands[0] as Commands.TransitionPropertiesCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		selection: 3,
 		style: 1
@@ -191,7 +191,7 @@ test('Unit: mix effect: transition settings: dip', function () {
 	STATE2.video.ME[0].transitionSettings.dip.rate = 50
 	const commands = ME.resolveTransitionSettingsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TDpP')
+	expect(commands[0].rawName).toEqual(new Commands.TransitionDipCommand().rawName)
 	expect((commands[0] as Commands.TransitionDipCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		input: 1,
@@ -220,7 +220,7 @@ test('Unit: mix effect: transition settings: DVE', function () {
 	}
 	const commands = ME.resolveTransitionSettingsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TDvP')
+	expect(commands[0].rawName).toEqual('CTDv')
 	expect((commands[0] as Commands.TransitionDVECommand).mixEffect).toEqual(0)
 	expect(commands[0].flag).toEqual(4095)
 	expect(commands[0].properties).toMatchObject({
@@ -237,7 +237,7 @@ test('Unit: mix effect: transition settings: DVE', function () {
 		invertKey: true,
 		reverse: true,
 		flipFlop: true
-	})
+	} as {})
 
 	STATE2.video.ME[0].transitionSettings.DVE = {
 		rate: 25,
@@ -260,7 +260,7 @@ test('Unit: mix effect: transition settings: mix', function () {
 	STATE2.video.ME[0].transitionSettings.mix.rate = 50
 	const commands = ME.resolveTransitionSettingsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TMxP')
+	expect(commands[0].rawName).toEqual('CTMx')
 	expect((commands[0] as Commands.TransitionMixCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		rate: 50
@@ -285,7 +285,7 @@ test('Unit: mix effect: transition settings: stinger', function () {
 	}
 	const commands = ME.resolveTransitionSettingsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TStP')
+	expect(commands[0].rawName).toEqual('CTSt')
 	expect((commands[0] as Commands.TransitionStingerCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		source: 1,
@@ -331,7 +331,7 @@ test('Unit: mix effect: transition settings: wipe', function () {
 	}
 	const commands = ME.resolveTransitionSettingsState(STATE1, STATE2)
 
-	expect(commands[0].rawName).toEqual('TWpP')
+	expect(commands[0].rawName).toEqual('CTWp')
 	expect((commands[0] as Commands.TransitionWipeCommand).mixEffect).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		rate: 50,
