@@ -65,7 +65,7 @@ test('Unit: super source boxes: box removed', function () {
 })
 
 test('Unit: super source boxes: new box', function () {
-	const ssBox = STATE1.video.superSources[0].boxes[0]
+	// const ssBox = STATE1.video.superSources[0].boxes[0]
 	delete STATE1.video.superSources[0].boxes[0]
 	const commands = supersource.resolveSuperSourceState(STATE1, STATE2, Enums.ProtocolVersion.V7_2) as Array<Commands.SuperSourceBoxParametersCommand>
 
@@ -85,7 +85,7 @@ test('Unit: super source boxes: new box', function () {
 		cropRight: 1
 	})
 
-	STATE1.video.superSources[0].boxes[0] = ssBox
+	STATE1.video.superSources[0].boxes[0] = STATE2.video.superSources[0].boxes[0]
 })
 
 test('Unit: super source properties: same state gives no commands', function () {
@@ -109,4 +109,43 @@ test('Unit: super source properties: some properties changed', function () {
 
 	STATE2.video.superSources[0].properties.artFillSource = STATE1.video.superSources[0].properties.artFillSource
 	STATE2.video.superSources[0].properties.artOption = STATE1.video.superSources[0].properties.artOption
+})
+
+test('Unit: super source properties v8: some properties changed', function () {
+	STATE2.video.superSources[0].properties.artFillSource = 3010
+	STATE2.video.superSources[0].properties.artOption = 1 // foreground
+	const commands = supersource.resolveSuperSourcePropertiesV8State(STATE1, STATE2)
+	expect(commands.length).toEqual(1)
+
+	expect(commands[0].rawName).toEqual('CSSc')
+	expect(commands[0].flag).toEqual(5)
+	expect(commands[0].properties).toMatchObject({
+		artFillSource: 3010,
+		artOption: 1
+	})
+
+	STATE2.video.superSources[0].properties.artFillSource = STATE1.video.superSources[0].properties.artFillSource
+	STATE2.video.superSources[0].properties.artOption = STATE1.video.superSources[0].properties.artOption
+})
+test('Unit: super source properties v8: no properties changed', function () {
+	const commands = supersource.resolveSuperSourceState(STATE1, STATE2, Enums.ProtocolVersion.V8_0)
+	console.log(commands)
+	expect(commands.length).toEqual(0)
+})
+
+test('Unit: super source border v8: some properties changed', function () {
+	STATE2.video.superSources[0].border.borderOuterWidth = 3010
+	STATE2.video.superSources[0].border.borderEnabled = true
+	const commands = supersource.resolveSuperSourceBorderV8State(STATE1, STATE2)
+	expect(commands.length).toEqual(1)
+
+	expect(commands[0].rawName).toEqual('CSBd')
+	expect(commands[0].flag).toEqual(5)
+	expect(commands[0].properties).toMatchObject({
+		borderOuterWidth: 3010,
+		borderEnabled: true
+	})
+
+	STATE2.video.superSources[0].border.borderOuterWidth = STATE1.video.superSources[0].border.borderOuterWidth
+	STATE2.video.superSources[0].border.borderEnabled = STATE1.video.superSources[0].border.borderEnabled
 })
