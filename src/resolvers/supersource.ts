@@ -25,24 +25,26 @@ export function resolveSuperSourceState (oldState: StateObject, newState: StateO
 export function resolveSuperSourceBoxState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
 	const commands: Array<AtemCommands.AbstractCommand> = []
 
-	for (const index in newState.video.superSources[0].boxes) {
-		const newBox = newState.video.superSources[0].boxes[index] || {}
-		const oldBox = oldState.video.superSources[0].boxes[index] || {}
-		const props: Partial<VideoState.SuperSourceBox> = {}
+	for (const ssrc in newState.video.superSources) {
+		for (const index in newState.video.superSources[ssrc].boxes) {
+			const newBox = newState.video.superSources[ssrc].boxes[index] || {}
+			const oldBox = oldState.video.superSources[ssrc].boxes[index] || {}
+			const props: Partial<VideoState.SuperSourceBox> = {}
 
-		for (let key in newBox) {
-			const typedKey = key as keyof VideoState.SuperSourceBox
-			if (newBox[typedKey] !== oldBox[typedKey]) {
-				props[typedKey] = newBox[typedKey]
+			for (let key in newBox) {
+				const typedKey = key as keyof VideoState.SuperSourceBox
+				if (newBox[typedKey] !== oldBox[typedKey]) {
+					props[typedKey] = newBox[typedKey]
+				}
 			}
-		}
 
-		if (Object.keys(props).length > 0) {
-			const command = new AtemCommands.SuperSourceBoxParametersCommand()
-			command.ssrcId = 0
-			command.boxId = Number(index)
-			command.updateProps(props)
-			commands.push(command)
+			if (Object.keys(props).length > 0) {
+				const command = new AtemCommands.SuperSourceBoxParametersCommand()
+				command.ssrcId = Number(ssrc)
+				command.boxId = Number(index)
+				command.updateProps(props)
+				commands.push(command)
+			}
 		}
 	}
 

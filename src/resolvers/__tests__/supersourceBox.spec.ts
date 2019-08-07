@@ -1,6 +1,7 @@
 import * as supersource from '../supersource'
 import { State as StateObject, Defaults } from '../../'
 import { Commands, Enums } from 'atem-connection'
+import { SuperSourceBoxParametersCommand } from 'atem-connection/dist/commands'
 
 const STATE1 = new StateObject()
 STATE1.video.superSources[0] = {
@@ -129,7 +130,6 @@ test('Unit: super source properties v8: some properties changed', function () {
 })
 test('Unit: super source properties v8: no properties changed', function () {
 	const commands = supersource.resolveSuperSourceState(STATE1, STATE2, Enums.ProtocolVersion.V8_0)
-	console.log(commands)
 	expect(commands.length).toEqual(0)
 })
 
@@ -148,4 +148,21 @@ test('Unit: super source border v8: some properties changed', function () {
 
 	STATE2.video.superSources[0].border.borderOuterWidth = STATE1.video.superSources[0].border.borderOuterWidth
 	STATE2.video.superSources[0].border.borderEnabled = STATE1.video.superSources[0].border.borderEnabled
+})
+
+test('Unit: super source box v8: 2 super sources', function () {
+	STATE1.video.superSources[1] = JSON.parse(JSON.stringify(STATE1.video.superSources[0]))
+	STATE2.video.superSources[1] = JSON.parse(JSON.stringify(STATE1.video.superSources[0]))
+	STATE2.video.superSources[1].boxes[0].cropped = false
+	const commands = supersource.resolveSuperSourceBoxState(STATE1, STATE2)
+	expect(commands.length).toEqual(1)
+
+	expect(commands[0].rawName).toEqual('CSBP')
+	expect(commands[0].flag).toEqual(32)
+	expect((commands[0] as SuperSourceBoxParametersCommand).ssrcId).toEqual(1)
+	expect(commands[0].properties).toMatchObject({
+		cropped: true
+	})
+
+	STATE2.video.superSources[1].boxes[0].cropped = true
 })
