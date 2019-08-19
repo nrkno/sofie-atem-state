@@ -80,6 +80,25 @@ test('Unit: mix effect: cut command', function () {
 	delete STATE2.video.ME[0].transition
 })
 
+test('Unit: mix effect: dummy command', function () {
+	STATE2.video.ME[0].input = 1
+	STATE2.video.ME[0].transition = Enums.TransitionStyle.DUMMY
+	const commands = ME.resolveMixEffectsState(STATE1, STATE2)
+
+	expect(commands).toHaveLength(1)
+
+	expect(commands[0].rawName).toEqual('PrvI')
+	expect((commands[0] as Commands.PreviewInputCommand).mixEffect).toEqual(0)
+	expect(commands[0].properties).toMatchObject({
+		source: 1
+	})
+
+	// Dummy implies that something else will perform the cut. (eg a macro)
+
+	delete STATE2.video.ME[0].input
+	delete STATE2.video.ME[0].transition
+})
+
 test('Unit: mix effect: auto command', function () {
 	STATE2.video.ME[0].input = 1
 	STATE2.video.ME[0].transition = Enums.TransitionStyle.MIX
