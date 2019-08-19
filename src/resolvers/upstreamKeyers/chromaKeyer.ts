@@ -25,7 +25,7 @@ export function resolveChromaKeyerState (oldState: StateObject, newState: StateO
 			for (const key in AtemCommands.MixEffectKeyChromaCommand.MaskFlags) {
 				const typedKey = key as keyof UpstreamKeyerChromaSettings
 				if (oldChromaKeyer[typedKey] !== newChromaKeyer[typedKey]) {
-					props[typedKey] = newChromaKeyer[typedKey]
+					props[typedKey] = newChromaKeyer[typedKey] as any
 				}
 			}
 

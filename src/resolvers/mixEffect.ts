@@ -24,7 +24,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 			if (typeof oldMixEffect.input === 'undefined') {
 				oldMixEffect.input = oldMixEffect.programInput
 			}
-			if (newMixEffect.input !== oldMixEffect.input) {
+			if (newMixEffect.input !== oldMixEffect.input || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
 				const command = new AtemCommands.PreviewInputCommand()
 				command.mixEffect = Number(mixEffectId)
 				command.updateProps({ source: newMixEffect.input })
@@ -34,7 +34,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 					const command = new AtemCommands.CutCommand()
 					command.mixEffect = Number(mixEffectId)
 					commands.push(command)
-				} else {
+				} else if (newMixEffect.transition !== Enums.TransitionStyle.DUMMY) {
 					if (newMixEffect.transition !== (oldMixEffect.transition || oldMixEffect.transitionProperties.style)) { // set style before auto transition command
 						const command = new AtemCommands.TransitionPropertiesCommand()
 						command.mixEffect = Number(mixEffectId)
@@ -162,7 +162,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (const key in oldTransitionSettings.DVE) {
 				const typedKey = key as keyof VideoState.DVETransitionSettings
 				if (oldTransitionSettings.DVE[typedKey] !== newTransitionSettings.DVE[typedKey]) {
-					dveProperties[typedKey] = newTransitionSettings.DVE[typedKey]
+					dveProperties[typedKey] = newTransitionSettings.DVE[typedKey] as any
 				}
 			}
 			if (Object.keys(dveProperties).length > 0) {
@@ -178,7 +178,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (const key in oldTransitionSettings.mix) {
 				const typedKey = key as keyof VideoState.MixTransitionSettings
 				if (oldTransitionSettings.mix[typedKey] !== newTransitionSettings.mix[typedKey]) {
-					mixProperties[typedKey] = newTransitionSettings.mix[typedKey]
+					mixProperties[typedKey] = newTransitionSettings.mix[typedKey] as any
 				}
 			}
 			if (Object.keys(mixProperties).length > 0) {
@@ -194,7 +194,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (let key in oldTransitionSettings.stinger) {
 				const typedKey = key as keyof VideoState.StingerTransitionSettings
 				if (oldTransitionSettings.stinger[typedKey] !== newTransitionSettings.stinger[typedKey]) {
-					stingerProperties[typedKey] = newTransitionSettings.stinger[typedKey]
+					stingerProperties[typedKey] = newTransitionSettings.stinger[typedKey] as any
 				}
 			}
 			if (Object.keys(stingerProperties).length > 0) {
@@ -210,7 +210,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (let key in oldTransitionSettings.wipe) {
 				const typedKey = key as keyof VideoState.WipeTransitionSettings
 				if (oldTransitionSettings.wipe[typedKey] !== newTransitionSettings.wipe[typedKey]) {
-					wipeProperties[typedKey] = newTransitionSettings.wipe[typedKey]
+					wipeProperties[typedKey] = newTransitionSettings.wipe[typedKey] as any
 				}
 			}
 			if (Object.keys(wipeProperties).length > 0) {
