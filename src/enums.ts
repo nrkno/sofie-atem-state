@@ -5,6 +5,7 @@ export namespace Enums {
 		WIPE,
 		DVE,
 		STING,
-		CUT
+		CUT,
+		DUMMY
 	}
 }

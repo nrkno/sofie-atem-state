@@ -24,7 +24,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 			if (typeof oldMixEffect.input === 'undefined') {
 				oldMixEffect.input = oldMixEffect.programInput
 			}
-			if (newMixEffect.input !== oldMixEffect.input) {
+			if (newMixEffect.input !== oldMixEffect.input || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
 				const command = new AtemCommands.PreviewInputCommand()
 				command.mixEffect = Number(mixEffectId)
 				command.updateProps({ source: newMixEffect.input })
@@ -34,7 +34,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 					const command = new AtemCommands.CutCommand()
 					command.mixEffect = Number(mixEffectId)
 					commands.push(command)
-				} else {
+				} else if (newMixEffect.transition !== Enums.TransitionStyle.DUMMY) {
 					if (newMixEffect.transition !== (oldMixEffect.transition || oldMixEffect.transitionProperties.style)) { // set style before auto transition command
 						const command = new AtemCommands.TransitionPropertiesCommand()
 						command.mixEffect = Number(mixEffectId)
