@@ -162,7 +162,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (const key in oldTransitionSettings.DVE) {
 				const typedKey = key as keyof VideoState.DVETransitionSettings
 				if (oldTransitionSettings.DVE[typedKey] !== newTransitionSettings.DVE[typedKey]) {
-					dveProperties[typedKey] = newTransitionSettings.DVE[typedKey]
+					dveProperties[typedKey] = newTransitionSettings.DVE[typedKey] as any
 				}
 			}
 			if (Object.keys(dveProperties).length > 0) {
@@ -178,7 +178,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (const key in oldTransitionSettings.mix) {
 				const typedKey = key as keyof VideoState.MixTransitionSettings
 				if (oldTransitionSettings.mix[typedKey] !== newTransitionSettings.mix[typedKey]) {
-					mixProperties[typedKey] = newTransitionSettings.mix[typedKey]
+					mixProperties[typedKey] = newTransitionSettings.mix[typedKey] as any
 				}
 			}
 			if (Object.keys(mixProperties).length > 0) {
@@ -194,7 +194,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (let key in oldTransitionSettings.stinger) {
 				const typedKey = key as keyof VideoState.StingerTransitionSettings
 				if (oldTransitionSettings.stinger[typedKey] !== newTransitionSettings.stinger[typedKey]) {
-					stingerProperties[typedKey] = newTransitionSettings.stinger[typedKey]
+					stingerProperties[typedKey] = newTransitionSettings.stinger[typedKey] as any
 				}
 			}
 			if (Object.keys(stingerProperties).length > 0) {
@@ -210,7 +210,7 @@ export function resolveTransitionSettingsState (oldState: StateObject, newState:
 			for (let key in oldTransitionSettings.wipe) {
 				const typedKey = key as keyof VideoState.WipeTransitionSettings
 				if (oldTransitionSettings.wipe[typedKey] !== newTransitionSettings.wipe[typedKey]) {
-					wipeProperties[typedKey] = newTransitionSettings.wipe[typedKey]
+					wipeProperties[typedKey] = newTransitionSettings.wipe[typedKey] as any
 				}
 			}
 			if (Object.keys(wipeProperties).length > 0) {

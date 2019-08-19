@@ -14,7 +14,7 @@ export function resolveSupersourceBoxState (oldState: StateObject, newState: Sta
 		for (let key in newBox) {
 			const typedKey = key as keyof VideoState.SuperSourceBox
 			if (newBox[typedKey] !== oldBox[typedKey]) {
-				props[typedKey] = newBox[typedKey]
+				props[typedKey] = newBox[typedKey] as any
 			}
 		}
 
@@ -40,7 +40,7 @@ export function resolveSuperSourcePropertiesState (oldState: StateObject, newSta
 		for (let key in newSsProperties) {
 			const typedKey = key as keyof VideoState.SuperSourceProperties
 			if (newSsProperties[typedKey] !== oldSsProperties[typedKey]) {
-				props[typedKey] = newSsProperties[typedKey]
+				props[typedKey] = newSsProperties[typedKey] as any
 			}
 		}
 
