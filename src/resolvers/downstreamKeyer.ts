@@ -99,8 +99,9 @@ export function resolveDownstreamKeyerMaskState (oldState: StateObject, newState
 		const props: Partial<DownstreamKeyerMask> = {}
 
 		for (let key in newProps) {
-			if ((newProps)[key as keyof DownstreamKeyerMask] !== (oldProps)[key as keyof DownstreamKeyerMask]) {
-				(props)[key as keyof DownstreamKeyerMask] = (newProps)[key as keyof DownstreamKeyerMask]
+			const typedKey = key as keyof DownstreamKeyerMask
+			if (newProps[typedKey] !== oldProps[typedKey]) {
+				props[typedKey] = newProps[typedKey] as any
 			}
 		}
 

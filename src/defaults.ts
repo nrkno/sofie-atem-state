@@ -2,11 +2,19 @@ import { VideoState, Enums } from 'atem-connection'
 import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
 import { AudioChannel } from 'atem-connection/dist/state/audio'
+import { MacroPlayerState } from 'atem-connection/dist/state/macro'
 
 export namespace Defaults {
 	export namespace Video {
 		export const defaultInput = 0 // black
 		export const defaultRate = 25 // 1 second
+
+		export const MacroPlayer: MacroPlayerState = {
+			macroIndex: 0,
+			isRunning: false,
+			isWaiting: false,
+			loop: false
+		}
 
 		export const DownStreamKeyer: DSK.DownstreamKeyer = {
 			onAir: false,

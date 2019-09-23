@@ -10,11 +10,11 @@ export function resolveSuperSourceState (oldState: StateObject, newState: StateO
 
 	if (version < Enums.ProtocolVersion.V8_0) {
 		commands = commands.concat(
-			resolveSuperSourceBoxState(oldState, newState),
+			resolveSuperSourceBoxState(oldState, newState, version),
 			resolveSuperSourcePropertiesState(oldState, newState))
 	} else {
 		commands = commands.concat(
-			resolveSuperSourceBoxState(oldState, newState),
+			resolveSuperSourceBoxState(oldState, newState, version),
 			resolveSuperSourcePropertiesV8State(oldState, newState),
 			resolveSuperSourceBorderV8State(oldState, newState))
 	}
@@ -22,10 +22,14 @@ export function resolveSuperSourceState (oldState: StateObject, newState: StateO
 	return commands
 }
 
-export function resolveSuperSourceBoxState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
+export function resolveSuperSourceBoxState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.AbstractCommand> {
 	const commands: Array<AtemCommands.AbstractCommand> = []
 
 	for (const ssrc in newState.video.superSources) {
+		if (version < Enums.ProtocolVersion.V8_0 && ssrc !== '0') {
+			// 8.0 added support for multiple ssrc. So only run for the first
+			continue
+		}
 		for (const index in newState.video.superSources[ssrc].boxes) {
 			const newBox = newState.video.superSources[ssrc].boxes[index] || {}
 			const oldBox = oldState.video.superSources[ssrc].boxes[index] || {}
@@ -34,7 +38,7 @@ export function resolveSuperSourceBoxState (oldState: StateObject, newState: Sta
 			for (let key in newBox) {
 				const typedKey = key as keyof VideoState.SuperSourceBox
 				if (newBox[typedKey] !== oldBox[typedKey]) {
-					props[typedKey] = newBox[typedKey]
+					props[typedKey] = newBox[typedKey] as any
 				}
 			}
 
@@ -63,12 +67,12 @@ export function resolveSuperSourcePropertiesState (oldState: StateObject, newSta
 			...oldState.video.superSources[0].properties,
 			...oldState.video.superSources[0].border
 		}
-		const props: Partial<VideoState.SuperSourceProperties & VideoState.SuperSourceBorder> = {}
+		const props: Partial<VideoState.SuperSourceProperties> = {}
 
 		for (let key in newSsProperties) {
-			const typedKey = key as keyof (VideoState.SuperSourceProperties & VideoState.SuperSourceBorder)
+			const typedKey = key as keyof VideoState.SuperSourceProperties
 			if (newSsProperties[typedKey] !== oldSsProperties[typedKey]) {
-				props[typedKey] = newSsProperties[typedKey]
+				props[typedKey] = newSsProperties[typedKey] as any
 			}
 		}
 
@@ -93,7 +97,7 @@ export function resolveSuperSourcePropertiesV8State (oldState: StateObject, newS
 		for (let key in newSsProperties) {
 			const typedKey = key as keyof VideoState.SuperSourceProperties
 			if (newSsProperties[typedKey] !== oldSsProperties[typedKey]) {
-				props[typedKey] = newSsProperties[typedKey]
+				props[typedKey] = newSsProperties[typedKey] as any
 			}
 		}
 
@@ -119,7 +123,7 @@ export function resolveSuperSourceBorderV8State (oldState: StateObject, newState
 		for (let key in newSsProperties) {
 			const typedKey = key as keyof VideoState.SuperSourceBorder
 			if (newSsProperties[typedKey] !== oldSsProperties[typedKey]) {
-				props[typedKey] = newSsProperties[typedKey]
+				props[typedKey] = newSsProperties[typedKey] as any
 			}
 		}
 

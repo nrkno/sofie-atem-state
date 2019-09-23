@@ -7,11 +7,13 @@ import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSuperSourceState } from './supersource'
 import { resolveAudioState } from './audio'
+import { resolveMacroPlayerState } from './macro'
 
 export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.AbstractCommand> {
 	let commands: Array<AtemCommands.AbstractCommand> = []
 
 	commands = commands.concat(resolveMixEffectsState(oldState, newState))
+	commands = commands.concat(resolveMacroPlayerState(oldState, newState))
 	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))
 	commands = commands.concat(resolveSuperSourceState(oldState, newState, version))
 	commands = commands.concat(resolveAudioState(oldState, newState))

@@ -154,14 +154,14 @@ test('Unit: super source box v8: 2 super sources', function () {
 	STATE1.video.superSources[1] = JSON.parse(JSON.stringify(STATE1.video.superSources[0]))
 	STATE2.video.superSources[1] = JSON.parse(JSON.stringify(STATE1.video.superSources[0]))
 	STATE2.video.superSources[1].boxes[0].cropped = false
-	const commands = supersource.resolveSuperSourceBoxState(STATE1, STATE2)
+	const commands = supersource.resolveSuperSourceBoxState(STATE1, STATE2, Enums.ProtocolVersion.V8_0)
 	expect(commands.length).toEqual(1)
 
 	expect(commands[0].rawName).toEqual('CSBP')
 	expect(commands[0].flag).toEqual(32)
 	expect((commands[0] as SuperSourceBoxParametersCommand).ssrcId).toEqual(1)
 	expect(commands[0].properties).toMatchObject({
-		cropped: true
+		cropped: false
 	})
 
 	STATE2.video.superSources[1].boxes[0].cropped = true
