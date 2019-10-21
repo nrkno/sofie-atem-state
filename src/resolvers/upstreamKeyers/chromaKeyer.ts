@@ -1,42 +1,31 @@
 import { Commands as AtemCommands } from 'atem-connection'
-import { State as StateObject } from '../../'
-import { UpstreamKeyerChromaSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { UpstreamKeyerChromaSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { diffObject } from '../../util'
 
-export function resolveChromaKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveChromaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: UpstreamKeyer, newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const mixEffectId in oldState.video.ME) {
-		if (!newState.video.ME[mixEffectId]) continue
-		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			if (!oldKeyer || !newKeyer) {
-				continue
-			}
+	if (!oldKeyer.chromaSettings && !newKeyer.chromaSettings) return commands
 
-			const oldChromaKeyer = oldKeyer.chromaSettings
-			const newChromaKeyer = newKeyer.chromaSettings
-			if (!oldChromaKeyer || !newChromaKeyer) {
-				continue
-			}
-
-			const props: Partial<UpstreamKeyerChromaSettings> = {}
-
-			for (const key in AtemCommands.MixEffectKeyChromaCommand.MaskFlags) {
-				const typedKey = key as keyof UpstreamKeyerChromaSettings
-				if (oldChromaKeyer[typedKey] !== newChromaKeyer[typedKey]) {
-					props[typedKey] = newChromaKeyer[typedKey] as any
-				}
-			}
-
-			if (Object.keys(props).length > 0) {
-				const command = new AtemCommands.MixEffectKeyChromaCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps(props)
-				commands.push(command)
-			}
+	function defaultChromaSettings (): UpstreamKeyerChromaSettings {
+		return {
+			hue: 0,
+			gain: 0,
+			ySuppress: 0,
+			lift: 0,
+			narrow: false
 		}
+	}
+
+	const oldChromaKeyer = oldKeyer.chromaSettings || defaultChromaSettings()
+	const newChromaKeyer = newKeyer.chromaSettings || defaultChromaSettings()
+
+	const props = diffObject(oldChromaKeyer, newChromaKeyer)
+
+	if (props) {
+		const command = new AtemCommands.MixEffectKeyChromaCommand(mixEffectId, upstreamKeyerId)
+		command.updateProps(props)
+		commands.push(command)
 	}
 
 	return commands

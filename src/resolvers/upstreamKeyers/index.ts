@@ -1,103 +1,60 @@
 import { Commands as AtemCommands } from 'atem-connection'
-import { State as StateObject } from '../../'
-import { UpstreamKeyerMaskSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { MixEffect } from '../../'
+import { UpstreamKeyerTypeSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
 
 import { resolveDVEKeyerState } from './dveKeyer'
 import { resolveChromaKeyerState } from './chromaKeyer'
 import { resolveLumaKeyerState } from './lumaKeyer'
 import { resolvePatternKeyerState } from './patternKeyer'
+import { getAllKeysNumber, diffObject } from '../../util'
 
-export function resolveUpstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: MixEffect, newMixEffect: MixEffect): Array<AtemCommands.ISerializableCommand> {
+	let commands: Array<AtemCommands.ISerializableCommand> = []
 
-	commands = commands.concat(resolveUpstreamKeyerMaskState(oldState, newState))
-	commands = commands.concat(resolveDVEKeyerState(oldState, newState))
-	commands = commands.concat(resolveChromaKeyerState(oldState, newState))
-	commands = commands.concat(resolveLumaKeyerState(oldState, newState))
-	commands = commands.concat(resolvePatternKeyerState(oldState, newState))
 
-	for (const mixEffectId in oldState.video.ME) {
-		if (!newState.video.ME[mixEffectId]) continue
-		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+	for (const upstreamKeyerId of getAllKeysNumber(oldMixEffect.upstreamKeyers, newMixEffect.upstreamKeyers)) {
+		const oldKeyer = oldMixEffect.getUpstreamKeyer(upstreamKeyerId, true)
+		const newKeyer = newMixEffect.getUpstreamKeyer(upstreamKeyerId, true)
 
-			if (!oldKeyer || !newKeyer) {
-				continue
-			}
+		commands.push(...resolveUpstreamKeyerMaskState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
+		commands.push(...resolveDVEKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
+		commands.push(...resolveChromaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
+		commands.push(...resolveLumaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
+		commands.push(...resolvePatternKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 
-			if (oldKeyer.fillSource !== newKeyer.fillSource) {
-				const command = new AtemCommands.MixEffectKeyFillSourceSetCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps({
-					fillSource: newKeyer.fillSource
-				})
-				commands.push(command)
-			}
-			if (oldKeyer.cutSource !== newKeyer.cutSource) {
-				const command = new AtemCommands.MixEffectKeyCutSourceSetCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps({
-					cutSource: newKeyer.cutSource
-				})
-				commands.push(command)
-			}
+		if (oldKeyer.fillSource !== newKeyer.fillSource) {
+			commands.push(new AtemCommands.MixEffectKeyFillSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.fillSource))
+		}
+		if (oldKeyer.cutSource !== newKeyer.cutSource) {
+			commands.push(new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource))
+		}
 
-			if (oldKeyer.mixEffectKeyType !== newKeyer.mixEffectKeyType || oldKeyer.flyEnabled !== newKeyer.flyEnabled) {
-				const command = new AtemCommands.MixEffectKeyTypeSetCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				if (oldKeyer.mixEffectKeyType !== newKeyer.mixEffectKeyType) command.updateProps({ keyType: newKeyer.mixEffectKeyType })
-				if (oldKeyer.flyEnabled !== newKeyer.flyEnabled) command.updateProps({ flyEnabled: newKeyer.flyEnabled })
-				commands.push(command)
-			}
+		const typeProps = diffObject<UpstreamKeyerTypeSettings>(oldKeyer, newKeyer)
+		if (typeProps) {
+			const command = new AtemCommands.MixEffectKeyTypeSetCommand(mixEffectId, upstreamKeyerId)
+			command.updateProps(typeProps)
+			commands.push(command)
+		}
 
-			if (oldKeyer.onAir !== newKeyer.onAir) {
-				const command = new AtemCommands.MixEffectKeyOnAirCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps({
-					onAir: newKeyer.onAir
-				})
-				commands.push(command)
-			}
+		if (oldKeyer.onAir !== newKeyer.onAir) {
+			commands.push(new AtemCommands.MixEffectKeyOnAirCommand(mixEffectId, upstreamKeyerId, newKeyer.onAir))
 		}
 	}
 
 	return commands
 }
 
-export function resolveUpstreamKeyerMaskState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveUpstreamKeyerMaskState (_mixEffectId: number, _upstreamKeyerId: number, _oldKeyer: UpstreamKeyer, _newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const mixEffectId in oldState.video.ME) {
-		if (!newState.video.ME[mixEffectId]) continue
-		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
+	// TODO - fix this
+	// const props = diffObject<UpstreamKeyerMaskSettings>(oldKeyer, newKeyer)
 
-			if (!oldKeyer || !newKeyer) {
-				continue
-			}
-
-			const props: Partial<UpstreamKeyerMaskSettings> = {}
-			if (oldKeyer.maskEnabled !== newKeyer.maskEnabled) props.maskEnabled = newKeyer.maskEnabled
-			if (oldKeyer.maskLeft !== newKeyer.maskLeft) props.maskLeft = newKeyer.maskLeft
-			if (oldKeyer.maskRight !== newKeyer.maskRight) props.maskRight = newKeyer.maskRight
-			if (oldKeyer.maskTop !== newKeyer.maskTop) props.maskTop = newKeyer.maskTop
-			if (oldKeyer.maskBottom !== newKeyer.maskBottom) props.maskBottom = newKeyer.maskBottom
-
-			if (Object.keys(props).length > 0) {
-				const command = new AtemCommands.MixEffectKeyMaskSetCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps(props)
-				commands.push(command)
-			}
-		}
-	}
+	// if (props) {
+	// 	const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
+	// 	command.updateProps(props)
+	// 	commands.push(command)
+	// }
 
 	return commands
 }

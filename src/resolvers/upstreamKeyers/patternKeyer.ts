@@ -1,48 +1,39 @@
-import { Commands as AtemCommands } from 'atem-connection'
-import { State as StateObject } from '../../'
-import { UpstreamKeyerPatternSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { Commands as AtemCommands, Enums } from 'atem-connection'
+import { UpstreamKeyerPatternSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { diffObject } from '../../util'
 
-export function resolvePatternKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolvePatternKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: UpstreamKeyer, newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const mixEffectId in oldState.video.ME) {
-		if (!newState.video.ME[mixEffectId]) continue
-		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			if (!oldKeyer || !newKeyer) {
-				continue
-			}
+	if (!oldKeyer.patternSettings && !newKeyer.patternSettings) return commands
 
-			const oldPatternKeyer = oldKeyer.patternSettings
-			const newPatternKeyer = newKeyer.patternSettings
-			if (!oldPatternKeyer || !newPatternKeyer) {
-				continue
-			}
-
-			const props: Partial<UpstreamKeyerPatternSettings> = {}
-
-			for (const key in AtemCommands.MixEffectKeyPatternCommand.MaskFlags) {
-				const typedKey = key as keyof UpstreamKeyerPatternSettings
-				if (oldPatternKeyer[typedKey] !== newPatternKeyer[typedKey]) {
-					props[typedKey] = newPatternKeyer[typedKey] as any
-				}
-			}
-
-			if (oldPatternKeyer.style !== newPatternKeyer.style) {
-				props.positionX = newPatternKeyer.positionX
-				props.positionY = newPatternKeyer.positionY
-				props.symmetry = newPatternKeyer.symmetry
-			}
-
-			if (Object.keys(props).length > 0) {
-				const command = new AtemCommands.MixEffectKeyPatternCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps(props)
-				commands.push(command)
-			}
+	function defaultPatternSettings (): UpstreamKeyerPatternSettings {
+		return {
+			style: Enums.Pattern.LeftToRightBar,
+			size: 0,
+			symmetry: 0,
+			softness: 0,
+			positionX: 0,
+			positionY: 0,
+			invert: false
 		}
+	}
+
+	const oldPatternKeyer = oldKeyer.patternSettings || defaultPatternSettings()
+	const newPatternKeyer = newKeyer.patternSettings || defaultPatternSettings()
+
+	const props = diffObject(oldPatternKeyer, newPatternKeyer)
+	if (props && oldPatternKeyer.style !== newPatternKeyer.style) {
+		// These can be reset when changing pattern, so enforce they are what we expect
+		props.positionX = newPatternKeyer.positionX
+		props.positionY = newPatternKeyer.positionY
+		props.symmetry = newPatternKeyer.symmetry
+	}
+
+	if (props) {
+		const command = new AtemCommands.MixEffectKeyPatternCommand(mixEffectId, upstreamKeyerId)
+		command.updateProps(props)
+		commands.push(command)
 	}
 
 	return commands

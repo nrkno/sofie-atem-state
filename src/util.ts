@@ -23,3 +23,14 @@ export function diffObject<T> (oldObj: T, newObj: T): Partial<T> | undefined {
 
 	return hasData ? diff : undefined
 }
+
+export function getAllKeysString<V> (oldObj: { [key: string]: V }, newObj: { [key: string]: V }): string[] {
+	// TODO - compact
+	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
+	return rawKeys.filter((v, i) => rawKeys.indexOf(v) === i)
+}
+export function getAllKeysNumber<V> (oldObj: { [key: number]: V } | Array<V>, newObj: { [key: number]: V } | Array<V>): number[] {
+	// TODO - compact
+	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
+	return rawKeys.filter((v, i) => rawKeys.indexOf(v) === i).map(v => parseInt(v, 10))
+}

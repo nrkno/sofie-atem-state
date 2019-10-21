@@ -131,11 +131,6 @@ export namespace Defaults {
 				flyEnabled: false,
 				fillSource: 0,
 				cutSource: 0,
-				maskEnabled: false,
-				maskTop: 0,
-				maskBottom: 0,
-				maskLeft: 0,
-				maskRight: 0,
 				onAir: false,
 
 				dveSettings: {

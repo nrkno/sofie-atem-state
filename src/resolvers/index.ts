@@ -8,23 +8,23 @@ import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSuperSourceState } from './supersource'
 import { resolveAudioState } from './audio'
 import { resolveMacroPlayerState } from './macro'
+import { getAllKeysNumber } from '../util'
 
-export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	commands = commands.concat(resolveMixEffectsState(oldState, newState))
-	commands = commands.concat(resolveMacroPlayerState(oldState, newState))
-	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))
-	commands = commands.concat(resolveSuperSourceState(oldState, newState, version))
-	commands = commands.concat(resolveAudioState(oldState, newState))
+	commands.push(...resolveMixEffectsState(oldState, newState))
+	commands.push(...resolveMacroPlayerState(oldState, newState))
+	commands.push(...resolveDownstreamKeyerState(oldState, newState))
+	commands.push(...resolveSuperSourceState(oldState, newState, version))
+	commands.push(...resolveAudioState(oldState, newState))
 
 	// resolve auxilliaries:
-	for (const index in newState.video.auxilliaries) {
-		if (oldState.video.auxilliaries[index] !== newState.video.auxilliaries[index]) {
-			const command = new AtemCommands.AuxSourceCommand()
-			command.auxBus = Number(index)
-			command.updateProps({ source: newState.video.auxilliaries[index] })
-			commands.push(command)
+	for (const index of getAllKeysNumber(oldState.video.auxilliaries, newState.video.auxilliaries)) {
+		const oldSource = oldState.video.auxilliaries[index]
+		const newSource = newState.video.auxilliaries[index]
+		if (oldSource !== newSource) {
+			commands.push(new AtemCommands.AuxSourceCommand(index, newSource || 0))
 		}
 	}
 

@@ -1,47 +1,56 @@
-import { Commands as AtemCommands, Commands } from 'atem-connection'
+import { Commands as AtemCommands, Commands, AudioState, Enums } from 'atem-connection'
 import { State as StateObject } from '../'
-import { AudioChannel } from 'atem-connection/dist/state/audio'
-import { compareProps } from '../util'
+import { diffObject, getAllKeysNumber } from '../util'
 
-export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 	if (!newState.audio) return commands
 
-	commands = commands.concat(resolveAudioMixerInputsState(oldState, newState))
+	commands.push(...resolveAudioMixerInputsState(oldState, newState))
 
-	const oldMaster = oldState.audio.master
-	const newMaster = newState.audio.master
-	const props = compareProps(oldMaster, newMaster, ['gain', 'balance', 'followFadeToBlack'])
+	function masterDefaults (): AudioState.AudioMasterChannel {
+		return {
+			gain: 0,
+			balance: 0,
+			followFadeToBlack: false
+		}
+	}
 
-	if (Object.keys(props).length > 0) {
-		const command = new Commands.AudioMixerMasterCommand()
-		command.updateProps(props)
-		commands.push(command)
+	if (oldState.audio.master || newState.audio.master) {
+		const oldMaster = oldState.audio.master || masterDefaults()
+		const newMaster = newState.audio.master || masterDefaults()
+
+		const props = diffObject(oldMaster, newMaster)
+		if (props) {
+			const command = new Commands.AudioMixerMasterCommand()
+			command.updateProps(props)
+			commands.push(command)
+		}
 	}
 
 	return commands
 }
 
-export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
-	if (!newState.audio || !newState.audio.channels) return commands
+export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index in newState.audio.channels) {
-		const oldChannel = oldState.audio.channels[index]
-		const newChannel = newState.audio.channels[index]
-		let props: Partial<AudioChannel> = {}
-
-		if (!newChannel) continue
-
-		if (!oldChannel) {
-			props = newChannel
-		} else {
-			props = compareProps(oldChannel, newChannel, ['gain', 'mixOption', 'balance'])
+	type AudioChannelProps = Omit<AudioState.AudioChannel, 'sourceType' | 'portType'>
+	function channelDefaults (): AudioChannelProps {
+		return {
+			gain: 0,
+			balance: 0,
+			mixOption: Enums.AudioMixOption.Off
 		}
+	}
 
-		if (Object.keys(props).length > 0) {
-			const command = new Commands.AudioMixerInputCommand()
-			command.index = Number(index)
+	for (const index of getAllKeysNumber(oldState.audio.channels, newState.audio.channels)) {
+		const oldChannel = oldState.audio.channels[index] || channelDefaults()
+		const newChannel = newState.audio.channels[index] || channelDefaults()
+
+		const props = diffObject(oldChannel, newChannel)
+
+		if (props) {
+			const command = new Commands.AudioMixerInputCommand(index)
 			command.updateProps(props)
 			commands.push(command)
 		}
