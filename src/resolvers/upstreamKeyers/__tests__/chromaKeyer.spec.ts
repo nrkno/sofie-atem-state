@@ -1,36 +1,41 @@
 import * as CK from '../chromaKeyer'
 import { State as StateObject, Defaults } from '../../../'
 import { Commands } from 'atem-connection'
+import { jsonClone } from '../../../util'
 
 const STATE1 = new StateObject()
-STATE1.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))
-STATE1.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0)))
+const ME1 = STATE1.video.getMe(0)
+const USK1 = ME1.getUpstreamKeyer(0)
+
 const STATE2 = new StateObject()
-STATE2.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))
-STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0)))
+const ME2 = STATE2.video.getMe(0)
+const USK2 = ME2.getUpstreamKeyer(0)
 
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
+	USK1.chromaSettings = jsonClone(Defaults.Video.UpstreamKeyerChromaSettings)
+
 	// same state gives no commands:
-	let ck = STATE2.video.ME[0].upstreamKeyers[0].chromaSettings
-	delete STATE2.video.ME[0].upstreamKeyers[0].chromaSettings
-	const commands = CK.resolveChromaKeyerState(STATE1, STATE2)
-	expect(commands.length).toEqual(0)
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings = ck
+	let ck = USK2.chromaSettings
+	delete USK2.chromaSettings
+	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2)
+	expect(commands).toHaveLength(0)
+	USK2.chromaSettings = ck
 })
 
 test('Unit: upstream keyers: chroma keyer', function () {
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.gain = 1
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.hue = 2
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.lift = 3
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.narrow = true
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.ySuppress = 4
-	const commands = CK.resolveChromaKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyChromaCommand]
+	USK2.chromaSettings = {
+		gain: 1,
+		hue: 2,
+		lift: 3,
+		narrow: true,
+		ySuppress: 4
+	}
+	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2) as Array<Commands.MixEffectKeyChromaCommand>
 
-	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyChromaCommand().rawName)
+	expect(commands[0].constructor.name).toEqual('MixEffectKeyChromaCommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
-	expect(Object.keys(commands[0].properties).length).toBe(5)
-	expect(commands[0].properties).toMatchObject({
+	expect(commands[0].properties).toEqual({
 		gain: 1,
 		hue: 2,
 		lift: 3,
@@ -38,9 +43,5 @@ test('Unit: upstream keyers: chroma keyer', function () {
 		ySuppress: 4
 	})
 
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.gain = 0
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.hue = 0
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.lift = 0
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.narrow = false
-	STATE2.video.ME[0].upstreamKeyers[0].chromaSettings.ySuppress = 0
+	USK2.chromaSettings = jsonClone(Defaults.Video.UpstreamKeyerChromaSettings)
 })

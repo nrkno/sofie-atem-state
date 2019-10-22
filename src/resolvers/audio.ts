@@ -1,6 +1,7 @@
 import { Commands as AtemCommands, Commands, AudioState, Enums } from 'atem-connection'
 import { State as StateObject } from '../'
 import { diffObject, getAllKeysNumber } from '../util'
+import * as _ from 'underscore'
 
 export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -34,12 +35,13 @@ export function resolveAudioState (oldState: StateObject, newState: StateObject)
 export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	type AudioChannelProps = Omit<AudioState.AudioChannel, 'sourceType' | 'portType'>
-	function channelDefaults (): AudioChannelProps {
+	function channelDefaults (): AudioState.AudioChannel {
 		return {
 			gain: 0,
 			balance: 0,
-			mixOption: Enums.AudioMixOption.Off
+			mixOption: Enums.AudioMixOption.Off,
+			sourceType: 0,
+			portType: 0
 		}
 	}
 
@@ -47,8 +49,7 @@ export function resolveAudioMixerInputsState (oldState: StateObject, newState: S
 		const oldChannel = oldState.audio.channels[index] || channelDefaults()
 		const newChannel = newState.audio.channels[index] || channelDefaults()
 
-		const props = diffObject(oldChannel, newChannel)
-
+		const props = diffObject(oldChannel, newChannel, 'sourceType', 'portType')
 		if (props) {
 			const command = new Commands.AudioMixerInputCommand(index)
 			command.updateProps(props)

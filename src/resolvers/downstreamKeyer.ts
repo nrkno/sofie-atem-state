@@ -1,8 +1,8 @@
 import {
 	Commands as AtemCommands
 } from 'atem-connection'
-import { State as StateObject } from '../'
-import { DownstreamKeyerProperties, DownstreamKeyer, DownstreamKeyerGeneral } from 'atem-connection/dist/state/video/downstreamKeyers'
+import { State as StateObject, Defaults } from '../'
+import { DownstreamKeyer } from 'atem-connection/dist/state/video/downstreamKeyers'
 import { getAllKeysNumber, diffObject } from '../util'
 
 export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.ISerializableCommand> {
@@ -15,14 +15,8 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 		commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
 		commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))
 
-		const oldSources = oldDsk.sources || {
-			fillSource: 0,
-			cutSource: 0
-		}
-		const newSources = newDsk.sources || {
-			fillSource: 0,
-			cutSource: 0
-		}
+		const oldSources = oldDsk.sources || Defaults.Video.DownstreamerKeyerSources
+		const newSources = newDsk.sources || Defaults.Video.DownstreamerKeyerSources
 
 		if (oldSources.fillSource !== newSources.fillSource) {
 			commands.push(new AtemCommands.DownstreamKeyFillSourceCommand(index, newSources.fillSource))
@@ -41,33 +35,15 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 	return commands
 }
 
-function defaultProperties (): DownstreamKeyerProperties {
-	return {
-		preMultiply: false,
-		clip: 0,
-		gain: 0,
-		invert: false,
-		tie: false,
-		rate: 25,
-		mask: {
-			enabled: false,
-			top: 0,
-			bottom: 0,
-			left: 0,
-			right: 0
-		}
-	}
-}
-
 export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: DownstreamKeyer, newDsk: DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldDsk.properties && !newDsk.properties) return commands
 
-	const oldProps = oldDsk.properties || defaultProperties()
-	const newProps = newDsk.properties || defaultProperties()
+	const oldProps = oldDsk.properties || Defaults.Video.DownstreamerKeyerProperties
+	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
-	const props = diffObject<DownstreamKeyerGeneral>(oldProps, newProps)
+	const props = diffObject(oldProps, newProps, 'mask', 'rate', 'tie')
 	if (props) {
 		const command = new AtemCommands.DownstreamKeyGeneralCommand(index)
 		command.updateProps(props)
@@ -90,11 +66,10 @@ export function resolveDownstreamKeyerMaskState (index: number, oldDsk: Downstre
 
 	if (!oldDsk.properties && !newDsk.properties) return commands
 
-	const oldProps = oldDsk.properties || defaultProperties()
-	const newProps = newDsk.properties || defaultProperties()
+	const oldProps = oldDsk.properties || Defaults.Video.DownstreamerKeyerProperties
+	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
 	const props = diffObject(oldProps.mask, newProps.mask)
-
 	if (props) {
 		const command = new AtemCommands.DownstreamKeyMaskCommand(index)
 		command.updateProps(props)

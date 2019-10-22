@@ -2,12 +2,12 @@ import {
 	Commands as AtemCommands,
 	Enums as ConnectionEnums
 } from 'atem-connection'
-import { Enums, State as StateObject } from '../'
+import { Enums, State as StateObject, Defaults } from '../'
 import { diffObject, getAllKeysNumber } from '../util'
 import { MixEffect } from '../state'
+import * as _ from 'underscore'
 
 import { resolveUpstreamKeyerState } from './upstreamKeyers'
-import { TransitionProperties } from 'atem-connection/dist/state/video'
 
 export function resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -76,7 +76,7 @@ export function resolveTransitionPropertiesState (mixEffectId: number, oldMixEff
 	const oldTransitionProperties = oldMixEffect.transitionProperties
 	const newTransitionProperties = newMixEffect.transitionProperties
 
-	const props = diffObject<Pick<TransitionProperties, 'selection' | 'style'>>(oldTransitionProperties, newTransitionProperties)
+	const props = diffObject(oldTransitionProperties, newTransitionProperties, 'nextSelection', 'nextStyle')
 	if (props) {
 		const command = new AtemCommands.TransitionPropertiesCommand(mixEffectId)
 		command.updateProps(props)
@@ -92,8 +92,8 @@ export function resolveTransitionSettingsState (mixEffectId: number, oldMixEffec
 	const oldTransitionSettings = oldMixEffect.transitionSettings
 	const newTransitionSettings = newMixEffect.transitionSettings
 
-	if (newTransitionSettings.dip) {
-		const dipProperties = diffObject(oldTransitionSettings.dip, newTransitionSettings.dip)
+	if (newTransitionSettings.dip || oldTransitionSettings.dip) {
+		const dipProperties = diffObject(oldTransitionSettings.dip || Defaults.Video.DipTransitionSettings, newTransitionSettings.dip || Defaults.Video.DipTransitionSettings)
 		if (dipProperties) {
 			const command = new AtemCommands.TransitionDipCommand(mixEffectId)
 			command.updateProps(dipProperties)
@@ -101,8 +101,8 @@ export function resolveTransitionSettingsState (mixEffectId: number, oldMixEffec
 		}
 	}
 
-	if (newTransitionSettings.DVE) {
-		const dveProperties = diffObject(oldTransitionSettings.DVE, newTransitionSettings.DVE)
+	if (newTransitionSettings.DVE || oldTransitionSettings.DVE) {
+		const dveProperties = diffObject(oldTransitionSettings.DVE || Defaults.Video.DVETransitionSettings, newTransitionSettings.DVE || Defaults.Video.DVETransitionSettings)
 		if (dveProperties) {
 			const command = new AtemCommands.TransitionDVECommand(mixEffectId)
 			command.updateProps(dveProperties)
@@ -110,8 +110,8 @@ export function resolveTransitionSettingsState (mixEffectId: number, oldMixEffec
 		}
 	}
 
-	if (newTransitionSettings.mix) {
-		const mixProperties = diffObject(oldTransitionSettings.mix, newTransitionSettings.mix)
+	if (newTransitionSettings.mix || oldTransitionSettings.mix) {
+		const mixProperties = diffObject(oldTransitionSettings.mix || Defaults.Video.MixTransitionSettings, newTransitionSettings.mix || Defaults.Video.MixTransitionSettings)
 		if (mixProperties) {
 			const command = new AtemCommands.TransitionMixCommand(mixEffectId)
 			command.updateProps(mixProperties)
@@ -119,8 +119,8 @@ export function resolveTransitionSettingsState (mixEffectId: number, oldMixEffec
 		}
 	}
 
-	if (newTransitionSettings.stinger) {
-		const stingerProperties = diffObject(oldTransitionSettings.stinger, newTransitionSettings.stinger)
+	if (newTransitionSettings.stinger || oldTransitionSettings.stinger) {
+		const stingerProperties = diffObject(oldTransitionSettings.stinger || Defaults.Video.StingerTransitionSettings, newTransitionSettings.stinger || Defaults.Video.StingerTransitionSettings)
 		if (stingerProperties) {
 			const command = new AtemCommands.TransitionStingerCommand(mixEffectId)
 			command.updateProps(stingerProperties)
@@ -128,8 +128,8 @@ export function resolveTransitionSettingsState (mixEffectId: number, oldMixEffec
 		}
 	}
 
-	if (newTransitionSettings.wipe) {
-		const wipeProperties = diffObject(oldTransitionSettings.wipe, newTransitionSettings.wipe)
+	if (newTransitionSettings.wipe || oldTransitionSettings.wipe) {
+		const wipeProperties = diffObject(oldTransitionSettings.wipe || Defaults.Video.WipeTransitionSettings, newTransitionSettings.wipe || Defaults.Video.WipeTransitionSettings)
 		if (wipeProperties) {
 			const command = new AtemCommands.TransitionWipeCommand(mixEffectId)
 			command.updateProps(wipeProperties)

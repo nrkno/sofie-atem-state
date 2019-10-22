@@ -1,26 +1,15 @@
-import { Commands as AtemCommands, Enums } from 'atem-connection'
-import { UpstreamKeyerPatternSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { Commands as AtemCommands } from 'atem-connection'
+import { UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
 import { diffObject } from '../../util'
+import { Defaults } from '../..'
 
 export function resolvePatternKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: UpstreamKeyer, newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.patternSettings && !newKeyer.patternSettings) return commands
 
-	function defaultPatternSettings (): UpstreamKeyerPatternSettings {
-		return {
-			style: Enums.Pattern.LeftToRightBar,
-			size: 0,
-			symmetry: 0,
-			softness: 0,
-			positionX: 0,
-			positionY: 0,
-			invert: false
-		}
-	}
-
-	const oldPatternKeyer = oldKeyer.patternSettings || defaultPatternSettings()
-	const newPatternKeyer = newKeyer.patternSettings || defaultPatternSettings()
+	const oldPatternKeyer = oldKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
+	const newPatternKeyer = newKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
 
 	const props = diffObject(oldPatternKeyer, newPatternKeyer)
 	if (props && oldPatternKeyer.style !== newPatternKeyer.style) {

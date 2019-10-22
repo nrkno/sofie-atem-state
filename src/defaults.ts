@@ -16,29 +16,50 @@ export namespace Defaults {
 			loop: false
 		}
 
-		export const DownStreamKeyer: DSK.DownstreamKeyer = {
-			onAir: false,
-			inTransition: false,
-			isAuto: false,
-			remainingFrames: defaultRate,
-			sources: {
-				fillSource: defaultInput,
-				cutSource: defaultInput
-			},
-			properties: {
-				tie: false,
-				rate: defaultRate,
-				preMultiply: false,
-				clip: 0,
-				gain: 0,
-				invert: false,
-				mask: {
-					enabled: false,
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0
-				}
+		// export const DownStreamKeyer: DSK.DownstreamKeyer = {
+		// 	onAir: false,
+		// 	inTransition: false,
+		// 	isAuto: false,
+		// 	remainingFrames: defaultRate,
+		// 	sources: {
+		// 		fillSource: defaultInput,
+		// 		cutSource: defaultInput
+		// 	},
+		// 	properties: {
+		// 		tie: false,
+		// 		rate: defaultRate,
+		// 		preMultiply: false,
+		// 		clip: 0,
+		// 		gain: 0,
+		// 		invert: false,
+		// 		mask: {
+		// 			enabled: false,
+		// 			top: 0,
+		// 			bottom: 0,
+		// 			left: 0,
+		// 			right: 0
+		// 		}
+		// 	}
+		// }
+
+		export const DownstreamerKeyerSources: Readonly<DSK.DownstreamKeyerSources> = {
+			fillSource: defaultInput,
+			cutSource: defaultInput
+		}
+
+		export const DownstreamerKeyerProperties: Readonly<DSK.DownstreamKeyerProperties> = {
+			preMultiply: false,
+			clip: 0,
+			gain: 0,
+			invert: false,
+			tie: false,
+			rate: 25,
+			mask: {
+				enabled: false,
+				top: 0,
+				bottom: 0,
+				left: 0,
+				right: 0
 			}
 		}
 
@@ -107,101 +128,103 @@ export namespace Defaults {
 			wipe: WipeTransitionSettings
 		}
 
-		export const MixEffect: Partial<VideoState.MixEffect> = {
-			programInput: defaultInput,
-			previewInput: defaultInput,
-			inTransition: false,
-			transitionPreview: false,
-			transitionPosition: 0,
-			fadeToBlack: {
-				isFullyBlack: false,
-				remainingFrames: 0,
-				rate: defaultRate,
-				inTransition: false
-			},
-			transitionProperties: TransitionProperties as VideoState.TransitionProperties,
-			transitionSettings: TransitionSettings,
-			upstreamKeyers: []
+		// export const MixEffect: Partial<VideoState.MixEffect> = {
+		// 	programInput: defaultInput,
+		// 	previewInput: defaultInput,
+		// 	inTransition: false,
+		// 	transitionPreview: false,
+		// 	transitionPosition: 0,
+		// 	fadeToBlack: {
+		// 		isFullyBlack: false,
+		// 		remainingFrames: 0,
+		// 		rate: defaultRate,
+		// 		inTransition: false
+		// 	},
+		// 	transitionProperties: TransitionProperties as VideoState.TransitionProperties,
+		// 	transitionSettings: TransitionSettings,
+		// 	upstreamKeyers: []
+		// }
+
+		export const UpstreamKeyerPatternSettings: USK.UpstreamKeyerPatternSettings = {
+			style: Enums.Pattern.LeftToRightBar,
+			size: 0,
+			symmetry: 5000,
+			softness: 0,
+			positionX: 500,
+			positionY: 500,
+			invert: false
+		}
+		export const UpstreamKeyerLumaSettings: USK.UpstreamKeyerLumaSettings = {
+			preMultiplied: false,
+			clip: 0,
+			gain: 0,
+			invert: false
+		}
+		export const UpstreamKeyerChromaSettings: USK.UpstreamKeyerChromaSettings = {
+			hue: 0,
+			gain: 0,
+			ySuppress: 0,
+			lift: 0,
+			narrow: false
+		}
+		export const UpstreamKeyerDVESettings: USK.UpstreamKeyerDVESettings = {
+			borderEnabled: false,
+			shadowEnabled: false,
+			borderBevel: Enums.BorderBevel.None,
+			rate: 1,
+
+			sizeX: 0,
+			sizeY: 0,
+			positionX: 0,
+			positionY: 0,
+			rotation: 0,
+			borderOuterWidth: 0,
+			borderInnerWidth: 0,
+			borderOuterSoftness: 0,
+			borderInnerSoftness: 0,
+			borderBevelSoftness: 0,
+			borderBevelPosition: 0,
+			borderOpacity: 0,
+			borderHue: 0,
+			borderSaturation: 0,
+			borderLuma: 0,
+			lightSourceDirection: 0,
+			lightSourceAltitude: 0,
+
+			maskEnabled: false,
+			maskTop: 0,
+			maskBottom: 0,
+			maskLeft: 0,
+			maskRight: 0
 		}
 
-		export function UpstreamKeyer (id: number): USK.UpstreamKeyer {
-			return {
-				upstreamKeyerId: id,
-				mixEffectKeyType: Enums.MixEffectKeyType.Luma,
-				flyEnabled: false,
-				fillSource: 0,
-				cutSource: 0,
-				onAir: false,
+		// export function UpstreamKeyer (id: number): USK.UpstreamKeyer {
+		// 	return {
+		// 		upstreamKeyerId: id,
+		// 		mixEffectKeyType: Enums.MixEffectKeyType.Luma,
+		// 		flyEnabled: false,
+		// 		fillSource: 0,
+		// 		cutSource: 0,
+		// 		onAir: false,
 
-				dveSettings: {
-					borderEnabled: false,
-					shadowEnabled: false,
-					borderBevel: Enums.BorderBevel.None,
-					rate: 1,
+		// 		dveSettings: UpstreamKeyerDVESettings,
+		// 		chromaSettings: UpstreamKeyerChromaSettings,
+		// 		lumaSettings: UpstreamKeyerLumaSettings,
+		// 		patternSettings: UpstreamKeyerPatternSettings,
 
-					sizeX: 0,
-					sizeY: 0,
-					positionX: 0,
-					positionY: 0,
-					rotation: 0,
-					borderOuterWidth: 0,
-					borderInnerWidth: 0,
-					borderOuterSoftness: 0,
-					borderInnerSoftness: 0,
-					borderBevelSoftness: 0,
-					borderBevelPosition: 0,
-					borderOpacity: 0,
-					borderHue: 0,
-					borderSaturation: 0,
-					borderLuma: 0,
-					lightSourceDirection: 0,
-					lightSourceAltitude: 0,
+		// 		flyKeyframes: [
+		// 			flyKeyframe(0),
+		// 			flyKeyframe(1)
+		// 		],
 
-					maskEnabled: false,
-					maskTop: 0,
-					maskBottom: 0,
-					maskLeft: 0,
-					maskRight: 0
-				},
-
-				chromaSettings: {
-					hue: 0,
-					gain: 0,
-					ySuppress: 0,
-					lift: 0,
-					narrow: false
-				},
-
-				lumaSettings: {
-					preMultiplied: false,
-					clip: 0,
-					gain: 0,
-					invert: false
-				},
-
-				patternSettings: {
-					style: Enums.Pattern.LeftToRightBar,
-					size: 0,
-					symmetry: 5000,
-					softness: 0,
-					positionX: 500,
-					positionY: 500,
-					invert: false
-				},
-
-				flyKeyframes: [
-					flyKeyframe(0),
-					flyKeyframe(1)
-				],
-
-				flyProperties: {
-					isASet: false,
-					isBSet: false,
-					isAtKeyFrame: Enums.IsAtKeyFrame.None,
-					runToInfiniteIndex: 0
-				}
-			}
-		}
+		// 		flyProperties: {
+		// 			isASet: false,
+		// 			isBSet: false,
+		// 			isAtKeyFrame: Enums.IsAtKeyFrame.None,
+		// 			runToInfiniteIndex: 0
+		// 		}
+		// 	}
+		// }
 
 		export function flyKeyframe (id: number): USK.UpstreamKeyerFlyKeyframe {
 			return {

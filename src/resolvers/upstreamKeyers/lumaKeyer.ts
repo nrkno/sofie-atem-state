@@ -1,23 +1,15 @@
 import { Commands as AtemCommands } from 'atem-connection'
-import { UpstreamKeyerLumaSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
 import { diffObject } from '../../util'
+import { Defaults } from '../..'
 
 export function resolveLumaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: UpstreamKeyer, newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.lumaSettings && !newKeyer.lumaSettings) return commands
 
-	function defaultLumaSettings (): UpstreamKeyerLumaSettings {
-		return {
-			preMultiplied: false,
-			clip: 0,
-			gain: 0,
-			invert: false
-		}
-	}
-
-	const oldLumaKeyer = oldKeyer.lumaSettings || defaultLumaSettings()
-	const newLumaKeyer = newKeyer.lumaSettings || defaultLumaSettings()
+	const oldLumaKeyer = oldKeyer.lumaSettings || Defaults.Video.UpstreamKeyerLumaSettings
+	const newLumaKeyer = newKeyer.lumaSettings || Defaults.Video.UpstreamKeyerLumaSettings
 
 	const props = diffObject(oldLumaKeyer, newLumaKeyer)
 	if (props) {

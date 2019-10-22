@@ -1,18 +1,26 @@
-import { AtemState, State } from '../'
+import { AtemState, State as StateObject } from '../'
 
 test('Unit test: Atem State: Set State', function () {
 	const state = new AtemState()
-	state.setState({ video: { auxilliaries: [0, 0, 1] } } as unknown as State)
+
+	const newObj = new StateObject()
+	newObj.video.auxilliaries = [0, 0, 1]
+	state.setState(newObj)
 
 	expect(state.getState()).toMatchObject({ video: { auxilliaries: [0, 0, 1] } })
 })
 
 test('Unit test: Atem State: Diff State', function () {
 	const state = new AtemState()
-	state.setState({ video: { auxilliaries: [0, 0, 1] } } as unknown as State)
 
-	const commands = state.diffState({ video: { auxilliaries: [0, 0, 2] } } as unknown as State)
+	const newObj = new StateObject()
+	newObj.video.auxilliaries = [0, 0, 1]
+	state.setState(newObj)
 
-	expect(commands.length).toEqual(1)
-	expect(commands[0].rawName).toEqual('CAuS')
+	const newObj2 = new StateObject()
+	newObj2.video.auxilliaries = [0, 0, 2]
+	const commands = state.diffState(newObj2)
+
+	expect(commands).toHaveLength(1)
+	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')
 })

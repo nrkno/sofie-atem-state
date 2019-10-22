@@ -1,6 +1,7 @@
 import { Commands as AtemCommands } from 'atem-connection'
 import { MixEffect } from '../../'
-import { UpstreamKeyerTypeSettings, UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import * as _ from 'underscore'
 
 import { resolveDVEKeyerState } from './dveKeyer'
 import { resolveChromaKeyerState } from './chromaKeyer'
@@ -9,8 +10,7 @@ import { resolvePatternKeyerState } from './patternKeyer'
 import { getAllKeysNumber, diffObject } from '../../util'
 
 export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: MixEffect, newMixEffect: MixEffect): Array<AtemCommands.ISerializableCommand> {
-	let commands: Array<AtemCommands.ISerializableCommand> = []
-
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const upstreamKeyerId of getAllKeysNumber(oldMixEffect.upstreamKeyers, newMixEffect.upstreamKeyers)) {
 		const oldKeyer = oldMixEffect.getUpstreamKeyer(upstreamKeyerId, true)
@@ -29,7 +29,7 @@ export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: Mi
 			commands.push(new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource))
 		}
 
-		const typeProps = diffObject<UpstreamKeyerTypeSettings>(oldKeyer, newKeyer)
+		const typeProps = diffObject(_.pick(oldKeyer, 'mixEffectKeyType', 'flyEnabled'), _.pick(newKeyer, 'mixEffectKeyType', 'flyEnabled'))
 		if (typeProps) {
 			const command = new AtemCommands.MixEffectKeyTypeSetCommand(mixEffectId, upstreamKeyerId)
 			command.updateProps(typeProps)

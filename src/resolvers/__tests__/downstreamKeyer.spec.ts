@@ -1,138 +1,154 @@
 import * as DSK from '../downstreamKeyer'
-import { State as StateObject, Defaults } from '../../'
+import { State as StateObject } from '../../'
 import { Commands } from 'atem-connection'
-import { DownstreamKeyer } from 'atem-connection/dist/state/video/downstreamKeyers'
+// import { DownstreamKeyer } from 'atem-connection/dist/state/video/downstreamKeyers'
+import * as _ from 'underscore'
+import { Defaults } from '../../defaults'
+import { jsonClone } from '../../util'
 
-const STATE1 = {
-	video: {
-		downstreamKeyers: [ JSON.parse(JSON.stringify(Defaults.Video.DownStreamKeyer)), JSON.parse(JSON.stringify(Defaults.Video.DownStreamKeyer)) ]
-	}
+function setupDSK (state: StateObject, index: number) {
+	const dsk = state.video.getDownstreamKeyer(index)
+	dsk.properties = jsonClone(Defaults.Video.DownstreamerKeyerProperties)
+	dsk.sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
+	return dsk
 }
-const STATE2 = {
-	video: {
-		downstreamKeyers: [ JSON.parse(JSON.stringify(Defaults.Video.DownStreamKeyer)), JSON.parse(JSON.stringify(Defaults.Video.DownStreamKeyer)) ]
-	}
-}
-const DSK1 = STATE2.video.downstreamKeyers[0] as DownstreamKeyer
-const DSK2 = STATE2.video.downstreamKeyers[1] as DownstreamKeyer
+
+const STATE1 = new StateObject()
+setupDSK(STATE1, 0)
+setupDSK(STATE1, 1)
+
+const STATE2 = new StateObject()
+const DSK1 = setupDSK(STATE2, 0)
+const DSK2 = setupDSK(STATE2, 1)
 
 test('Unit: Downstream keyer: same state gives no commands', function () {
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE1 as unknown as StateObject)
-	expect(commands.length).toEqual(0)
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE1)
+	expect(commands).toHaveLength(0)
 })
 
 test('Unit: Downstream keyer: auto and onAir commands', function () {
 	DSK1.onAir = true
 	DSK2.isAuto = true
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyOnAirCommand
-	expect(firstCommand.rawName).toEqual('CDsL')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyOnAirCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		onAir: true
 	})
 
 	const secondCommand = commands[1] as Commands.DownstreamKeyAutoCommand
-	expect(secondCommand.rawName).toEqual('DDsA')
+	expect(secondCommand.constructor.name).toEqual('DownstreamKeyAutoCommand')
 	expect(secondCommand.downstreamKeyerId).toEqual(1)
 	DSK1.onAir = false
 	DSK2.isAuto = false
 })
 
 test('Unit: Downstream keyer: sources', function () {
-	DSK1.sources.fillSource = 1
-	DSK2.sources.cutSource = 2
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+	DSK1.sources!.fillSource = 1
+	DSK2.sources!.cutSource = 2
+
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyFillSourceCommand
-	expect(firstCommand.rawName).toEqual('CDsF')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyFillSourceCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		input: 1
 	})
 
 	const secondCommand = commands[1] as Commands.DownstreamKeyCutSourceCommand
-	expect(secondCommand.rawName).toEqual('CDsC')
+	expect(secondCommand.constructor.name).toEqual('DownstreamKeyCutSourceCommand')
 	expect(secondCommand.downstreamKeyerId).toEqual(1)
-	expect(secondCommand.properties).toMatchObject({
+	expect(secondCommand.properties).toEqual({
 		input: 2
 	})
-	DSK1.sources.fillSource = 0
-	DSK2.sources.cutSource = 0
+
+	delete DSK1.sources
+	delete DSK2.sources
 })
 
 test('Unit: Downstream keyer: rate', function () {
-	DSK1.properties.rate = 50
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+	DSK1.properties!.rate = 50
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyRateCommand
-	expect(firstCommand.rawName).toEqual('CDsR')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyRateCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		rate: 50
 	})
-	DSK1.properties.rate = 25
+	DSK1.properties!.rate = 25
 })
 
 test('Unit: Downstream keyer: tie', function () {
-	DSK1.properties.tie = true
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+	DSK1.properties!.tie = true
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyTieCommand
-	expect(firstCommand.rawName).toEqual('CDsT')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyTieCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		tie: true
 	})
-	DSK1.properties.tie = false
+	DSK1.properties!.tie = false
 })
 
 test('Unit: Downstream keyer: properties', function () {
-	DSK1.properties.preMultiply = true
-	DSK1.properties.clip = 500
-	DSK1.properties.gain = 50
-	DSK1.properties.invert = true
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+	DSK1.properties!.preMultiply = true
+	DSK1.properties!.clip = 500
+	DSK1.properties!.gain = 50
+	DSK1.properties!.invert = true
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyGeneralCommand
-	expect(firstCommand.rawName).toEqual('CDsG')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyGeneralCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		preMultiply: true,
 		clip: 500,
 		gain: 50,
 		invert: true
 	})
-	DSK1.properties.preMultiply = false
-	DSK1.properties.clip = 0
-	DSK1.properties.gain = 0
-	DSK1.properties.invert = false
+	DSK1.properties!.preMultiply = false
+	DSK1.properties!.clip = 0
+	DSK1.properties!.gain = 0
+	DSK1.properties!.invert = false
 })
 
 test('Unit: Downstream keyer: mask', function () {
-	DSK1.properties.mask = {
+	DSK1.properties!.mask = {
 		enabled: true,
 		top: 1,
 		bottom: 2,
 		left: 3,
 		right: 4
 	}
-	const commands = DSK.resolveDownstreamKeyerState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject)
+	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyMaskCommand
-	expect(firstCommand.rawName).toEqual('CDsM')
+	expect(firstCommand.constructor.name).toEqual('DownstreamKeyMaskCommand')
 	expect(firstCommand.downstreamKeyerId).toEqual(0)
-	expect(firstCommand.properties).toMatchObject({
+	expect(firstCommand.properties).toEqual({
 		enabled: true,
 		top: 1,
 		bottom: 2,
 		left: 3,
 		right: 4
 	})
-	DSK1.properties.mask.enabled = false
-	DSK1.properties.mask.top = 0
-	DSK1.properties.mask.bottom = 0
-	DSK1.properties.mask.left = 0
-	DSK1.properties.mask.right = 0
+	DSK1.properties!.mask = {
+		enabled: false,
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0
+	}
 })

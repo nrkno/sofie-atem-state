@@ -50,11 +50,11 @@ export function resolveSuperSourcePropertiesState (oldState: StateObject, newSta
 	const newSSrc = newState.video.getSuperSource(0, true)
 	const oldSSrc = oldState.video.getSuperSource(0, true)
 
-	const newSsProperties: VideoState.SuperSourceProperties & VideoState.SuperSourceBorder = {
+	const newSsProperties: Partial<VideoState.SuperSourceProperties & VideoState.SuperSourceBorder> = {
 		...newSSrc.properties,
 		...newSSrc.border
 	}
-	const oldSsProperties: VideoState.SuperSourceProperties & VideoState.SuperSourceBorder = {
+	const oldSsProperties: Partial<VideoState.SuperSourceProperties & VideoState.SuperSourceBorder> = {
 		...oldSSrc.properties,
 		...oldSSrc.border
 	}

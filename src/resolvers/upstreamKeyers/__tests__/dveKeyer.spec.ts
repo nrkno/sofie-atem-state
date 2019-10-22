@@ -1,26 +1,29 @@
 import * as DVE from '../dveKeyer'
 import { State as StateObject, Defaults } from '../../../'
 import { Commands, Enums } from 'atem-connection'
+import { jsonClone } from '../../../util'
 
 const STATE1 = new StateObject()
-STATE1.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))
-STATE1.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0)))
+const ME1 = STATE1.video.getMe(0)
+const USK1 = ME1.getUpstreamKeyer(0)
+
 const STATE2 = new StateObject()
-STATE2.video.ME[0] = JSON.parse(JSON.stringify(Defaults.Video.MixEffect))
-STATE2.video.ME[0].upstreamKeyers[0] = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0)))
+const ME2 = STATE2.video.getMe(0)
+const USK2 = ME2.getUpstreamKeyer(0)
 
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
+	USK1.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
+
 	// same state gives no commands:
-	let dveKeyer = STATE2.video.ME[0].upstreamKeyers[0].dveSettings
-	delete STATE2.video.ME[0].upstreamKeyers[0].dveSettings
-	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2)
-	expect(commands.length).toEqual(0)
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = dveKeyer
+	delete USK2.dveSettings
+	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2)
+	expect(commands).toHaveLength(0)
+	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
 
 test('Unit: upstream keyers: dve keyer: general props', function () {
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = {
-		...STATE2.video.ME[0].upstreamKeyers[0].dveSettings,
+	USK2.dveSettings = {
+		...USK2.dveSettings!,
 		rate: 2,
 		sizeX: 3,
 		sizeY: 4,
@@ -30,13 +33,12 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		lightSourceDirection: 8,
 		lightSourceAltitude: 9
 	}
-	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
 
-	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
+	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
-	expect(Object.keys(commands[0].properties).length).toBe(8)
-	expect(commands[0].properties).toMatchObject({
+	expect(commands[0].properties).toEqual({
 		rate: 2,
 		sizeX: 3,
 		sizeY: 4,
@@ -47,29 +49,28 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		lightSourceAltitude: 9
 	})
 
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0))).dveSettings
+	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
 
 test('Unit: upstream keyers: dve keyer: border', function () {
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderEnabled = true
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderBevel = Enums.BorderBevel.InOut
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderOuterWidth = 1
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderInnerWidth = 2
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderOuterSoftness = 3
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderInnerSoftness = 4
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderBevelSoftness = 5
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderBevelPosition = 6
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderOpacity = 7
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderHue = 8
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderSaturation = 9
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings.borderLuma = 10
-	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
+	USK2.dveSettings!.borderEnabled = true
+	USK2.dveSettings!.borderBevel = Enums.BorderBevel.InOut
+	USK2.dveSettings!.borderOuterWidth = 1
+	USK2.dveSettings!.borderInnerWidth = 2
+	USK2.dveSettings!.borderOuterSoftness = 3
+	USK2.dveSettings!.borderInnerSoftness = 4
+	USK2.dveSettings!.borderBevelSoftness = 5
+	USK2.dveSettings!.borderBevelPosition = 6
+	USK2.dveSettings!.borderOpacity = 7
+	USK2.dveSettings!.borderHue = 8
+	USK2.dveSettings!.borderSaturation = 9
+	USK2.dveSettings!.borderLuma = 10
+	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
 
-	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
+	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
-	expect(Object.keys(commands[0].properties).length).toBe(12)
-	expect(commands[0].properties).toMatchObject({
+	expect(commands[0].properties).toEqual({
 		borderEnabled: true,
 		borderBevel: Enums.BorderBevel.InOut,
 		borderOuterWidth: 1,
@@ -84,12 +85,12 @@ test('Unit: upstream keyers: dve keyer: border', function () {
 		borderLuma: 10
 	})
 
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0))).dveSettings
+	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
 
 test('Unit: upstream keyers: dve keyer: general props', function () {
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = {
-		...STATE2.video.ME[0].upstreamKeyers[0].dveSettings,
+	USK2.dveSettings = {
+		...USK2.dveSettings!,
 
 		maskEnabled: true,
 		maskTop: 1,
@@ -97,13 +98,12 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		maskLeft: 3,
 		maskRight: 4
 	}
-	const commands = DVE.resolveDVEKeyerState(STATE1, STATE2) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
 
-	expect(commands[0].rawName).toEqual(new Commands.MixEffectKeyDVECommand().rawName)
+	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
-	expect(Object.keys(commands[0].properties).length).toBe(5)
-	expect(commands[0].properties).toMatchObject({
+	expect(commands[0].properties).toEqual({
 		maskEnabled: true,
 		maskTop: 1,
 		maskBottom: 2,
@@ -111,5 +111,5 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		maskRight: 4
 	})
 
-	STATE2.video.ME[0].upstreamKeyers[0].dveSettings = JSON.parse(JSON.stringify(Defaults.Video.UpstreamKeyer(0))).dveSettings
+	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
