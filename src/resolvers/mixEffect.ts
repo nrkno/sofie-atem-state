@@ -1,7 +1,7 @@
 import {
 	Commands as AtemCommands,
-	Enums as ConnectionEnums,
-	VideoState } from 'atem-connection'
+	Enums as ConnectionEnums
+} from 'atem-connection'
 import { Enums, State as StateObject } from '../'
 import { diffObject } from '../util'
 
