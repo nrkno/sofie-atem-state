@@ -244,6 +244,7 @@ test('Unit: mix effect: transition settings: DVE', function () {
 		flipFlop: true
 	}
 	const commands = ME.resolveTransitionSettingsState(0, ME1, ME2) as Array<Commands.TransitionDVECommand>
+	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -271,6 +272,7 @@ test('Unit: mix effect: transition settings: mix', function () {
 	ME2.transitionSettings.mix = jsonClone(Defaults.Video.MixTransitionSettings)
 	ME2.transitionSettings.mix.rate = 50
 	const commands = ME.resolveTransitionSettingsState(0, ME1, ME2) as Array<Commands.TransitionMixCommand>
+	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionMixCommand')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -296,6 +298,7 @@ test('Unit: mix effect: transition settings: stinger', function () {
 		mixRate: 25
 	}
 	const commands = ME.resolveTransitionSettingsState(0, ME1, ME2) as Array<Commands.TransitionStingerCommand>
+	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionStingerCommand')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -330,6 +333,7 @@ test('Unit: mix effect: transition settings: wipe', function () {
 		flipFlop: true
 	}
 	const commands = ME.resolveTransitionSettingsState(0, ME1, ME2) as Array<Commands.TransitionWipeCommand>
+	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionWipeCommand')
 	expect(commands[0].mixEffect).toEqual(0)

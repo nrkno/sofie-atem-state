@@ -14,6 +14,18 @@ export function diffObject<T> (oldObj: T, newObj: T, ...ignoreKeys: Array<keyof 
 	return hasData ? diff : undefined
 }
 
+export function diffObject2<T> (oldObj: T, newObj: T): Partial<T> {
+	const diff: Partial<T> = {}
+	for (let key in newObj) {
+		const typedKey = key as keyof T
+		if (newObj[typedKey] !== oldObj[typedKey]) {
+			diff[typedKey] = newObj[typedKey]
+		}
+	}
+
+	return diff
+}
+
 function keyIsValid (key: string, oldObj: any, newObj: any) {
 	const oldVal = oldObj[key]
 	const newVal = newObj[key]
