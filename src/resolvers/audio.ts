@@ -1,7 +1,8 @@
-import { Commands as AtemCommands, Commands, AudioState, Enums } from 'atem-connection'
+import { Commands as AtemCommands, Commands } from 'atem-connection'
 import { State as StateObject } from '../'
 import { diffObject, getAllKeysNumber } from '../util'
 import * as _ from 'underscore'
+import { Defaults } from '../defaults'
 
 export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -9,17 +10,9 @@ export function resolveAudioState (oldState: StateObject, newState: StateObject)
 
 	commands.push(...resolveAudioMixerInputsState(oldState, newState))
 
-	function masterDefaults (): AudioState.AudioMasterChannel {
-		return {
-			gain: 0,
-			balance: 0,
-			followFadeToBlack: false
-		}
-	}
-
 	if (oldState.audio.master || newState.audio.master) {
-		const oldMaster = oldState.audio.master || masterDefaults()
-		const newMaster = newState.audio.master || masterDefaults()
+		const oldMaster = oldState.audio.master || Defaults.Audio.Master
+		const newMaster = newState.audio.master || Defaults.Audio.Master
 
 		const props = diffObject(oldMaster, newMaster)
 		if (props) {
@@ -35,19 +28,9 @@ export function resolveAudioState (oldState: StateObject, newState: StateObject)
 export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	function channelDefaults (): AudioState.AudioChannel {
-		return {
-			gain: 0,
-			balance: 0,
-			mixOption: Enums.AudioMixOption.Off,
-			sourceType: 0,
-			portType: 0
-		}
-	}
-
 	for (const index of getAllKeysNumber(oldState.audio.channels, newState.audio.channels)) {
-		const oldChannel = oldState.audio.channels[index] || channelDefaults()
-		const newChannel = newState.audio.channels[index] || channelDefaults()
+		const oldChannel = oldState.audio.channels[index] || Defaults.Audio.Channel
+		const newChannel = newState.audio.channels[index] || Defaults.Audio.Channel
 
 		const props = diffObject(oldChannel, newChannel, 'sourceType', 'portType')
 		if (props) {

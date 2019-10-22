@@ -1,45 +1,18 @@
 import { VideoState, Enums } from 'atem-connection'
 import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
-import { AudioChannel } from 'atem-connection/dist/state/audio'
-import { MacroPlayerState } from 'atem-connection/dist/state/macro'
+import { AudioChannel, AudioMasterChannel } from 'atem-connection/dist/state/audio'
 
 export namespace Defaults {
 	export namespace Video {
 		export const defaultInput = 0 // black
 		export const defaultRate = 25 // 1 second
 
-		export const MacroPlayer: MacroPlayerState = {
-			macroIndex: 0,
-			isRunning: false,
-			isWaiting: false,
-			loop: false
-		}
-
-		// export const DownStreamKeyer: DSK.DownstreamKeyer = {
-		// 	onAir: false,
-		// 	inTransition: false,
-		// 	isAuto: false,
-		// 	remainingFrames: defaultRate,
-		// 	sources: {
-		// 		fillSource: defaultInput,
-		// 		cutSource: defaultInput
-		// 	},
-		// 	properties: {
-		// 		tie: false,
-		// 		rate: defaultRate,
-		// 		preMultiply: false,
-		// 		clip: 0,
-		// 		gain: 0,
-		// 		invert: false,
-		// 		mask: {
-		// 			enabled: false,
-		// 			top: 0,
-		// 			bottom: 0,
-		// 			left: 0,
-		// 			right: 0
-		// 		}
-		// 	}
+		// export const MacroPlayer: MacroPlayerState = {
+		// 	macroIndex: 0,
+		// 	isRunning: false,
+		// 	isWaiting: false,
+		// 	loop: false
 		// }
 
 		export const DownstreamerKeyerSources: Readonly<DSK.DownstreamKeyerSources> = {
@@ -115,34 +88,9 @@ export namespace Defaults {
 			flipFlop: false
 		}
 
-		export const TransitionProperties: Partial<VideoState.TransitionProperties> = {
-			style: Enums.TransitionStyle.MIX,
-			selection: 1
-		}
-
-		export const TransitionSettings: VideoState.TransitionSettings = {
-			dip: DipTransitionSettings,
-			DVE: DVETransitionSettings,
-			mix: MixTransitionSettings,
-			stinger: StingerTransitionSettings,
-			wipe: WipeTransitionSettings
-		}
-
-		// export const MixEffect: Partial<VideoState.MixEffect> = {
-		// 	programInput: defaultInput,
-		// 	previewInput: defaultInput,
-		// 	inTransition: false,
-		// 	transitionPreview: false,
-		// 	transitionPosition: 0,
-		// 	fadeToBlack: {
-		// 		isFullyBlack: false,
-		// 		remainingFrames: 0,
-		// 		rate: defaultRate,
-		// 		inTransition: false
-		// 	},
-		// 	transitionProperties: TransitionProperties as VideoState.TransitionProperties,
-		// 	transitionSettings: TransitionSettings,
-		// 	upstreamKeyers: []
+		// export const TransitionProperties: Omit<VideoState.TransitionProperties, 'nextStyle' | 'nextSelection'> = {
+		// 	style: Enums.TransitionStyle.MIX,
+		// 	selection: 1
 		// }
 
 		export const UpstreamKeyerPatternSettings: USK.UpstreamKeyerPatternSettings = {
@@ -197,34 +145,6 @@ export namespace Defaults {
 			maskLeft: 0,
 			maskRight: 0
 		}
-
-		// export function UpstreamKeyer (id: number): USK.UpstreamKeyer {
-		// 	return {
-		// 		upstreamKeyerId: id,
-		// 		mixEffectKeyType: Enums.MixEffectKeyType.Luma,
-		// 		flyEnabled: false,
-		// 		fillSource: 0,
-		// 		cutSource: 0,
-		// 		onAir: false,
-
-		// 		dveSettings: UpstreamKeyerDVESettings,
-		// 		chromaSettings: UpstreamKeyerChromaSettings,
-		// 		lumaSettings: UpstreamKeyerLumaSettings,
-		// 		patternSettings: UpstreamKeyerPatternSettings,
-
-		// 		flyKeyframes: [
-		// 			flyKeyframe(0),
-		// 			flyKeyframe(1)
-		// 		],
-
-		// 		flyProperties: {
-		// 			isASet: false,
-		// 			isBSet: false,
-		// 			isAtKeyFrame: Enums.IsAtKeyFrame.None,
-		// 			runToInfiniteIndex: 0
-		// 		}
-		// 	}
-		// }
 
 		export function flyKeyframe (id: number): USK.UpstreamKeyerFlyKeyframe {
 			return {
@@ -303,6 +223,11 @@ export namespace Defaults {
 			mixOption: 0,
 			gain: 0,
 			balance: 0
+		}
+		export const Master: AudioMasterChannel = {
+			gain: 0,
+			balance: 0,
+			followFadeToBlack: false
 		}
 	}
 }
