@@ -1,6 +1,6 @@
 import { Commands as AtemCommands, Commands } from 'atem-connection'
 import { State as StateObject } from '../'
-import { diffObject, getAllKeysNumber } from '../util'
+import { getAllKeysNumber, diffObject } from '../util'
 import * as _ from 'underscore'
 import { Defaults } from '../defaults'
 
@@ -15,9 +15,8 @@ export function resolveAudioState (oldState: StateObject, newState: StateObject)
 		const newMaster = newState.audio.master || Defaults.Audio.Master
 
 		const props = diffObject(oldMaster, newMaster)
-		if (props) {
-			const command = new Commands.AudioMixerMasterCommand()
-			command.updateProps(props)
+		const command = new Commands.AudioMixerMasterCommand()
+		if (command.updateProps(props)) {
 			commands.push(command)
 		}
 	}
@@ -32,10 +31,9 @@ export function resolveAudioMixerInputsState (oldState: StateObject, newState: S
 		const oldChannel = oldState.audio.channels[index] || Defaults.Audio.Channel
 		const newChannel = newState.audio.channels[index] || Defaults.Audio.Channel
 
-		const props = diffObject(oldChannel, newChannel, 'sourceType', 'portType')
-		if (props) {
-			const command = new Commands.AudioMixerInputCommand(index)
-			command.updateProps(props)
+		const props = diffObject(oldChannel, newChannel)
+		const command = new Commands.AudioMixerInputCommand(index)
+		if (command.updateProps(props)) {
 			commands.push(command)
 		}
 	}

@@ -12,9 +12,8 @@ export function resolveLumaKeyerState (mixEffectId: number, upstreamKeyerId: num
 	const newLumaKeyer = newKeyer.lumaSettings || Defaults.Video.UpstreamKeyerLumaSettings
 
 	const props = diffObject(oldLumaKeyer, newLumaKeyer)
-	if (props) {
-		const command = new AtemCommands.MixEffectKeyLumaCommand(mixEffectId, upstreamKeyerId)
-		command.updateProps(props)
+	const command = new AtemCommands.MixEffectKeyLumaCommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 

@@ -43,10 +43,9 @@ export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: Do
 	const oldProps = oldDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
-	const props = diffObject(oldProps, newProps, 'mask', 'rate', 'tie')
-	if (props) {
-		const command = new AtemCommands.DownstreamKeyGeneralCommand(index)
-		command.updateProps(props)
+	const props = diffObject(oldProps, newProps)
+	const command = new AtemCommands.DownstreamKeyGeneralCommand(index)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 
@@ -70,9 +69,8 @@ export function resolveDownstreamKeyerMaskState (index: number, oldDsk: Downstre
 	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
 	const props = diffObject(oldProps.mask, newProps.mask)
-	if (props) {
-		const command = new AtemCommands.DownstreamKeyMaskCommand(index)
-		command.updateProps(props)
+	const command = new AtemCommands.DownstreamKeyMaskCommand(index)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 

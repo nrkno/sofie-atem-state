@@ -19,9 +19,8 @@ export function resolvePatternKeyerState (mixEffectId: number, upstreamKeyerId: 
 		props.symmetry = newPatternKeyer.symmetry
 	}
 
-	if (props) {
-		const command = new AtemCommands.MixEffectKeyPatternCommand(mixEffectId, upstreamKeyerId)
-		command.updateProps(props)
+	const command = new AtemCommands.MixEffectKeyPatternCommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 

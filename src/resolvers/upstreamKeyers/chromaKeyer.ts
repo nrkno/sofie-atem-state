@@ -12,10 +12,8 @@ export function resolveChromaKeyerState (mixEffectId: number, upstreamKeyerId: n
 	const newChromaKeyer = newKeyer.chromaSettings || Defaults.Video.UpstreamKeyerChromaSettings
 
 	const props = diffObject(oldChromaKeyer, newChromaKeyer)
-
-	if (props) {
-		const command = new AtemCommands.MixEffectKeyChromaCommand(mixEffectId, upstreamKeyerId)
-		command.updateProps(props)
+	const command = new AtemCommands.MixEffectKeyChromaCommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 

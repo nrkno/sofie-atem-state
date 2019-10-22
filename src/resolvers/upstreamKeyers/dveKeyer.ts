@@ -12,9 +12,8 @@ export function resolveDVEKeyerState (mixEffectId: number, upstreamKeyerId: numb
 	const newDVEKeyer = newKeyer.dveSettings || Defaults.Video.UpstreamKeyerDVESettings
 
 	const props = diffObject(oldDVEKeyer, newDVEKeyer)
-	if (props) {
-		const command = new AtemCommands.MixEffectKeyDVECommand(mixEffectId, upstreamKeyerId)
-		command.updateProps(props)
+	const command = new AtemCommands.MixEffectKeyDVECommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
 		commands.push(command)
 	}
 

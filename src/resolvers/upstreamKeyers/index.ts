@@ -29,10 +29,9 @@ export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: Mi
 			commands.push(new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource))
 		}
 
-		const typeProps = diffObject(_.pick(oldKeyer, 'mixEffectKeyType', 'flyEnabled'), _.pick(newKeyer, 'mixEffectKeyType', 'flyEnabled'))
-		if (typeProps) {
-			const command = new AtemCommands.MixEffectKeyTypeSetCommand(mixEffectId, upstreamKeyerId)
-			command.updateProps(typeProps)
+		const typeProps = diffObject(oldKeyer, newKeyer)
+		const command = new AtemCommands.MixEffectKeyTypeSetCommand(mixEffectId, upstreamKeyerId)
+		if (command.updateProps(typeProps)) {
 			commands.push(command)
 		}
 
@@ -50,9 +49,8 @@ export function resolveUpstreamKeyerMaskState (_mixEffectId: number, _upstreamKe
 	// TODO - fix this
 	// const props = diffObject<UpstreamKeyerMaskSettings>(oldKeyer, newKeyer)
 
-	// if (props) {
-	// 	const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
-	// 	command.updateProps(props)
+	// const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
+	// if (command.updateProps(props)) {
 	// 	commands.push(command)
 	// }
 
