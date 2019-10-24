@@ -1,6 +1,144 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.7.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.7.0...0.7.1) (2019-08-19)
+
+
+### Features
+
+* basic macro player control ([690fb89](https://github.com/nrkno/tv-automation-atem-state/commit/690fb89))
+* basic macro player control ([#13](https://github.com/nrkno/tv-automation-atem-state/issues/13)) ([7f403a6](https://github.com/nrkno/tv-automation-atem-state/commit/7f403a6))
+
+# [0.7.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.6.0...0.7.0) (2019-04-06)
+
+
+### Features
+
+* master audio ([5c9476a](https://github.com/nrkno/tv-automation-atem-state/commit/5c9476a))
+
+
+
+# [0.6.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.5.0...0.6.0) (2019-03-27)
+
+
+### Features
+
+* Set transition position to 0 before running auto ([bb3d9f9](https://github.com/nrkno/tv-automation-atem-state/commit/bb3d9f9))
+
+
+
+# [0.5.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.4.1...0.5.0) (2019-03-22)
+
+
+### Features
+
+* Audio Channels ([0bf0af7](https://github.com/nrkno/tv-automation-atem-state/commit/0bf0af7))
+
+
+
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.8...0.4.0) (2018-11-02)
+
+
+### Features
+
+* rename downstreamKeyId to downstreamKeyerId ([19362fb](https://github.com/nrkno/tv-automation-atem-state/commit/19362fb))
+
+
+
+<a name="0.3.8"></a>
+## [0.3.8](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.7...0.3.8) (2018-10-24)
+
+
+
+<a name="0.3.7"></a>
+## [0.3.7](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.6...0.3.7) (2018-09-04)
+
+
+
+<a name="0.3.6"></a>
+## [0.3.6](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.5...0.3.6) (2018-08-17)
+
+
+
+<a name="0.3.5"></a>
+## [0.3.5](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.4...0.3.5) (2018-08-15)
+
+
+
+<a name="0.3.4"></a>
+## [0.3.4](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.3...0.3.4) (2018-08-14)
+
+
+### Bug Fixes
+
+* Transition style not being set to default at startup ([36a4da8](https://github.com/nrkno/tv-automation-atem-state/commit/36a4da8))
+
+
+
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.2...0.3.3) (2018-08-14)
+
+
+### Bug Fixes
+
+* look at input before programInput in oldState ([d0c4b73](https://github.com/nrkno/tv-automation-atem-state/commit/d0c4b73))
+* look at old mixEffect for transitions (not new ME) ([bed621a](https://github.com/nrkno/tv-automation-atem-state/commit/bed621a))
+
+
+
+<a name="0.3.2"></a>
+## [0.3.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.1...0.3.2) (2018-08-09)
+
+
+### Bug Fixes
+
+* added missing guard ([c07c474](https://github.com/nrkno/tv-automation-atem-state/commit/c07c474))
+
+
+
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.3.0...0.3.1) (2018-08-07)
+
+
+### Bug Fixes
+
+* added guards for when number of ME:s isn't equal between the ATEM and the state ([3e072b2](https://github.com/nrkno/tv-automation-atem-state/commit/3e072b2))
+* added some more guards ([cc234fe](https://github.com/nrkno/tv-automation-atem-state/commit/cc234fe))
+* typo ([126a782](https://github.com/nrkno/tv-automation-atem-state/commit/126a782))
+
+
+
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.2.0...0.3.0) (2018-07-31)
+
+
+### Features
+
+* Upstream Keyer tests ([223a808](https://github.com/nrkno/tv-automation-atem-state/commit/223a808))
+
+
+
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.1.7...0.2.0) (2018-06-21)
+
+
+### Features
+
+* resolve halfway transition states ([f6cebcb](https://github.com/nrkno/tv-automation-atem-state/commit/f6cebcb))
+
+
+
+<a name="0.1.7"></a>
+## [0.1.7](https://github.com/nrkno/tv-automation-atem-state/compare/0.1.6...0.1.7) (2018-06-21)
+
+
+
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/nrkno/tv-automation-atem-state/compare/0.1.5...0.1.6) (2018-06-21)
+
+
 
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/nrkno/tv-automation-atem-state/compare/0.1.4...0.1.5) (2018-06-15)
