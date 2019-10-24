@@ -48,14 +48,14 @@ test('Unit: media player: same state gives no commands', function () {
 test('Unit: media player: status command', function () {
 	const commands = media.resolveMediaPlayerState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.MediaPlayerStatusCommand>
 
-	expect(commands[0].rawName).toEqual('RCPS')
+	expect(commands[0].rawName).toEqual('SCPS')
 	expect(commands[0].mediaPlayerId).toEqual(0)
 	expect(commands[0].properties).toMatchObject({
 		playing: true,
 		clipFrame: 25
 	})
 
-	expect(commands[1].rawName).toEqual('RCPS')
+	expect(commands[1].rawName).toEqual('SCPS')
 	expect(commands[1].mediaPlayerId).toEqual(1)
 	expect(commands[1].properties).toMatchObject({
 		playing: false,

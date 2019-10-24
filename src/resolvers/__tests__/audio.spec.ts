@@ -36,7 +36,7 @@ test('Unit: audio: channel command', function () {
 
 	const commands = audio.resolveAudioState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<AudioMixerInputCommand>
 	expect(commands.length).toEqual(1)
-	expect(commands[0].rawName).toEqual('AMIP')
+	expect(commands[0].rawName).toEqual('CAMI')
 	expect(commands[0].index).toEqual(0)
 	expect(commands[0].properties).toMatchObject({ gain: -192 })
 	expect(commands[0].flag).toEqual(2) // 010
@@ -50,7 +50,7 @@ test('Unit: audio: new channel', function () {
 
 	const commands = audio.resolveAudioState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<AudioMixerInputCommand>
 	expect(commands.length).toEqual(1)
-	expect(commands[0].rawName).toEqual('AMIP')
+	expect(commands[0].rawName).toEqual('CAMI')
 	expect(commands[0].index).toEqual(1)
 	expect(commands[0].properties).toMatchObject({ ...STATE2.audio.channels[1] })
 	expect(commands[0].flag).toEqual(7) // 111
@@ -63,7 +63,7 @@ test('Unit: audio: master channel', function () {
 
 	const commands = audio.resolveAudioState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<AudioMixerInputCommand>
 	expect(commands.length).toEqual(1)
-	expect(commands[0].rawName).toEqual('AMMO')
+	expect(commands[0].rawName).toEqual('CAMM')
 	expect(commands[0].properties).toMatchObject({ gain: STATE2.audio.master.gain })
 	expect(commands[0].flag).toEqual(1) // 001
 
