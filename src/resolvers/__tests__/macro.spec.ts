@@ -1,6 +1,6 @@
 import * as video from '../index'
 import { State as StateObject } from '../../'
-import { Commands } from 'atem-connection'
+import { Commands, Enums } from 'atem-connection'
 
 const STATE1 = new StateObject()
 STATE1.macro.macroPlayer = {
@@ -28,12 +28,12 @@ STATE3.macro.macroPlayer = {
 
 test('Unit: macro: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = video.videoState(STATE1 as unknown as StateObject, STATE1 as unknown as StateObject)
+	const commands = video.videoState(STATE1 as unknown as StateObject, STATE1 as unknown as StateObject, Enums.ProtocolVersion.V7_2)
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: macro: change running macro', function () {
-	const commands = video.videoState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject) as Array<Commands.MacroActionCommand>
+	const commands = video.videoState(STATE1 as unknown as StateObject, STATE2 as unknown as StateObject, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
 
 	expect(commands).toHaveLength(1)
 	expect(commands[0].rawName).toEqual('MAct')
@@ -44,7 +44,7 @@ test('Unit: macro: change running macro', function () {
 })
 
 test('Unit: macro: stop macro', function () {
-	const commands = video.videoState(STATE2 as unknown as StateObject, STATE3 as unknown as StateObject) as Array<Commands.MacroActionCommand>
+	const commands = video.videoState(STATE2 as unknown as StateObject, STATE3 as unknown as StateObject, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
 
 	// This will change once this is supported properly, but for now it should not start playing
 	expect(commands).toHaveLength(0)
