@@ -7,6 +7,10 @@ export class AtemState {
 
 	private _state: StateObject
 
+	public constructor () {
+		this._state = new StateObject()
+	}
+
 	setState (state: StateObject) {
 		this._state = state
 	}
