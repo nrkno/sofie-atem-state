@@ -643,7 +643,7 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-atem-connection@^1.1.0:
+atem-connection@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-1.1.0.tgz#cfe073164d5b46b3014bdb6ade829925b15f0c9c"
   integrity sha512-P0h09N3BZ0XETyjbfPjn/MwrtZi8F9fFupjAKcEgPtvnYr0CG505UE1iRhrMG3zXARcC5gFI40JnvFsOF5EpcA==
