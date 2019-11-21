@@ -22,10 +22,8 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 		const newMixEffect = newState.video.ME[mixEffectId]
 		if (!oldMixEffect || !newMixEffect) continue
 		if (typeof newMixEffect.input !== 'undefined' && typeof newMixEffect.transition !== 'undefined') {
-			if (typeof oldMixEffect.input === 'undefined') {
-				oldMixEffect.input = oldMixEffect.programInput
-			}
-			if (newMixEffect.input !== oldMixEffect.input || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
+			const oldMEInput = oldMixEffect.input || oldMixEffect.programInput
+			if (newMixEffect.input !== oldMEInput || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
 				const command = new AtemCommands.PreviewInputCommand()
 				command.mixEffect = Number(mixEffectId)
 				command.updateProps({ source: newMixEffect.input })
