@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.8.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.0...0.8.1) (2019-11-21)
+
+
+### Bug Fixes
+
+* do not mutate input state objects ([43f6954](https://github.com/nrkno/tv-automation-atem-state/commit/43f6954dc21723520e3e172f2a6b4d621245a534))
+* prevent falsy checks for input = 0 ([78ef630](https://github.com/nrkno/tv-automation-atem-state/commit/78ef630a27d3a05f239093c3569569fb4f95f2d1))
+
 ## [0.8.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.7.1...0.8.0) (2019-10-24)
 
 
