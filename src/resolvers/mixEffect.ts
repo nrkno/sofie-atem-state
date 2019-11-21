@@ -20,9 +20,13 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 		}
 		const oldMixEffect = oldState.video.ME[mixEffectId]
 		const newMixEffect = newState.video.ME[mixEffectId]
+
 		if (!oldMixEffect || !newMixEffect) continue
+
+		let oldMEInput = oldMixEffect.input
+		if (typeof oldMEInput === 'undefined') oldMEInput = oldMixEffect.programInput
+
 		if (typeof newMixEffect.input !== 'undefined' && typeof newMixEffect.transition !== 'undefined') {
-			const oldMEInput = oldMixEffect.input || oldMixEffect.programInput
 			if (newMixEffect.input !== oldMEInput || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
 				const command = new AtemCommands.PreviewInputCommand()
 				command.mixEffect = Number(mixEffectId)
@@ -58,7 +62,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 				command.updateProps({ source: newMixEffect.previewInput })
 				commands.push(command)
 			}
-			if ((oldMixEffect.input || oldMixEffect.programInput) !== newMixEffect.programInput) {
+			if (oldMEInput !== newMixEffect.programInput) {
 				// @todo: check if we need to use the cut command?
 				// use cut command if:
 				//   DSK is tied
