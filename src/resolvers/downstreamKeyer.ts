@@ -1,8 +1,7 @@
 import {
-	Commands as AtemCommands
+	Commands as AtemCommands, VideoState
 } from 'atem-connection'
 import { State as StateObject, Defaults } from '../'
-import { DownstreamKeyer } from 'atem-connection/dist/state/video/downstreamKeyers'
 import { getAllKeysNumber, diffObject } from '../util'
 
 export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.ISerializableCommand> {
@@ -35,7 +34,7 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 	return commands
 }
 
-export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: DownstreamKeyer, newDsk: DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: VideoState.DSK.DownstreamKeyer, newDsk: VideoState.DSK.DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldDsk.properties && !newDsk.properties) return commands
@@ -60,7 +59,7 @@ export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: Do
 	return commands
 }
 
-export function resolveDownstreamKeyerMaskState (index: number, oldDsk: DownstreamKeyer, newDsk: DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveDownstreamKeyerMaskState (index: number, oldDsk: VideoState.DSK.DownstreamKeyer, newDsk: VideoState.DSK.DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldDsk.properties && !newDsk.properties) return commands

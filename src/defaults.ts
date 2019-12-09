@@ -1,7 +1,4 @@
-import { VideoState, Enums } from 'atem-connection'
-import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
-import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
-import { AudioChannel, AudioMasterChannel } from 'atem-connection/dist/state/audio'
+import { VideoState, Enums, AudioState } from 'atem-connection'
 
 export namespace Defaults {
 	export namespace Video {
@@ -15,12 +12,12 @@ export namespace Defaults {
 		// 	loop: false
 		// }
 
-		export const DownstreamerKeyerSources: Readonly<DSK.DownstreamKeyerSources> = {
+		export const DownstreamerKeyerSources: Readonly<VideoState.DSK.DownstreamKeyerSources> = {
 			fillSource: defaultInput,
 			cutSource: defaultInput
 		}
 
-		export const DownstreamerKeyerProperties: Readonly<DSK.DownstreamKeyerProperties> = {
+		export const DownstreamerKeyerProperties: Readonly<VideoState.DSK.DownstreamKeyerProperties> = {
 			preMultiply: false,
 			clip: 0,
 			gain: 0,
@@ -93,7 +90,7 @@ export namespace Defaults {
 		// 	selection: 1
 		// }
 
-		export const UpstreamKeyerPatternSettings: USK.UpstreamKeyerPatternSettings = {
+		export const UpstreamKeyerPatternSettings: VideoState.USK.UpstreamKeyerPatternSettings = {
 			style: Enums.Pattern.LeftToRightBar,
 			size: 0,
 			symmetry: 5000,
@@ -102,20 +99,20 @@ export namespace Defaults {
 			positionY: 500,
 			invert: false
 		}
-		export const UpstreamKeyerLumaSettings: USK.UpstreamKeyerLumaSettings = {
+		export const UpstreamKeyerLumaSettings: VideoState.USK.UpstreamKeyerLumaSettings = {
 			preMultiplied: false,
 			clip: 0,
 			gain: 0,
 			invert: false
 		}
-		export const UpstreamKeyerChromaSettings: USK.UpstreamKeyerChromaSettings = {
+		export const UpstreamKeyerChromaSettings: VideoState.USK.UpstreamKeyerChromaSettings = {
 			hue: 0,
 			gain: 0,
 			ySuppress: 0,
 			lift: 0,
 			narrow: false
 		}
-		export const UpstreamKeyerDVESettings: USK.UpstreamKeyerDVESettings = {
+		export const UpstreamKeyerDVESettings: VideoState.USK.UpstreamKeyerDVESettings = {
 			borderEnabled: false,
 			shadowEnabled: false,
 			borderBevel: Enums.BorderBevel.None,
@@ -146,7 +143,7 @@ export namespace Defaults {
 			maskRight: 0
 		}
 
-		export function flyKeyframe (id: number): USK.UpstreamKeyerFlyKeyframe {
+		export function flyKeyframe (id: number): VideoState.USK.UpstreamKeyerFlyKeyframe {
 			return {
 				keyFrameId: id,
 
@@ -217,14 +214,14 @@ export namespace Defaults {
 	}
 
 	export namespace Audio {
-		export const Channel: AudioChannel = {
+		export const Channel: AudioState.AudioChannel = {
 			sourceType: 0,
 			portType: 1,
 			mixOption: 0,
 			gain: 0,
 			balance: 0
 		}
-		export const Master: AudioMasterChannel = {
+		export const Master: AudioState.AudioMasterChannel = {
 			gain: 0,
 			balance: 0,
 			followFadeToBlack: false

@@ -1,22 +1,21 @@
 import { State as StateObject } from '../../'
 import * as audio from '../audio'
-import { AudioChannel } from 'atem-connection/dist/state/audio'
-import { AudioMixerInputCommand } from 'atem-connection/dist/commands'
 import * as _ from 'underscore'
 import { jsonClone } from '../../util'
+import { AudioState, Commands } from 'atem-connection'
 
 function literal<T> (o: T) { return o }
 
 const STATE1 = new StateObject()
 STATE1.audio.channels = [
-	literal<AudioChannel>({
+	literal<AudioState.AudioChannel>({
 		sourceType: 0,
 		portType: 1,
 		mixOption: 0,
 		gain: 0,
 		balance: 0
 	}),
-	literal<AudioChannel>({
+	literal<AudioState.AudioChannel>({
 		sourceType: 0,
 		portType: 1,
 		mixOption: 1,
@@ -41,7 +40,7 @@ test('Unit: audio: same state gives no commands', function () {
 test('Unit: audio: channel command', function () {
 	STATE2.audio.channels[0]!.gain = -192
 
-	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<AudioMixerInputCommand>
+	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<Commands.AudioMixerInputCommand>
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerInputCommand')
 	expect(commands[0].index).toEqual(0)
@@ -55,7 +54,7 @@ test('Unit: audio: new channel', function () {
 	const c = STATE1.audio.channels[1]!
 	delete STATE1.audio.channels[1]
 
-	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<AudioMixerInputCommand>
+	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<Commands.AudioMixerInputCommand>
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerInputCommand')
 	expect(commands[0].index).toEqual(1)
@@ -68,7 +67,7 @@ test('Unit: audio: new channel', function () {
 test('Unit: audio: master channel', function () {
 	STATE2.audio.master!.gain = -10
 
-	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<AudioMixerInputCommand>
+	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<Commands.AudioMixerInputCommand>
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerMasterCommand')
 	expect(commands[0].properties).toEqual({ gain: STATE2.audio.master!.gain })

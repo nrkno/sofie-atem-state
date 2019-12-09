@@ -1,10 +1,9 @@
 import * as media from '../media'
 import { State as StateObject } from '../../'
-import { Commands, Enums } from 'atem-connection'
-import { MediaPlayerState } from '../../../../tv-automation-atem-connection/dist/state/media';
+import { Commands, Enums, MediaState } from 'atem-connection'
 
 const STATE1 = new StateObject()
-;(STATE1.media.players as MediaPlayerState[]) = [
+;(STATE1.media.players as MediaState.MediaPlayerState[]) = [
 	{
 		playing: false,
 		loop: false,
@@ -25,7 +24,7 @@ const STATE1 = new StateObject()
 	}
 ]
 const STATE2 = new StateObject()
-;(STATE2.media.players as MediaPlayerState[]) = [
+;(STATE2.media.players as MediaState.MediaPlayerState[]) = [
 	{
 		playing: true,
 		loop: false,

@@ -1,7 +1,6 @@
 import * as DSK from '../downstreamKeyer'
 import { State as StateObject } from '../../'
 import { Commands } from 'atem-connection'
-// import { DownstreamKeyer } from 'atem-connection/dist/state/video/downstreamKeyers'
 import * as _ from 'underscore'
 import { Defaults } from '../../defaults'
 import { jsonClone } from '../../util'

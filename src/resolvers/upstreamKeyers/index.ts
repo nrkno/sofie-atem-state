@@ -1,6 +1,5 @@
-import { Commands as AtemCommands } from 'atem-connection'
+import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { MixEffect } from '../../'
-import { UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as _ from 'underscore'
 
 import { resolveDVEKeyerState } from './dveKeyer'
@@ -43,7 +42,7 @@ export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: Mi
 	return commands
 }
 
-export function resolveUpstreamKeyerMaskState (_mixEffectId: number, _upstreamKeyerId: number, _oldKeyer: UpstreamKeyer, _newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveUpstreamKeyerMaskState (_mixEffectId: number, _upstreamKeyerId: number, _oldKeyer: VideoState.USK.UpstreamKeyer, _newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	// TODO - fix this

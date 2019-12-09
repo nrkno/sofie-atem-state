@@ -1,9 +1,8 @@
-import { Commands as AtemCommands } from 'atem-connection'
-import { UpstreamKeyer } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { diffObject } from '../../util'
 import { Defaults } from '../..'
 
-export function resolveLumaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: UpstreamKeyer, newKeyer: UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveLumaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: VideoState.USK.UpstreamKeyer, newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.lumaSettings && !newKeyer.lumaSettings) return commands
