@@ -21,10 +21,11 @@ export function videoState (oldState: StateObject, newState: StateObject, versio
 
 	// resolve auxilliaries:
 	for (const index of getAllKeysNumber(oldState.video.auxilliaries, newState.video.auxilliaries)) {
-		const oldSource = oldState.video.auxilliaries[index]
-		const newSource = newState.video.auxilliaries[index]
+		const oldSource = oldState.video.auxilliaries[index] || 0
+		const newSource = newState.video.auxilliaries[index] || 0
+
 		if (oldSource !== newSource) {
-			commands.push(new AtemCommands.AuxSourceCommand(index, newSource || 0))
+			commands.push(new AtemCommands.AuxSourceCommand(index, newSource))
 		}
 	}
 
