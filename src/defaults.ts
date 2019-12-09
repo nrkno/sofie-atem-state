@@ -168,7 +168,7 @@ export namespace Defaults {
 				lightSourceDirection: 0,
 				lightSourceAltitude: 0,
 
-				maskEnabled: false,
+				// maskEnabled: false,
 				maskTop: 0,
 				maskBottom: 0,
 				maskLeft: 0,

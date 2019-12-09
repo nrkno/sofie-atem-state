@@ -4,7 +4,7 @@ test('Unit test: Atem State: Set State', function () {
 	const state = new AtemState()
 
 	const newObj = new StateObject()
-	newObj.video.auxilliaries = [0, 0, 1]
+	;(newObj.video.auxilliaries as number[]) = [0, 0, 1]
 	state.setState(newObj)
 
 	expect(state.getState()).toMatchObject({ video: { auxilliaries: [0, 0, 1] } })
@@ -14,11 +14,11 @@ test('Unit test: Atem State: Diff State', function () {
 	const state = new AtemState()
 
 	const newObj = new StateObject()
-	newObj.video.auxilliaries = [0, 0, 1]
+	;(newObj.video.auxilliaries as number[]) = [0, 0, 1]
 	state.setState(newObj)
 
 	const newObj2 = new StateObject()
-	newObj2.video.auxilliaries = [0, 0, 2]
+	;(newObj2.video.auxilliaries as number[]) = [0, 0, 2]
 	const commands = state.diffState(newObj2)
 
 	expect(commands).toHaveLength(1)

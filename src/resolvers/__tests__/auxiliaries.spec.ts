@@ -3,10 +3,10 @@ import { State as StateObject } from '../../'
 import { Commands, Enums } from 'atem-connection'
 
 const STATE1 = new StateObject()
-STATE1.video.auxilliaries = [ 0, 0, 0, 2 ]
+;(STATE1.video.auxilliaries as number[]) = [ 0, 0, 0, 2 ]
 
 const STATE2 = new StateObject()
-STATE2.video.auxilliaries = [ 1, 0, 2, 0 ]
+;(STATE2.video.auxilliaries as number[]) = [ 1, 0, 2, 0 ]
 
 test('Unit: auxiliaries: same state gives no commands', function () {
 	// same state gives no commands:

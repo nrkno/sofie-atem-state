@@ -6,29 +6,30 @@ import { jsonClone } from '../../util'
 
 const STATE1 = new StateObject()
 const SSRC1 = STATE1.video.getSuperSource(0)
-SSRC1.boxes = [ jsonClone(Defaults.Video.SuperSourceBox), jsonClone(Defaults.Video.SuperSourceBox), jsonClone(Defaults.Video.SuperSourceBox), jsonClone(Defaults.Video.SuperSourceBox) ]
+SSRC1.boxes[0] = jsonClone(Defaults.Video.SuperSourceBox)
+SSRC1.boxes[1] = jsonClone(Defaults.Video.SuperSourceBox)
+SSRC1.boxes[2] = jsonClone(Defaults.Video.SuperSourceBox)
+SSRC1.boxes[3] = jsonClone(Defaults.Video.SuperSourceBox)
 SSRC1.border = jsonClone(Defaults.Video.SuperSourceBorder)
 SSRC1.properties = jsonClone(Defaults.Video.SuperSourceProperties)
 
 const STATE2 = new StateObject()
 const SSRC2 = STATE2.video.getSuperSource(0)
-SSRC2.boxes = [
-	{
-		enabled: true,
-		source: 1,
-		x: 1,
-		y: 1,
-		size: 1,
-		cropped: true,
-		cropTop: 1,
-		cropBottom: 1,
-		cropLeft: 1,
-		cropRight: 1
-	},
-	jsonClone(Defaults.Video.SuperSourceBox),
-	jsonClone(Defaults.Video.SuperSourceBox),
-	jsonClone(Defaults.Video.SuperSourceBox)
-]
+SSRC2.boxes[0] = {
+	enabled: true,
+	source: 1,
+	x: 1,
+	y: 1,
+	size: 1,
+	cropped: true,
+	cropTop: 1,
+	cropBottom: 1,
+	cropLeft: 1,
+	cropRight: 1
+}
+SSRC2.boxes[1] = jsonClone(Defaults.Video.SuperSourceBox),
+SSRC2.boxes[2] = jsonClone(Defaults.Video.SuperSourceBox),
+SSRC2.boxes[3] = jsonClone(Defaults.Video.SuperSourceBox)
 SSRC2.border = jsonClone(Defaults.Video.SuperSourceBorder)
 SSRC2.properties = jsonClone(Defaults.Video.SuperSourceProperties)
 
