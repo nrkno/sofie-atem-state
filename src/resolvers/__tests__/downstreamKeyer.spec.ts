@@ -1,22 +1,22 @@
 import * as DSK from '../downstreamKeyer'
 import { State as StateObject } from '../../'
-import { Commands } from 'atem-connection'
+import { Commands, AtemStateUtil } from 'atem-connection'
 import * as _ from 'underscore'
 import { Defaults } from '../../defaults'
 import { jsonClone } from '../../util'
 
 function setupDSK (state: StateObject, index: number) {
-	const dsk = state.video.getDownstreamKeyer(index)
+	const dsk = AtemStateUtil.getDownstreamKeyer(state, index)
 	dsk.properties = jsonClone(Defaults.Video.DownstreamerKeyerProperties)
 	dsk.sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
 	return dsk
 }
 
-const STATE1 = new StateObject()
+const STATE1 = AtemStateUtil.Create()
 setupDSK(STATE1, 0)
 setupDSK(STATE1, 1)
 
-const STATE2 = new StateObject()
+const STATE2 = AtemStateUtil.Create()
 const DSK1 = setupDSK(STATE2, 0)
 const DSK2 = setupDSK(STATE2, 1)
 

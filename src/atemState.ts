@@ -1,4 +1,4 @@
-import { Commands, Enums } from 'atem-connection'
+import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 import { State as StateObject } from '.'
 import * as Resolvers from './resolvers'
 
@@ -8,7 +8,7 @@ export class AtemState {
 	private _state: StateObject
 
 	public constructor () {
-		this._state = new StateObject()
+		this._state = AtemStateUtil.Create()
 	}
 
 	setState (state: StateObject) {

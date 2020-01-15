@@ -173,7 +173,7 @@ export namespace Defaults {
 			}
 		}
 
-		export const SuperSourceBox: VideoState.SuperSourceBox = {
+		export const SuperSourceBox: VideoState.SuperSource.SuperSourceBox = {
 			enabled: false,
 			source: defaultInput,
 			x: 0,
@@ -186,7 +186,7 @@ export namespace Defaults {
 			cropRight: 0
 		}
 
-		export const SuperSourceProperties: VideoState.SuperSourceProperties = {
+		export const SuperSourceProperties: VideoState.SuperSource.SuperSourceProperties = {
 			artFillSource: defaultInput,
 			artCutSource: defaultInput,
 			artOption: Enums.SuperSourceArtOption.Background,
@@ -196,7 +196,7 @@ export namespace Defaults {
 			artInvertKey: false
 		}
 
-		export const SuperSourceBorder: VideoState.SuperSourceBorder = {
+		export const SuperSourceBorder: VideoState.SuperSource.SuperSourceBorder = {
 			borderEnabled: false,
 			borderBevel: Enums.BorderBevel.None,
 			borderOuterWidth: 0,

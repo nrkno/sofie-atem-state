@@ -1,11 +1,11 @@
 import * as supersource from '../supersource'
-import { State as StateObject, Defaults } from '../../'
-import { Commands, Enums } from 'atem-connection'
+import { Defaults } from '../../'
+import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 import * as _ from 'underscore'
 import { jsonClone } from '../../util'
 
-const STATE1 = new StateObject()
-const SSRC1 = STATE1.video.getSuperSource(0)
+const STATE1 = AtemStateUtil.Create()
+const SSRC1 = AtemStateUtil.getSuperSource(STATE1, 0)
 SSRC1.boxes[0] = jsonClone(Defaults.Video.SuperSourceBox)
 SSRC1.boxes[1] = jsonClone(Defaults.Video.SuperSourceBox)
 SSRC1.boxes[2] = jsonClone(Defaults.Video.SuperSourceBox)
@@ -13,8 +13,8 @@ SSRC1.boxes[3] = jsonClone(Defaults.Video.SuperSourceBox)
 SSRC1.border = jsonClone(Defaults.Video.SuperSourceBorder)
 SSRC1.properties = jsonClone(Defaults.Video.SuperSourceProperties)
 
-const STATE2 = new StateObject()
-const SSRC2 = STATE2.video.getSuperSource(0)
+const STATE2 = AtemStateUtil.Create()
+const SSRC2 = AtemStateUtil.getSuperSource(STATE2, 0)
 SSRC2.boxes[0] = {
 	enabled: true,
 	source: 1,
@@ -70,7 +70,7 @@ test('Unit: super source boxes: box removed', function () {
 })
 
 test('Unit: super source boxes: new box', function () {
-	STATE1.video.getSuperSource(0).boxes[0] = jsonClone(Defaults.Video.SuperSourceBox)
+	AtemStateUtil.getSuperSource(STATE1, 0).boxes[0] = jsonClone(Defaults.Video.SuperSourceBox)
 	const commands = supersource.resolveSuperSourceState(STATE1, STATE2, Enums.ProtocolVersion.V7_2) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].constructor.name).toEqual('SuperSourceBoxParametersCommand')
@@ -89,7 +89,7 @@ test('Unit: super source boxes: new box', function () {
 		cropRight: 1
 	})
 
-	STATE1.video.getSuperSource(0).boxes[0] = STATE2.video.getSuperSource(0).boxes[0]
+	AtemStateUtil.getSuperSource(STATE1, 0).boxes[0] = AtemStateUtil.getSuperSource(STATE2, 0).boxes[0]
 })
 
 test('Unit: super source properties: same state gives no commands', function () {
@@ -155,8 +155,8 @@ test('Unit: super source border v8: some properties changed', function () {
 })
 
 test('Unit: super source box v8: 2 super sources', function () {
-	STATE1.video.superSources[1] = jsonClone(STATE1.video.getSuperSource(0))
-	const newSSrc = STATE2.video.superSources[1] = jsonClone(STATE1.video.getSuperSource(0))
+	STATE1.video.superSources[1] = jsonClone(AtemStateUtil.getSuperSource(STATE1, 0))
+	const newSSrc = STATE2.video.superSources[1] = jsonClone(AtemStateUtil.getSuperSource(STATE1, 0))
 	newSSrc.boxes[0]!.cropped = false
 
 	const commands = supersource.resolveSuperSourceBoxState(STATE1, STATE2, Enums.ProtocolVersion.V8_0) as Array<Commands.SuperSourceBoxParametersCommand>

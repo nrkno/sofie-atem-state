@@ -1,15 +1,15 @@
 import * as LK from '../lumaKeyer'
-import { State as StateObject, Defaults } from '../../../'
-import { Commands } from 'atem-connection'
+import { Defaults } from '../../../'
+import { Commands, AtemStateUtil } from 'atem-connection'
 import { jsonClone } from '../../../util'
 
-const STATE1 = new StateObject()
-const ME1 = STATE1.video.getMe(0)
-const USK1 = ME1.getUpstreamKeyer(0)
+const STATE1 = AtemStateUtil.Create()
+const ME1 = AtemStateUtil.getMixEffect(STATE1, 0)
+const USK1 = AtemStateUtil.getUpstreamKeyer(ME1, 0)
 
-const STATE2 = new StateObject()
-const ME2 = STATE2.video.getMe(0)
-const USK2 = ME2.getUpstreamKeyer(0)
+const STATE2 = AtemStateUtil.Create()
+const ME2 = AtemStateUtil.getMixEffect(STATE2, 0)
+const USK2 = AtemStateUtil.getUpstreamKeyer(ME2, 0)
 
 test('Unit: upstream keyers: chroma keyer undefined gives no error', function () {
 	USK1.lumaSettings = jsonClone(Defaults.Video.UpstreamKeyerLumaSettings)

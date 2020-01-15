@@ -1,8 +1,7 @@
 import * as media from '../media'
-import { State as StateObject } from '../../'
-import { Commands, Enums, MediaState } from 'atem-connection'
+import { Commands, Enums, MediaState, AtemStateUtil } from 'atem-connection'
 
-const STATE1 = new StateObject()
+const STATE1 = AtemStateUtil.Create()
 ;(STATE1.media.players as MediaState.MediaPlayerState[]) = [
 	{
 		playing: false,
@@ -23,7 +22,7 @@ const STATE1 = new StateObject()
 		clipIndex: 0
 	}
 ]
-const STATE2 = new StateObject()
+const STATE2 = AtemStateUtil.Create()
 ;(STATE2.media.players as MediaState.MediaPlayerState[]) = [
 	{
 		playing: true,

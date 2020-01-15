@@ -1,12 +1,11 @@
-import { State as StateObject } from '../../'
 import * as audio from '../audio'
 import * as _ from 'underscore'
 import { jsonClone } from '../../util'
-import { AudioState, Commands } from 'atem-connection'
+import { AudioState, Commands, AtemStateUtil } from 'atem-connection'
 
 function literal<T> (o: T) { return o }
 
-const STATE1 = new StateObject()
+const STATE1 = AtemStateUtil.Create()
 STATE1.audio.channels = [
 	literal<AudioState.AudioChannel>({
 		sourceType: 0,
@@ -23,7 +22,7 @@ STATE1.audio.channels = [
 		balance: 4
 	})
 ]
-const STATE2 = new StateObject()
+const STATE2 = AtemStateUtil.Create()
 STATE2.audio.channels = jsonClone(STATE1.audio.channels)
 STATE2.audio.master = {
 	gain: 0,

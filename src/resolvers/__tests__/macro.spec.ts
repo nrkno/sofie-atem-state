@@ -1,8 +1,7 @@
 import * as video from '../index'
-import { State as StateObject } from '../../'
-import { Commands, Enums } from 'atem-connection'
+import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 
-const STATE1 = new StateObject()
+const STATE1 = AtemStateUtil.Create()
 STATE1.macro.macroPlayer = {
 	isRunning: true,
 	isWaiting: false,
@@ -10,7 +9,7 @@ STATE1.macro.macroPlayer = {
 	macroIndex: 12
 }
 
-const STATE2 = new StateObject()
+const STATE2 = AtemStateUtil.Create()
 STATE2.macro.macroPlayer = {
 	isRunning: true,
 	isWaiting: false,
@@ -18,7 +17,7 @@ STATE2.macro.macroPlayer = {
 	macroIndex: 10
 }
 
-const STATE3 = new StateObject()
+const STATE3 = AtemStateUtil.Create()
 STATE3.macro.macroPlayer = {
 	isRunning: false,
 	isWaiting: false,

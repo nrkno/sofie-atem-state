@@ -1,9 +1,11 @@
 import {
-	Commands as AtemCommands, VideoState, Enums
+	Commands as AtemCommands, VideoState, Enums, AtemStateUtil
 } from 'atem-connection'
 import { State as StateObject } from '..'
 import { diffObject, getAllKeysNumber } from '../util'
 import { Defaults } from '../defaults'
+
+type SuperSourceCombinedProperties = VideoState.SuperSource.SuperSourceProperties & VideoState.SuperSource.SuperSourceBorder
 
 export function resolveSuperSourceState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -29,8 +31,8 @@ export function resolveSuperSourceBoxState (oldState: StateObject, newState: Sta
 			continue
 		}
 
-		const newSSrc = newState.video.getSuperSource(ssrc, true)
-		const oldSSrc = oldState.video.getSuperSource(ssrc, true)
+		const newSSrc = AtemStateUtil.getSuperSource(newState, ssrc, true)
+		const oldSSrc = AtemStateUtil.getSuperSource(oldState, ssrc, true)
 		for (const index in newSSrc.boxes) {
 			const props = diffObject(oldSSrc.boxes[index] || Defaults.Video.SuperSourceBox, newSSrc.boxes[index] || Defaults.Video.SuperSourceBox)
 			const command = new AtemCommands.SuperSourceBoxParametersCommand(ssrc, Number(index))
@@ -47,14 +49,14 @@ export function resolveSuperSourcePropertiesState (oldState: StateObject, newSta
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!newState.video.superSources[0] && !oldState.video.superSources[0]) return commands
-	const newSSrc = newState.video.getSuperSource(0, true)
-	const oldSSrc = oldState.video.getSuperSource(0, true)
+	const newSSrc = AtemStateUtil.getSuperSource(newState, 0, true)
+	const oldSSrc = AtemStateUtil.getSuperSource(oldState, 0, true)
 
-	const newSsProperties: Partial<VideoState.SuperSourceProperties & VideoState.SuperSourceBorder> = {
+	const newSsProperties: Partial<SuperSourceCombinedProperties> = {
 		...newSSrc.properties,
 		...newSSrc.border
 	}
-	const oldSsProperties: Partial<VideoState.SuperSourceProperties & VideoState.SuperSourceBorder> = {
+	const oldSsProperties: Partial<SuperSourceCombinedProperties> = {
 		...oldSSrc.properties,
 		...oldSSrc.border
 	}
@@ -72,8 +74,8 @@ export function resolveSuperSourcePropertiesV8State (oldState: StateObject, newS
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const ssrc of getAllKeysNumber(oldState.video.superSources, newState.video.superSources).sort()) {
-		const newSSrc = newState.video.getSuperSource(ssrc, true)
-		const oldSSrc = oldState.video.getSuperSource(ssrc, true)
+		const newSSrc = AtemStateUtil.getSuperSource(newState, ssrc, true)
+		const oldSSrc = AtemStateUtil.getSuperSource(oldState, ssrc, true)
 
 		const props = diffObject(oldSSrc.properties || Defaults.Video.SuperSourceProperties, newSSrc.properties || Defaults.Video.SuperSourceProperties)
 		const command = new AtemCommands.SuperSourcePropertiesV8Command(ssrc)
@@ -89,8 +91,8 @@ export function resolveSuperSourceBorderV8State (oldState: StateObject, newState
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const ssrc of getAllKeysNumber(oldState.video.superSources, newState.video.superSources).sort()) {
-		const newSSrc = newState.video.getSuperSource(ssrc, true)
-		const oldSSrc = oldState.video.getSuperSource(ssrc, true)
+		const newSSrc = AtemStateUtil.getSuperSource(newState, ssrc, true)
+		const oldSSrc = AtemStateUtil.getSuperSource(oldState, ssrc, true)
 
 		const props = diffObject(oldSSrc.border || Defaults.Video.SuperSourceBorder, newSSrc.border || Defaults.Video.SuperSourceBorder)
 		const command = new AtemCommands.SuperSourceBorderCommand(ssrc)

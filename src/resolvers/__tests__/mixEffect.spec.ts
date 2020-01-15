@@ -1,12 +1,12 @@
 import * as ME from '../mixEffect'
-import { State as StateObject, Enums, MixEffect, Defaults } from '../../'
-import { Commands, Enums as AtemEnums } from 'atem-connection'
+import { Enums, MixEffect, Defaults } from '../../'
+import { Commands, Enums as AtemEnums, AtemStateUtil } from 'atem-connection'
 import { jsonClone } from '../../util'
 
-const STATE1 = new StateObject()
-const ME1 = STATE1.video.getMe(0) as MixEffect
-const STATE2 = new StateObject()
-const ME2 = STATE2.video.getMe(0) as MixEffect
+const STATE1 = AtemStateUtil.Create()
+const ME1 = AtemStateUtil.getMixEffect(STATE1, 0) as MixEffect
+const STATE2 = AtemStateUtil.Create()
+const ME2 = AtemStateUtil.getMixEffect(STATE2, 0) as MixEffect
 
 test('Unit: mix effect: same state gives no commands', function () {
 	// same state gives no commands:

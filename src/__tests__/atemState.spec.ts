@@ -1,9 +1,10 @@
-import { AtemState, State as StateObject } from '../'
+import { AtemState } from '../'
+import { AtemStateUtil } from 'atem-connection'
 
 test('Unit test: Atem State: Set State', function () {
 	const state = new AtemState()
 
-	const newObj = new StateObject()
+	const newObj = AtemStateUtil.Create()
 	;(newObj.video.auxilliaries as number[]) = [0, 0, 1]
 	state.setState(newObj)
 
@@ -13,11 +14,11 @@ test('Unit test: Atem State: Set State', function () {
 test('Unit test: Atem State: Diff State', function () {
 	const state = new AtemState()
 
-	const newObj = new StateObject()
+	const newObj = AtemStateUtil.Create()
 	;(newObj.video.auxilliaries as number[]) = [0, 0, 1]
 	state.setState(newObj)
 
-	const newObj2 = new StateObject()
+	const newObj2 = AtemStateUtil.Create()
 	;(newObj2.video.auxilliaries as number[]) = [0, 0, 2]
 	const commands = state.diffState(newObj2)
 

@@ -1,6 +1,7 @@
 import {
 	Commands as AtemCommands,
-	Enums as ConnectionEnums
+	Enums as ConnectionEnums,
+	AtemStateUtil
 } from 'atem-connection'
 import { Enums, State as StateObject, Defaults } from '../'
 import { getAllKeysNumber, diffObject } from '../util'
@@ -12,9 +13,9 @@ import { resolveUpstreamKeyerState } from './upstreamKeyers'
 export function resolveMixEffectsState (oldState: StateObject, newState: StateObject): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const mixEffectId of getAllKeysNumber(oldState.video.ME, newState.video.ME)) {
-		const oldMixEffect: MixEffect = oldState.video.getMe(mixEffectId, true)
-		const newMixEffect: MixEffect = newState.video.getMe(mixEffectId, true)
+	for (const mixEffectId of getAllKeysNumber(oldState.video.mixEffects, newState.video.mixEffects)) {
+		const oldMixEffect: MixEffect = AtemStateUtil.getMixEffect(oldState, mixEffectId, true)
+		const newMixEffect: MixEffect = AtemStateUtil.getMixEffect(newState, mixEffectId, true)
 
 		commands.push(...resolveTransitionPropertiesState(mixEffectId, oldMixEffect, newMixEffect))
 		commands.push(...resolveTransitionSettingsState(mixEffectId, oldMixEffect, newMixEffect))

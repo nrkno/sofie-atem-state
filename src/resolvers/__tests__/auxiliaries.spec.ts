@@ -1,11 +1,10 @@
 import * as video from '../index'
-import { State as StateObject } from '../../'
-import { Commands, Enums } from 'atem-connection'
+import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 
-const STATE1 = new StateObject()
+const STATE1 = AtemStateUtil.Create()
 ;(STATE1.video.auxilliaries as number[]) = [ 0, 0, 0, 2 ]
 
-const STATE2 = new StateObject()
+const STATE2 = AtemStateUtil.Create()
 ;(STATE2.video.auxilliaries as number[]) = [ 1, 0, 2, 0 ]
 
 test('Unit: auxiliaries: same state gives no commands', function () {
