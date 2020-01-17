@@ -21,11 +21,11 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 		commands.push(...resolveTransitionSettingsState(mixEffectId, oldMixEffect, newMixEffect))
 		commands.push(...resolveUpstreamKeyerState(mixEffectId, oldMixEffect, newMixEffect))
 
+		let oldMEInput = oldMixEffect.input
+		if (typeof oldMEInput === 'undefined') oldMEInput = oldMixEffect.programInput
+
 		if (typeof newMixEffect.input !== 'undefined' && typeof newMixEffect.transition !== 'undefined') {
-			if (typeof oldMixEffect.input === 'undefined') {
-				oldMixEffect.input = oldMixEffect.programInput
-			}
-			if (newMixEffect.input !== oldMixEffect.input || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
+			if (newMixEffect.input !== oldMEInput || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
 				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect.input))
 
 				if (newMixEffect.transition === Enums.TransitionStyle.CUT) {
@@ -45,7 +45,7 @@ export function resolveMixEffectsState (oldState: StateObject, newState: StateOb
 			if (oldMixEffect.previewInput !== newMixEffect.previewInput) {
 				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect.previewInput))
 			}
-			if ((oldMixEffect.input || oldMixEffect.programInput) !== newMixEffect.programInput) {
+			if (oldMEInput !== newMixEffect.programInput) {
 				// @todo: check if we need to use the cut command?
 				// use cut command if:
 				//   DSK is tied
