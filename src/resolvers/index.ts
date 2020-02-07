@@ -8,6 +8,7 @@ import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSuperSourceState } from './supersource'
 import { resolveAudioState } from './audio'
 import { resolveMacroPlayerState } from './macro'
+import { resolveMediaPlayerState } from './media'
 
 export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.AbstractCommand> {
 	let commands: Array<AtemCommands.AbstractCommand> = []
@@ -17,6 +18,7 @@ export function videoState (oldState: StateObject, newState: StateObject, versio
 	commands = commands.concat(resolveDownstreamKeyerState(oldState, newState))
 	commands = commands.concat(resolveSuperSourceState(oldState, newState, version))
 	commands = commands.concat(resolveAudioState(oldState, newState))
+	commands = commands.concat(resolveMediaPlayerState(oldState, newState))
 
 	// resolve auxilliaries:
 	for (const index in newState.video.auxilliaries) {

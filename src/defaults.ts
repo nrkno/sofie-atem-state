@@ -3,11 +3,23 @@ import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
 import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
 import { AudioChannel } from 'atem-connection/dist/state/audio'
 import { MacroPlayerState } from 'atem-connection/dist/state/macro'
+import { MediaPlayer, MediaPlayerSource } from 'atem-connection/dist/state/media'
 
 export namespace Defaults {
 	export namespace Video {
 		export const defaultInput = 0 // black
 		export const defaultRate = 25 // 1 second
+
+		export const MediaPlayer: MediaPlayer & MediaPlayerSource = {
+			clipIndex: 0,
+			stillIndex: 0,
+			sourceType: Enums.MediaSourceType.Still,
+
+			loop: false,
+			playing: false,
+			atBeginning: false,
+			clipFrame: 0
+		}
 
 		export const MacroPlayer: MacroPlayerState = {
 			macroIndex: 0,
