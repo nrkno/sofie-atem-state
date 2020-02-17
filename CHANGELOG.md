@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.1...0.9.0) (2020-02-17)
+
+
+### Features
+
+* media player control [publish] ([129121d](https://github.com/nrkno/tv-automation-atem-state/commit/129121da22781640b5ef5a8533965351409730ee))
+
 ### [0.8.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.0...0.8.1) (2019-11-21)
 
 
