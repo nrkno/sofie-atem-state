@@ -76,7 +76,7 @@
     "license-validate": "Validate licenses for dependencies."
   },
   "engines": {
-    "node": ">=4.5"
+    "node": ">=10.10"
   },
   "files": [
     "/dist",
@@ -98,7 +98,7 @@
     "npm-scripts-info": "0.3.9",
     "open-cli": "^5.0.0",
     "sleep-ms": "^2.0.1",
-    "standard-version": "^7.0.0",
+    "standard-version": "^7.1",
     "trash-cli": "^3.0.0",
     "ts-jest": "^24.0.0",
     "tslint": "^5.18.0",
@@ -114,7 +114,7 @@
   ],
   "dependencies": {
     "atem-connection": "1.1.0",
-    "tslib": "^1.9.2"
+    "tslib": "^1.13"
   },
   "standard-version": {
     "message": "chore(release): %s [skip ci]",
