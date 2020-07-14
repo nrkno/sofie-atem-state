@@ -9,6 +9,7 @@ import { resolveSuperSourceState } from './supersource'
 import { resolveAudioState } from './audio'
 import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
+import { resolveMediaPlayerState } from './media'
 
 export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -18,6 +19,7 @@ export function videoState (oldState: StateObject, newState: StateObject, versio
 	commands.push(...resolveDownstreamKeyerState(oldState, newState))
 	commands.push(...resolveSuperSourceState(oldState, newState, version))
 	commands.push(...resolveAudioState(oldState, newState))
+	commands.push(...resolveMediaPlayerState(oldState, newState))
 
 	// resolve auxilliaries:
 	for (const index of getAllKeysNumber(oldState.video.auxilliaries, newState.video.auxilliaries)) {

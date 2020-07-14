@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.9.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.1...0.9.0) (2020-02-17)
+
+
+### Features
+
+* media player control [publish] ([129121d](https://github.com/nrkno/tv-automation-atem-state/commit/129121da22781640b5ef5a8533965351409730ee))
+
+### [0.8.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.0...0.8.1) (2019-11-21)
+
+
+### Bug Fixes
+
+* do not mutate input state objects ([43f6954](https://github.com/nrkno/tv-automation-atem-state/commit/43f6954dc21723520e3e172f2a6b4d621245a534))
+* prevent falsy checks for input = 0 ([78ef630](https://github.com/nrkno/tv-automation-atem-state/commit/78ef630a27d3a05f239093c3569569fb4f95f2d1))
+
+## [0.8.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.7.1...0.8.0) (2019-10-24)
+
+
+### Features
+
+* strict tsconfig ([9388f78](https://github.com/nrkno/tv-automation-atem-state/commit/9388f78527e5b77756eb54f753eb92e313d05459))
+* support v8 ([cae23ff](https://github.com/nrkno/tv-automation-atem-state/commit/cae23ff06a6049dc83e2ff32db34f8e022e9e03b))
+* update ci to run for node 8,10,12 ([06cf01d](https://github.com/nrkno/tv-automation-atem-state/commit/06cf01d6a4b355e450a5453858bd4a49f2591af9))
+
+
+### Bug Fixes
+
+* lint/build failure ([c6436f0](https://github.com/nrkno/tv-automation-atem-state/commit/c6436f0cd9e6e1456376e81a5945abae5c43a62b))
+* pin atem-connection to a specific version ([a5fc4db](https://github.com/nrkno/tv-automation-atem-state/commit/a5fc4dba4e1adee9cf1a30a2205a596a3182b241))
+* super source boxes for multiple super sources ([b222d1b](https://github.com/nrkno/tv-automation-atem-state/commit/b222d1bee948ac04b40aa088a4b7ef0904943ee9))
+
 ### [0.7.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.7.0...0.7.1) (2019-08-19)
 
 
