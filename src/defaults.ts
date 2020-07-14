@@ -16,7 +16,7 @@ export namespace Defaults {
 			atBeginning: false,
 			clipFrame: 0
 		}
-		
+
 		// export const MacroPlayer: MacroPlayerState = {
 		// 	macroIndex: 0,
 		// 	isRunning: false,
