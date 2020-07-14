@@ -113,7 +113,7 @@
     "source"
   ],
   "dependencies": {
-    "atem-connection": "^2.0.0-nightly-20200117-174823-3f8cfe7.0",
+    "atem-connection": "^2.0.0-nightly-20200617-205003-7905c51.0",
     "tslib": "^1.10.0",
     "underscore": "^1.9.1"
   },
