@@ -8,8 +8,8 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const index of getAllKeysNumber(oldState.video.downstreamKeyers, newState.video.downstreamKeyers)) {
-		const oldDsk = AtemStateUtil.getDownstreamKeyer(newState, index, true)
-		const newDsk = AtemStateUtil.getDownstreamKeyer(oldState, index, true)
+		const oldDsk = AtemStateUtil.getDownstreamKeyer(oldState, index, true)
+		const newDsk = AtemStateUtil.getDownstreamKeyer(newState, index, true)
 
 		commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
 		commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))
