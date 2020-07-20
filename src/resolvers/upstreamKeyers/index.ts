@@ -42,16 +42,15 @@ export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: Mi
 	return commands
 }
 
-export function resolveUpstreamKeyerMaskState (_mixEffectId: number, _upstreamKeyerId: number, _oldKeyer: VideoState.USK.UpstreamKeyer, _newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveUpstreamKeyerMaskState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: VideoState.USK.UpstreamKeyer, newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	// TODO - fix this
-	// const props = diffObject<UpstreamKeyerMaskSettings>(oldKeyer, newKeyer)
+	const props = diffObject<VideoState.USK.UpstreamKeyerMaskSettings>(oldKeyer.maskSettings, newKeyer.maskSettings)
 
-	// const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
-	// if (command.updateProps(props)) {
-	// 	commands.push(command)
-	// }
+	const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
+		commands.push(command)
+	}
 
 	return commands
 }
