@@ -12,14 +12,18 @@ STATE1.audio.channels = [
 		portType: 1,
 		mixOption: 0,
 		gain: 0,
-		balance: 0
+		balance: 0,
+		supportsRcaToXlrEnabled: false,
+		rcaToXlrEnabled: false
 	}),
 	literal<AudioState.AudioChannel>({
 		sourceType: 0,
 		portType: 1,
 		mixOption: 1,
 		gain: 5,
-		balance: 4
+		balance: 4,
+		supportsRcaToXlrEnabled: false,
+		rcaToXlrEnabled: false
 	})
 ]
 const STATE2 = AtemStateUtil.Create()
@@ -57,7 +61,7 @@ test('Unit: audio: new channel', function () {
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerInputCommand')
 	expect(commands[0].index).toEqual(1)
-	expect(commands[0].properties).toEqual(_.omit(STATE2.audio.channels[1]!, 'portType', 'sourceType'))
+	expect(commands[0].properties).toEqual(_.omit(STATE2.audio.channels[1]!, 'portType', 'sourceType', 'supportsRcaToXlrEnabled', 'rcaToXlrEnabled')) // at what point should it include rcaToXlrEnabled?
 	expect(commands[0].flag).toEqual(7) // 111
 
 	STATE1.audio.channels[1] = c

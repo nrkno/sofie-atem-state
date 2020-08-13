@@ -1,5 +1,5 @@
 import {
-	Commands as AtemCommands, AtemStateUtil, MediaState
+	Commands as AtemCommands, AtemStateUtil, MediaState, AtemState
 } from 'atem-connection'
 import { State as StateObject } from '../'
 import { diffObject, getAllKeysNumber } from '../util'
@@ -8,8 +8,8 @@ export function resolveMediaPlayerState (oldState: StateObject, newState: StateO
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const index of getAllKeysNumber(oldState.media.players, newState.media.players)) {
-		const newPlayer = AtemStateUtil.getMediaPlayer(newState, index, true)
-		const oldPlayer = AtemStateUtil.getMediaPlayer(oldState, index, true)
+		const newPlayer = AtemStateUtil.getMediaPlayer(newState as AtemState, index, true)
+		const oldPlayer = AtemStateUtil.getMediaPlayer(oldState as AtemState, index, true)
 
 		const props = diffObject<MediaState.MediaPlayer>(oldPlayer, newPlayer)
 		const command = new AtemCommands.MediaPlayerStatusCommand(index)

@@ -1,5 +1,5 @@
 import {
-	Commands as AtemCommands, VideoState, AtemStateUtil
+	Commands as AtemCommands, VideoState, AtemStateUtil, AtemState
 } from 'atem-connection'
 import { State as StateObject, Defaults } from '../'
 import { getAllKeysNumber, diffObject } from '../util'
@@ -8,8 +8,8 @@ export function resolveDownstreamKeyerState (oldState: StateObject, newState: St
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const index of getAllKeysNumber(oldState.video.downstreamKeyers, newState.video.downstreamKeyers)) {
-		const oldDsk = AtemStateUtil.getDownstreamKeyer(oldState, index, true)
-		const newDsk = AtemStateUtil.getDownstreamKeyer(newState, index, true)
+		const oldDsk = AtemStateUtil.getDownstreamKeyer(oldState as AtemState, index, true)
+		const newDsk = AtemStateUtil.getDownstreamKeyer(newState as AtemState, index, true)
 
 		commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
 		commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))

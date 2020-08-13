@@ -1,13 +1,16 @@
 import * as DSK from '../downstreamKeyer'
 import { State as StateObject } from '../../'
-import { Commands, AtemStateUtil } from 'atem-connection'
+import { Commands, AtemStateUtil, AtemState, VideoState } from 'atem-connection'
 import * as _ from 'underscore'
 import { Defaults } from '../../defaults'
 import { jsonClone } from '../../util'
 
-function setupDSK (state: StateObject, index: number) {
-	const dsk = AtemStateUtil.getDownstreamKeyer(state, index)
-	dsk.properties = jsonClone(Defaults.Video.DownstreamerKeyerProperties)
+function setupDSK (state: StateObject, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
+	const dsk = AtemStateUtil.getDownstreamKeyer(state as AtemState, index)
+	dsk.properties = jsonClone({
+		...Defaults.Video.DownstreamerKeyerProperties,
+		...props
+	})
 	dsk.sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
 	return dsk
 }
@@ -17,8 +20,8 @@ setupDSK(STATE1, 0)
 setupDSK(STATE1, 1)
 
 const STATE2 = AtemStateUtil.Create()
-const DSK1 = setupDSK(STATE2, 0)
-const DSK2 = setupDSK(STATE2, 1)
+let DSK1 = setupDSK(STATE2, 0)
+let DSK2 = setupDSK(STATE2, 1)
 
 test('Unit: Downstream keyer: same state gives no commands', function () {
 	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE1)
@@ -27,7 +30,10 @@ test('Unit: Downstream keyer: same state gives no commands', function () {
 
 test('Unit: Downstream keyer: auto and onAir commands', function () {
 	DSK1.onAir = true
-	DSK2.isAuto = true
+	STATE2.video.downstreamKeyers[1]! = {
+		...STATE2.video.downstreamKeyers[1]!,
+		isAuto: true
+	}
 
 	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
 	expect(commands).toHaveLength(2)
@@ -43,7 +49,12 @@ test('Unit: Downstream keyer: auto and onAir commands', function () {
 	expect(secondCommand.constructor.name).toEqual('DownstreamKeyAutoCommand')
 	expect(secondCommand.downstreamKeyerId).toEqual(1)
 	DSK1.onAir = false
-	DSK2.isAuto = false
+	STATE2.video.downstreamKeyers[1]! = {
+		...STATE2.video.downstreamKeyers[1],
+		isAuto: false
+	}
+
+	DSK2 = STATE2.video.downstreamKeyers[1]
 })
 
 test('Unit: Downstream keyer: sources', function () {

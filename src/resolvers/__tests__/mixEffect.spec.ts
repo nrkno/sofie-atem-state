@@ -1,12 +1,12 @@
 import * as ME from '../mixEffect'
-import { Enums, MixEffect, Defaults } from '../../'
-import { Commands, Enums as AtemEnums, AtemStateUtil } from 'atem-connection'
+import { Enums, MixEffect, ExtendedMixEffect, Defaults } from '../../'
+import { Commands, Enums as AtemEnums, AtemStateUtil, VideoState } from 'atem-connection'
 import { jsonClone } from '../../util'
 
 const STATE1 = AtemStateUtil.Create()
-const ME1 = AtemStateUtil.getMixEffect(STATE1, 0) as MixEffect
+const ME1: MixEffect = AtemStateUtil.getMixEffect(STATE1, 0) as unknown as MixEffect
 const STATE2 = AtemStateUtil.Create()
-const ME2 = AtemStateUtil.getMixEffect(STATE2, 0) as MixEffect
+const ME2: MixEffect = AtemStateUtil.getMixEffect(STATE2, 0) as unknown as MixEffect
 
 test('Unit: mix effect: same state gives no commands', function () {
 	// same state gives no commands:
@@ -15,23 +15,23 @@ test('Unit: mix effect: same state gives no commands', function () {
 })
 
 test('Unit: mix effect: same input gives no commands', function () {
-	ME1.input = 1
-	ME1.transition = Enums.TransitionStyle.CUT
+	(ME1 as ExtendedMixEffect).input = 1
+	;(ME1 as ExtendedMixEffect).transition = Enums.TransitionStyle.CUT
 
-	ME2.input = 1
-	ME2.transition = Enums.TransitionStyle.CUT
+	;(ME2 as ExtendedMixEffect).input = 1
+	;(ME2 as ExtendedMixEffect).transition = Enums.TransitionStyle.CUT
 
 	const commands = ME.resolveMixEffectsState(STATE1, STATE1)
 	expect(commands).toHaveLength(0)
 
-	delete ME1.input
-	delete ME1.transition
-	delete ME2.input
-	delete ME2.transition
+	delete (ME1 as ExtendedMixEffect).input
+	delete (ME1 as ExtendedMixEffect).transition
+	delete (ME2 as ExtendedMixEffect).input
+	delete (ME2 as ExtendedMixEffect).transition
 })
 
 test('Unit: mix effect: program input', function () {
-	ME2.programInput = 1
+	(ME2 as VideoState.MixEffect).programInput = 1
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.ProgramInputCommand>
 	expect(commands).toHaveLength(1)
 
@@ -41,11 +41,11 @@ test('Unit: mix effect: program input', function () {
 		source: 1
 	})
 
-	ME2.programInput = 0
+	;(ME2 as VideoState.MixEffect).programInput = 0
 })
 
 test('Unit: mix effect: preview input', function () {
-	ME2.previewInput = 1
+	(ME2 as VideoState.MixEffect).previewInput = 1
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.PreviewInputCommand>
 	expect(commands).toHaveLength(1)
 
@@ -55,12 +55,12 @@ test('Unit: mix effect: preview input', function () {
 		source: 1
 	})
 
-	ME2.previewInput = 0
+	;(ME2 as VideoState.MixEffect).previewInput = 0
 })
 
 test('Unit: mix effect: cut command', function () {
-	ME2.input = 1
-	ME2.transition = Enums.TransitionStyle.CUT
+	(ME2 as ExtendedMixEffect).input = 1
+	;(ME2 as ExtendedMixEffect).transition = Enums.TransitionStyle.CUT
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.PreviewInputCommand>
 	expect(commands).toHaveLength(2)
 
@@ -73,13 +73,13 @@ test('Unit: mix effect: cut command', function () {
 	expect(commands[1].constructor.name).toEqual('CutCommand')
 	expect(commands[1].mixEffect).toEqual(0)
 
-	delete ME2.input
-	delete ME2.transition
+	delete (ME2 as ExtendedMixEffect).input
+	delete (ME2 as ExtendedMixEffect).transition
 })
 
 test('Unit: mix effect: dummy command', function () {
-	ME2.input = 1
-	ME2.transition = Enums.TransitionStyle.DUMMY
+	(ME2 as ExtendedMixEffect).input = 1
+	;(ME2 as ExtendedMixEffect).transition = Enums.TransitionStyle.DUMMY
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.PreviewInputCommand>
 	expect(commands).toHaveLength(1)
 
@@ -91,13 +91,13 @@ test('Unit: mix effect: dummy command', function () {
 
 	// Dummy implies that something else will perform the cut. (eg a macro)
 
-	delete ME2.input
-	delete ME2.transition
+	delete (ME2 as ExtendedMixEffect).input
+	delete (ME2 as ExtendedMixEffect).transition
 })
 
 test('Unit: mix effect: auto command', function () {
-	ME2.input = 1
-	ME2.transition = Enums.TransitionStyle.MIX
+	(ME2 as ExtendedMixEffect).input = 1
+	;(ME2 as ExtendedMixEffect).transition = Enums.TransitionStyle.MIX
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.PreviewInputCommand | Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(3)
 
@@ -116,12 +116,12 @@ test('Unit: mix effect: auto command', function () {
 	expect(commands[2].constructor.name).toEqual('AutoTransitionCommand')
 	expect(commands[2].mixEffect).toEqual(0)
 
-	ME2.input = 0
+	;(ME2 as ExtendedMixEffect).input = 0
 })
 
 test('Unit: mix effect: auto command, new transition', function () {
-	ME2.input = 1
-	ME2.transition = Enums.TransitionStyle.WIPE
+	(ME2 as ExtendedMixEffect).input = 1
+	;(ME2 as ExtendedMixEffect).transition = Enums.TransitionStyle.WIPE
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.PreviewInputCommand | Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(4)
 
@@ -134,7 +134,7 @@ test('Unit: mix effect: auto command, new transition', function () {
 	expect(commands[1].constructor.name).toEqual('TransitionPropertiesCommand')
 	expect(commands[1].mixEffect).toEqual(0)
 	expect(commands[1].properties).toEqual({
-		style: Enums.TransitionStyle.WIPE
+		nextStyle: Enums.TransitionStyle.WIPE
 	})
 
 	expect(commands[2].constructor.name).toEqual('TransitionPositionCommand')
@@ -146,7 +146,7 @@ test('Unit: mix effect: auto command, new transition', function () {
 	expect(commands[3].constructor.name).toEqual('AutoTransitionCommand')
 	expect(commands[3].mixEffect).toEqual(0)
 
-	ME2.input = 0
+	;(ME2 as ExtendedMixEffect).input = 0
 })
 
 test('Unit: mix effect: transition preview', function () {
@@ -161,8 +161,11 @@ test('Unit: mix effect: transition preview', function () {
 })
 
 test('Unit: mix effect: transition position', function () {
-	ME2.inTransition = true
-	ME2.transitionPosition = 500
+	ME2.transitionPosition = {
+		...ME2.transitionPosition,
+		inTransition: true,
+		handlePosition: 500
+	}
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(1)
 
@@ -172,13 +175,19 @@ test('Unit: mix effect: transition position', function () {
 		handlePosition: 500
 	})
 
-	ME2.inTransition = false
-	ME2.transitionPosition = 0
+	ME2.transitionPosition = {
+		...ME2.transitionPosition,
+		inTransition: false,
+		handlePosition: 0
+	}
 })
 
 test('Unit: mix effect: from transition, to no transition', function () {
-	ME1.inTransition = true
-	ME1.transitionPosition = 500
+	ME1.transitionPosition = {
+		...ME1.transitionPosition,
+		inTransition: true,
+		handlePosition: 500
+	}
 	const commands = ME.resolveMixEffectsState(STATE1, STATE2) as Array<Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(1)
 
@@ -188,25 +197,31 @@ test('Unit: mix effect: from transition, to no transition', function () {
 		handlePosition: 10000
 	})
 
-	ME1.inTransition = false
-	ME1.transitionPosition = 0
+	ME1.transitionPosition = {
+		...ME1.transitionPosition,
+		inTransition: false,
+		handlePosition: 0
+	}
 })
 
 test('Unit: mix effect: transition properties', function () {
-	ME2.transitionProperties.selection = 3
-	ME2.transitionProperties.style = 1
+	ME2.transitionProperties.nextSelection = 3
+	ME2.transitionProperties.nextStyle = 1
 	const commands = ME.resolveTransitionPropertiesState(0, ME1, ME2) as Array<Commands.TransitionPropertiesCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionPropertiesCommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].properties).toEqual({
-		selection: 3,
-		style: 1
+		nextSelection: 3,
+		nextStyle: 1
 	})
 
-	ME2.transitionProperties.selection = 1
-	ME2.transitionProperties.style = 0
+	ME2.transitionProperties = {
+		...ME2.transitionProperties,
+		selection: 1,
+		style: 0
+	}
 })
 
 test('Unit: mix effect: transition settings: dip', function () {

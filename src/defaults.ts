@@ -231,7 +231,9 @@ export namespace Defaults {
 			portType: 1,
 			mixOption: 0,
 			gain: 0,
-			balance: 0
+			balance: 0,
+			supportsRcaToXlrEnabled: false,
+			rcaToXlrEnabled: false
 		}
 		export const Master: AudioState.AudioMasterChannel = {
 			gain: 0,

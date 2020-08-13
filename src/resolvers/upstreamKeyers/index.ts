@@ -1,5 +1,4 @@
 import { Commands as AtemCommands, VideoState, AtemStateUtil } from 'atem-connection'
-import { MixEffect } from '../../'
 import * as _ from 'underscore'
 
 import { resolveDVEKeyerState } from './dveKeyer'
@@ -7,13 +6,14 @@ import { resolveChromaKeyerState } from './chromaKeyer'
 import { resolveLumaKeyerState } from './lumaKeyer'
 import { resolvePatternKeyerState } from './patternKeyer'
 import { getAllKeysNumber, diffObject } from '../../util'
+import { MixEffect } from '../../state'
 
 export function resolveUpstreamKeyerState (mixEffectId: number, oldMixEffect: MixEffect, newMixEffect: MixEffect): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const upstreamKeyerId of getAllKeysNumber(oldMixEffect.upstreamKeyers, newMixEffect.upstreamKeyers)) {
-		const oldKeyer = AtemStateUtil.getUpstreamKeyer(oldMixEffect, upstreamKeyerId, true)
-		const newKeyer = AtemStateUtil.getUpstreamKeyer(newMixEffect, upstreamKeyerId, true)
+		const oldKeyer = AtemStateUtil.getUpstreamKeyer(oldMixEffect as VideoState.MixEffect, upstreamKeyerId, true)
+		const newKeyer = AtemStateUtil.getUpstreamKeyer(newMixEffect as VideoState.MixEffect, upstreamKeyerId, true)
 
 		commands.push(...resolveUpstreamKeyerMaskState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 		commands.push(...resolveDVEKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
