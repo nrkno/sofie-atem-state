@@ -2371,25 +2371,19 @@ img {
 		<li class="current tsd-kind-interface tsd-is-external">
 			<a href="atemvideostate.html" class="tsd-kind-icon">Atem<wbr>Video<wbr>State</a>
 			<ul>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a href="atemvideostate.html#auxilliaries" class="tsd-kind-icon">auxilliaries</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a href="atemvideostate.html#downstreamkeyers" class="tsd-kind-icon">downstream<wbr>Keyers</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 					<a href="atemvideostate.html#mixeffects" class="tsd-kind-icon">mix<wbr>Effects</a>
-				</li>
-				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a href="atemvideostate.html#supersources" class="tsd-kind-icon">super<wbr>Sources</a>
 				</li>
 			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-external">
-			<a href="mixeffect.html" class="tsd-kind-icon">Mix<wbr>Effect</a>
+			<a href="extendedmixeffect.html" class="tsd-kind-icon">Extended<wbr>Mix<wbr>Effect</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-is-external">
 			<a href="state.html" class="tsd-kind-icon">State</a>
+		</li>
+		<li class=" tsd-kind-type-alias tsd-is-external">
+			<a href="../globals.html#mixeffect" class="tsd-kind-icon">Mix<wbr>Effect</a>
 		</li>
 		<li class=" tsd-kind-type-alias tsd-is-external tsd-is-not-exported">
 			<a href="../globals.html#supersourcecombinedproperties" class="tsd-kind-icon">Super<wbr>Source<wbr>Combined<wbr>Properties</a>
@@ -2483,7 +2477,7 @@ img {
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="tsd-signature-type">AtemVideoState</span>
+					<span class="tsd-signature-type">object</span>
 					<ul class="tsd-hierarchy">
 						<li>
 							<span class="target">AtemVideoState</span>
@@ -2499,10 +2493,7 @@ img {
 					<section class="tsd-index-section tsd-is-external">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="atemvideostate.html#auxilliaries" class="tsd-kind-icon">auxilliaries</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="atemvideostate.html#downstreamkeyers" class="tsd-kind-icon">downstream<wbr>Keyers</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external"><a href="atemvideostate.html#mixeffects" class="tsd-kind-icon">mix<wbr>Effects</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="atemvideostate.html#supersources" class="tsd-kind-icon">super<wbr>Sources</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="atemvideostate.html#mixeffects" class="tsd-kind-icon">mix<wbr>Effects</a></li>
 						</ul>
 					</section>
 				</div>
@@ -2510,47 +2501,13 @@ img {
 		</section>
 		<section class="tsd-panel-group tsd-member-group tsd-is-external">
 			<h2>Properties</h2>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-				<a name="auxilliaries" class="tsd-anchor"></a>
-				<h3>auxilliaries</h3>
-				<div class="tsd-signature tsd-kind-icon">auxilliaries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from AtemVideoState.auxilliaries</p>
-					<ul>
-						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:85</li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-				<a name="downstreamkeyers" class="tsd-anchor"></a>
-				<h3>downstream<wbr>Keyers</h3>
-				<div class="tsd-signature tsd-kind-icon">downstream<wbr>Keyers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">DownstreamKeyer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from AtemVideoState.downstreamKeyers</p>
-					<ul>
-						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:84</li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-external">
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
 				<a name="mixeffects" class="tsd-anchor"></a>
 				<h3>mix<wbr>Effects</h3>
-				<div class="tsd-signature tsd-kind-icon">mix<wbr>Effects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="mixeffect.html" class="tsd-signature-type">MixEffect</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+				<div class="tsd-signature tsd-kind-icon">mix<wbr>Effects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#mixeffect" class="tsd-signature-type">MixEffect</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
-					<p>Overrides AtemVideoState.mixEffects</p>
 					<ul>
-						<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/6efd32a/src/state.ts#L5">src/state.ts:5</a></li>
-					</ul>
-				</aside>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-				<a name="supersources" class="tsd-anchor"></a>
-				<h3>super<wbr>Sources</h3>
-				<div class="tsd-signature tsd-kind-icon">super<wbr>Sources<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SuperSource</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
-				<aside class="tsd-sources">
-					<p>Inherited from AtemVideoState.superSources</p>
-					<ul>
-						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:86</li>
+						<li>Defined in <a href="https://github.com/nrkno/tv-automation-atem-state/blob/5ce4698/src/state.ts#L5">state.ts:5</a></li>
 					</ul>
 				</aside>
 			</section>
