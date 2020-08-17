@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.9.0...0.10.0) (2020-08-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop node 8 support
+
+### Features
+
+* drop node 8 support ([18513b7](https://github.com/nrkno/tv-automation-atem-state/commit/18513b706da1fed6d5847459a0ecdc637f0ad643))
+* **ci:** optionally skip audit [skip ci] ([589f53f](https://github.com/nrkno/tv-automation-atem-state/commit/589f53f14fcbb4b09a7191f8270c2a3856bd0732))
+* reexport atem-connection ([1cd205f](https://github.com/nrkno/tv-automation-atem-state/commit/1cd205fb46f1d818ec93a1a9b0054462c14d38b0))
+* update resolvers to restructured atem-connection ([1af7ad8](https://github.com/nrkno/tv-automation-atem-state/commit/1af7ad85bd0a814e7426522a8d38902f360ffd1d))
+* use result of updateProps to check if the command has changes ([8771517](https://github.com/nrkno/tv-automation-atem-state/commit/8771517648ab1a2e0008fcc89d10d6ceea073aeb))
+
+
+### Bug Fixes
+
+* improved typings for atem-state props + update atem-conn ([5da03cd](https://github.com/nrkno/tv-automation-atem-state/commit/5da03cd4067365ab5e5fe86b2836018780ca7d34))
+* reenable upstream keyers ([99ac190](https://github.com/nrkno/tv-automation-atem-state/commit/99ac19070c8dc15775289dc08c7b9f767212db56))
+* **dsk:** use correct state as new state ([00a0b66](https://github.com/nrkno/tv-automation-atem-state/commit/00a0b661cdedf80d471d1af7d6cc2920420eb97a))
+* tests ([0222ce3](https://github.com/nrkno/tv-automation-atem-state/commit/0222ce3318059f5f99d70da379d6cdc2a777dcee))
+* tidy up api ([43f7bb8](https://github.com/nrkno/tv-automation-atem-state/commit/43f7bb8c36c0eb6c8dede05436108de076e8f022))
+* update to newer atem-connection api ([425a245](https://github.com/nrkno/tv-automation-atem-state/commit/425a245476b785c66a8dea9858e6515a7b54e67a))
+* update typings ([7526f9d](https://github.com/nrkno/tv-automation-atem-state/commit/7526f9d415def04afaa511144350b6e3d6c72850))
+* use exported atem-connection types ([f4a6728](https://github.com/nrkno/tv-automation-atem-state/commit/f4a672842a9217c4f6a0d37ed307ec9035384567))
+
 ## [0.9.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.8.1...0.9.0) (2020-02-17)
 
 
