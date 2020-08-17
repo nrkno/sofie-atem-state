@@ -1,66 +1,70 @@
 import * as media from '../media'
-import { State as StateObject } from '../../'
+import { Commands, Enums, MediaState, AtemStateUtil } from 'atem-connection'
 
-const STATE1 = {
-	media: {
-		players: [
-			{
-				playing: false,
-				loop: false,
-				atBeginning: false,
-				clipFrame: 0
-			},
-			{
-				playing: true,
-				loop: false,
-				atBeginning: false,
-				clipFrame: 0
-			}
-		]
+const STATE1 = AtemStateUtil.Create()
+;(STATE1.media.players as MediaState.MediaPlayerState[]) = [
+	{
+		playing: false,
+		loop: false,
+		atBeginning: false,
+		clipFrame: 0,
+		sourceType: Enums.MediaSourceType.Clip,
+		stillIndex: 0,
+		clipIndex: 0
+	},
+	{
+		playing: true,
+		loop: false,
+		atBeginning: false,
+		clipFrame: 0,
+		sourceType: Enums.MediaSourceType.Clip,
+		stillIndex: 0,
+		clipIndex: 0
 	}
-}
-// const STATE2 = {
-// 	media: {
-// 		players: [
-// 			{
-// 				playing: true,
-// 				loop: false,
-// 				atBeginning: false,
-// 				clipFrame: 25
-// 			},
-// 			{
-// 				playing: false,
-// 				loop: true,
-// 				atBeginning: true,
-// 				clipFrame: 0
-// 			}
-// 		]
-// 	}
-// }
+]
+const STATE2 = AtemStateUtil.Create()
+;(STATE2.media.players as MediaState.MediaPlayerState[]) = [
+	{
+		playing: true,
+		loop: false,
+		atBeginning: false,
+		clipFrame: 25,
+		sourceType: Enums.MediaSourceType.Clip,
+		stillIndex: 0,
+		clipIndex: 0
+	},
+	{
+		playing: false,
+		loop: true,
+		atBeginning: true,
+		clipFrame: 0,
+		sourceType: Enums.MediaSourceType.Clip,
+		stillIndex: 0,
+		clipIndex: 0
+	}
+]
 
 test('Unit: media player: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = media.resolveMediaPlayerState(STATE1 as StateObject, STATE1 as StateObject)
-	expect(commands.length).toEqual(0)
+	const commands = media.resolveMediaPlayerState(STATE1, STATE1)
+	expect(commands).toHaveLength(0)
 })
 
-// Note: disabled as the logic doesnt play into having well formed commands currently
-// test('Unit: media player: status command', function () {
-// 	const commands = media.resolveMediaPlayerState(STATE1 as StateObject, STATE2 as StateObject) as Array<Commands.MediaPlayerStatusCommand>
+test('Unit: media player: status command', function () {
+	const commands = media.resolveMediaPlayerState(STATE1, STATE2) as Array<Commands.MediaPlayerStatusCommand>
 
-// 	expect(commands).toHaveLength(2)
-// 	expect(commands[0].rawName).toEqual('SCPS')
-// 	expect(commands[0].mediaPlayerId).toEqual(0)
-// 	expect(commands[0].properties).toMatchObject({
-// 		playing: true,
-// 		clipFrame: 25
-// 	})
+	expect(commands[0].constructor.name).toEqual('MediaPlayerStatusCommand')
+	expect(commands[0].mediaPlayerId).toEqual(0)
+	expect(commands[0].properties).toEqual({
+		playing: true,
+		clipFrame: 25
+	})
 
-// 	expect(commands[1].rawName).toEqual('SCPS')
-// 	expect(commands[1].mediaPlayerId).toEqual(1)
-// 	expect(commands[1].properties).toMatchObject({
-// 		playing: false,
-// 		loop: true,
-// 		atBeginning: true
-// 	})
-// })
+	expect(commands[1].constructor.name).toEqual('MediaPlayerStatusCommand')
+	expect(commands[1].mediaPlayerId).toEqual(1)
+	expect(commands[1].properties).toEqual({
+		playing: false,
+		loop: true,
+		atBeginning: true
+	})
+})

@@ -1,4 +1,4 @@
-import { Commands, Enums } from 'atem-connection'
+import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 import { State as StateObject } from '.'
 import * as Resolvers from './resolvers'
 
@@ -8,7 +8,7 @@ export class AtemState {
 	private _state: StateObject
 
 	public constructor () {
-		this._state = new StateObject()
+		this._state = AtemStateUtil.Create()
 	}
 
 	setState (state: StateObject) {
@@ -19,14 +19,19 @@ export class AtemState {
 		return this._state
 	}
 
-	diffState (newState: StateObject): Array<Commands.AbstractCommand> {
-		return this.diffStates(this._state, newState)
+	diffState (newState: StateObject): Array<Commands.ISerializableCommand> {
+		return AtemState.diffStates(this.version, this._state, newState)
 	}
 
-	diffStates (oldState: StateObject, newState: StateObject): Array<Commands.AbstractCommand> {
-		let commands: Array<Commands.AbstractCommand> = []
+	/** Deprecated */
+	diffStates (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+		return AtemState.diffStates(this.version, oldState, newState)
+	}
 
-		commands = commands.concat(Resolvers.videoState(oldState, newState, this.version))
+	static diffStates (version: Enums.ProtocolVersion, oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+		let commands: Array<Commands.ISerializableCommand> = []
+
+		commands.push(...Resolvers.videoState(oldState, newState, version))
 
 		return commands
 	}

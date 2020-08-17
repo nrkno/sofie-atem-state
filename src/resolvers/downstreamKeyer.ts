@@ -1,116 +1,76 @@
 import {
-	Commands as AtemCommands
+	Commands as AtemCommands, VideoState, AtemStateUtil, AtemState
 } from 'atem-connection'
-import { State as StateObject } from '../'
-import { DownstreamKeyerProperties, DownstreamKeyerMask } from 'atem-connection/dist/state/video/downstreamKeyers'
+import { State as StateObject, Defaults } from '../'
+import { getAllKeysNumber, diffObject } from '../util'
 
-export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveDownstreamKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	commands = commands.concat(resolveDownstreamKeyerMaskState(oldState, newState))
-	commands = commands.concat(resolveDownstreamKeyerPropertiesState(oldState, newState))
+	for (const index of getAllKeysNumber(oldState.video.downstreamKeyers, newState.video.downstreamKeyers)) {
+		const oldDsk = AtemStateUtil.getDownstreamKeyer(oldState as AtemState, index, true)
+		const newDsk = AtemStateUtil.getDownstreamKeyer(newState as AtemState, index, true)
 
-	for (const index in newState.video.downstreamKeyers) {
-		const oldDsk = oldState.video.downstreamKeyers[index]
-		const newDsk = newState.video.downstreamKeyers[index]
+		commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
+		commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))
 
-		if (oldDsk.sources.fillSource !== newDsk.sources.fillSource) {
-			const command = new AtemCommands.DownstreamKeyFillSourceCommand()
-			command.downstreamKeyerId = Number(index)
-			command.updateProps({ input: newDsk.sources.fillSource })
-			commands.push(command)
+		const oldSources = oldDsk.sources || Defaults.Video.DownstreamerKeyerSources
+		const newSources = newDsk.sources || Defaults.Video.DownstreamerKeyerSources
+
+		if (oldSources.fillSource !== newSources.fillSource) {
+			commands.push(new AtemCommands.DownstreamKeyFillSourceCommand(index, newSources.fillSource))
 		}
-		if (oldDsk.sources.cutSource !== newDsk.sources.cutSource) {
-			const command = new AtemCommands.DownstreamKeyCutSourceCommand()
-			command.downstreamKeyerId = Number(index)
-			command.updateProps({ input: newDsk.sources.cutSource })
-			commands.push(command)
+		if (oldSources.cutSource !== newSources.cutSource) {
+			commands.push(new AtemCommands.DownstreamKeyCutSourceCommand(index, newSources.cutSource))
 		}
 
 		if (!oldDsk.isAuto && newDsk.isAuto) {
-			const command = new AtemCommands.DownstreamKeyAutoCommand()
-			command.downstreamKeyerId = Number(index)
-			commands.push(command)
+			commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
 		} else if (oldDsk.onAir !== newDsk.onAir) {
-			const command = new AtemCommands.DownstreamKeyOnAirCommand()
-			command.downstreamKeyerId = Number(index)
-			command.properties = { onAir: newDsk.onAir }
-			commands.push(command)
+			commands.push(new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir))
 		}
 	}
 
 	return commands
 }
 
-export function resolveDownstreamKeyerPropertiesState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	const commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveDownstreamKeyerPropertiesState (index: number, oldDsk: VideoState.DSK.DownstreamKeyer, newDsk: VideoState.DSK.DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index in newState.video.downstreamKeyers) {
-		const oldProps = oldState.video.downstreamKeyers[index].properties
-		const newProps = newState.video.downstreamKeyers[index].properties
-		const dskIndex = Number(index)
-		const props: Partial<DownstreamKeyerProperties> = {}
+	if (!oldDsk.properties && !newDsk.properties) return commands
 
-		if (oldProps.clip !== newProps.clip) {
-			props.clip = newProps.clip
-		}
-		if (oldProps.gain !== newProps.gain) {
-			props.gain = newProps.gain
-		}
-		if (oldProps.invert !== newProps.invert) {
-			props.invert = newProps.invert
-		}
-		if (oldProps.preMultiply !== newProps.preMultiply) {
-			props.preMultiply = newProps.preMultiply
-		}
+	const oldProps = oldDsk.properties || Defaults.Video.DownstreamerKeyerProperties
+	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
-		if (Object.keys(props).length > 0) {
-			const command = new AtemCommands.DownstreamKeyGeneralCommand()
-			command.downstreamKeyerId = dskIndex
-			command.updateProps(props)
-			commands.push(command)
-		}
+	const props = diffObject(oldProps, newProps)
+	const command = new AtemCommands.DownstreamKeyGeneralCommand(index)
+	if (command.updateProps(props)) {
+		commands.push(command)
+	}
 
-		if (oldProps.rate !== newProps.rate) {
-			const command = new AtemCommands.DownstreamKeyRateCommand()
-			command.downstreamKeyerId = dskIndex
-			command.updateProps({ rate: newProps.rate })
-			commands.push(command)
-		}
+	if (oldProps.rate !== newProps.rate) {
+		commands.push(new AtemCommands.DownstreamKeyRateCommand(index, newProps.rate))
+	}
 
-		if (oldProps.tie !== newProps.tie) {
-			const command = new AtemCommands.DownstreamKeyTieCommand()
-			command.downstreamKeyerId = dskIndex
-			command.updateProps({ tie: newProps.tie })
-			commands.push(command)
-		}
+	if (oldProps.tie !== newProps.tie) {
+		commands.push(new AtemCommands.DownstreamKeyTieCommand(index, newProps.tie))
 	}
 
 	return commands
 }
 
-export function resolveDownstreamKeyerMaskState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	const commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveDownstreamKeyerMaskState (index: number, oldDsk: VideoState.DSK.DownstreamKeyer, newDsk: VideoState.DSK.DownstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index in newState.video.downstreamKeyers) {
-		const oldProps = oldState.video.downstreamKeyers[index].properties.mask
-		const newProps = newState.video.downstreamKeyers[index].properties.mask
-		const dskIndex = Number(index)
-		const props: Partial<DownstreamKeyerMask> = {}
+	if (!oldDsk.properties && !newDsk.properties) return commands
 
-		for (let key in newProps) {
-			const typedKey = key as keyof DownstreamKeyerMask
-			if (newProps[typedKey] !== oldProps[typedKey]) {
-				props[typedKey] = newProps[typedKey] as any
-			}
-		}
+	const oldProps = oldDsk.properties || Defaults.Video.DownstreamerKeyerProperties
+	const newProps = newDsk.properties || Defaults.Video.DownstreamerKeyerProperties
 
-		if (Object.keys(props).length > 0) {
-			const command = new AtemCommands.DownstreamKeyMaskCommand()
-			command.downstreamKeyerId = dskIndex
-			command.updateProps(props)
-			commands.push(command)
-		}
+	const props = diffObject(oldProps.mask, newProps.mask)
+	const command = new AtemCommands.DownstreamKeyMaskCommand(index)
+	if (command.updateProps(props)) {
+		commands.push(command)
 	}
 
 	return commands

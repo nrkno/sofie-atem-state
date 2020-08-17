@@ -1,8 +1,4 @@
-import { VideoState, Enums } from 'atem-connection'
-import * as USK from 'atem-connection/dist/state/video/upstreamKeyers'
-import * as DSK from 'atem-connection/dist/state/video/downstreamKeyers'
-import { AudioChannel } from 'atem-connection/dist/state/audio'
-import { MacroPlayerState } from 'atem-connection/dist/state/macro'
+import { VideoState, Enums, AudioState } from 'atem-connection'
 import { MediaPlayer, MediaPlayerSource } from 'atem-connection/dist/state/media'
 
 export namespace Defaults {
@@ -21,36 +17,31 @@ export namespace Defaults {
 			clipFrame: 0
 		}
 
-		export const MacroPlayer: MacroPlayerState = {
-			macroIndex: 0,
-			isRunning: false,
-			isWaiting: false,
-			loop: false
+		// export const MacroPlayer: MacroPlayerState = {
+		// 	macroIndex: 0,
+		// 	isRunning: false,
+		// 	isWaiting: false,
+		// 	loop: false
+		// }
+
+		export const DownstreamerKeyerSources: Readonly<VideoState.DSK.DownstreamKeyerSources> = {
+			fillSource: defaultInput,
+			cutSource: defaultInput
 		}
 
-		export const DownStreamKeyer: DSK.DownstreamKeyer = {
-			onAir: false,
-			inTransition: false,
-			isAuto: false,
-			remainingFrames: defaultRate,
-			sources: {
-				fillSource: defaultInput,
-				cutSource: defaultInput
-			},
-			properties: {
-				tie: false,
-				rate: defaultRate,
-				preMultiply: false,
-				clip: 0,
-				gain: 0,
-				invert: false,
-				mask: {
-					enabled: false,
-					top: 0,
-					bottom: 0,
-					left: 0,
-					right: 0
-				}
+		export const DownstreamerKeyerProperties: Readonly<VideoState.DSK.DownstreamKeyerProperties> = {
+			preMultiply: false,
+			clip: 0,
+			gain: 0,
+			invert: false,
+			tie: false,
+			rate: 25,
+			mask: {
+				enabled: false,
+				top: 0,
+				bottom: 0,
+				left: 0,
+				right: 0
 			}
 		}
 
@@ -106,121 +97,65 @@ export namespace Defaults {
 			flipFlop: false
 		}
 
-		export const TransitionProperties: Partial<VideoState.TransitionProperties> = {
-			style: Enums.TransitionStyle.MIX,
-			selection: 1
+		// export const TransitionProperties: Omit<VideoState.TransitionProperties, 'nextStyle' | 'nextSelection'> = {
+		// 	style: Enums.TransitionStyle.MIX,
+		// 	selection: 1
+		// }
+
+		export const UpstreamKeyerPatternSettings: VideoState.USK.UpstreamKeyerPatternSettings = {
+			style: Enums.Pattern.LeftToRightBar,
+			size: 0,
+			symmetry: 5000,
+			softness: 0,
+			positionX: 500,
+			positionY: 500,
+			invert: false
+		}
+		export const UpstreamKeyerLumaSettings: VideoState.USK.UpstreamKeyerLumaSettings = {
+			preMultiplied: false,
+			clip: 0,
+			gain: 0,
+			invert: false
+		}
+		export const UpstreamKeyerChromaSettings: VideoState.USK.UpstreamKeyerChromaSettings = {
+			hue: 0,
+			gain: 0,
+			ySuppress: 0,
+			lift: 0,
+			narrow: false
+		}
+		export const UpstreamKeyerDVESettings: VideoState.USK.UpstreamKeyerDVESettings = {
+			borderEnabled: false,
+			shadowEnabled: false,
+			borderBevel: Enums.BorderBevel.None,
+			rate: 1,
+
+			sizeX: 0,
+			sizeY: 0,
+			positionX: 0,
+			positionY: 0,
+			rotation: 0,
+			borderOuterWidth: 0,
+			borderInnerWidth: 0,
+			borderOuterSoftness: 0,
+			borderInnerSoftness: 0,
+			borderBevelSoftness: 0,
+			borderBevelPosition: 0,
+			borderOpacity: 0,
+			borderHue: 0,
+			borderSaturation: 0,
+			borderLuma: 0,
+			lightSourceDirection: 0,
+			lightSourceAltitude: 0,
+
+			maskEnabled: false,
+			maskTop: 0,
+			maskBottom: 0,
+			maskLeft: 0,
+			maskRight: 0
 		}
 
-		export const TransitionSettings: VideoState.TransitionSettings = {
-			dip: DipTransitionSettings,
-			DVE: DVETransitionSettings,
-			mix: MixTransitionSettings,
-			stinger: StingerTransitionSettings,
-			wipe: WipeTransitionSettings
-		}
-
-		export const MixEffect: Partial<VideoState.MixEffect> = {
-			programInput: defaultInput,
-			previewInput: defaultInput,
-			inTransition: false,
-			transitionPreview: false,
-			transitionPosition: 0,
-			fadeToBlack: {
-				isFullyBlack: false,
-				remainingFrames: 0,
-				rate: defaultRate,
-				inTransition: false
-			},
-			transitionProperties: TransitionProperties as VideoState.TransitionProperties,
-			transitionSettings: TransitionSettings,
-			upstreamKeyers: []
-		}
-
-		export function UpstreamKeyer (id: number): USK.UpstreamKeyer {
-			return {
-				upstreamKeyerId: id,
-				mixEffectKeyType: Enums.MixEffectKeyType.Luma,
-				flyEnabled: false,
-				fillSource: 0,
-				cutSource: 0,
-				maskEnabled: false,
-				maskTop: 0,
-				maskBottom: 0,
-				maskLeft: 0,
-				maskRight: 0,
-				onAir: false,
-
-				dveSettings: {
-					borderEnabled: false,
-					shadowEnabled: false,
-					borderBevel: Enums.BorderBevel.None,
-					rate: 1,
-
-					sizeX: 0,
-					sizeY: 0,
-					positionX: 0,
-					positionY: 0,
-					rotation: 0,
-					borderOuterWidth: 0,
-					borderInnerWidth: 0,
-					borderOuterSoftness: 0,
-					borderInnerSoftness: 0,
-					borderBevelSoftness: 0,
-					borderBevelPosition: 0,
-					borderOpacity: 0,
-					borderHue: 0,
-					borderSaturation: 0,
-					borderLuma: 0,
-					lightSourceDirection: 0,
-					lightSourceAltitude: 0,
-
-					maskEnabled: false,
-					maskTop: 0,
-					maskBottom: 0,
-					maskLeft: 0,
-					maskRight: 0
-				},
-
-				chromaSettings: {
-					hue: 0,
-					gain: 0,
-					ySuppress: 0,
-					lift: 0,
-					narrow: false
-				},
-
-				lumaSettings: {
-					preMultiplied: false,
-					clip: 0,
-					gain: 0,
-					invert: false
-				},
-
-				patternSettings: {
-					style: Enums.Pattern.LeftToRightBar,
-					size: 0,
-					symmetry: 5000,
-					softness: 0,
-					positionX: 500,
-					positionY: 500,
-					invert: false
-				},
-
-				flyKeyframes: [
-					flyKeyframe(0),
-					flyKeyframe(1)
-				],
-
-				flyProperties: {
-					isASet: false,
-					isBSet: false,
-					isAtKeyFrame: Enums.IsAtKeyFrame.None,
-					runToInfiniteIndex: 0
-				}
-			}
-		}
-
-		export function flyKeyframe (id: number): USK.UpstreamKeyerFlyKeyframe {
+		export function flyKeyframe (id: number): VideoState.USK.UpstreamKeyerFlyKeyframe {
 			return {
 				keyFrameId: id,
 
@@ -242,7 +177,7 @@ export namespace Defaults {
 				lightSourceDirection: 0,
 				lightSourceAltitude: 0,
 
-				maskEnabled: false,
+				// maskEnabled: false,
 				maskTop: 0,
 				maskBottom: 0,
 				maskLeft: 0,
@@ -250,7 +185,7 @@ export namespace Defaults {
 			}
 		}
 
-		export const SuperSourceBox: VideoState.SuperSourceBox = {
+		export const SuperSourceBox: VideoState.SuperSource.SuperSourceBox = {
 			enabled: false,
 			source: defaultInput,
 			x: 0,
@@ -263,7 +198,7 @@ export namespace Defaults {
 			cropRight: 0
 		}
 
-		export const SuperSourceProperties: VideoState.SuperSourceProperties = {
+		export const SuperSourceProperties: VideoState.SuperSource.SuperSourceProperties = {
 			artFillSource: defaultInput,
 			artCutSource: defaultInput,
 			artOption: Enums.SuperSourceArtOption.Background,
@@ -273,7 +208,7 @@ export namespace Defaults {
 			artInvertKey: false
 		}
 
-		export const SuperSourceBorder: VideoState.SuperSourceBorder = {
+		export const SuperSourceBorder: VideoState.SuperSource.SuperSourceBorder = {
 			borderEnabled: false,
 			borderBevel: Enums.BorderBevel.None,
 			borderOuterWidth: 0,
@@ -291,12 +226,19 @@ export namespace Defaults {
 	}
 
 	export namespace Audio {
-		export const Channel: AudioChannel = {
+		export const Channel: AudioState.AudioChannel = {
 			sourceType: 0,
 			portType: 1,
 			mixOption: 0,
 			gain: 0,
-			balance: 0
+			balance: 0,
+			supportsRcaToXlrEnabled: false,
+			rcaToXlrEnabled: false
+		}
+		export const Master: AudioState.AudioMasterChannel = {
+			gain: 0,
+			balance: 0,
+			followFadeToBlack: false
 		}
 	}
 }

@@ -1,42 +1,19 @@
-import { Commands as AtemCommands } from 'atem-connection'
-import { State as StateObject } from '../../'
-import { UpstreamKeyerChromaSettings } from 'atem-connection/dist/state/video/upstreamKeyers'
+import { Commands as AtemCommands, VideoState } from 'atem-connection'
+import { diffObject } from '../../util'
+import { Defaults } from '../..'
 
-export function resolveChromaKeyerState (oldState: StateObject, newState: StateObject): Array<AtemCommands.AbstractCommand> {
-	let commands: Array<AtemCommands.AbstractCommand> = []
+export function resolveChromaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: VideoState.USK.UpstreamKeyer, newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const mixEffectId in oldState.video.ME) {
-		if (!newState.video.ME[mixEffectId]) continue
-		for (const upstreamKeyerId in oldState.video.ME[mixEffectId].upstreamKeyers) {
-			const oldKeyer = oldState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			const newKeyer = newState.video.ME[mixEffectId].upstreamKeyers[upstreamKeyerId]
-			if (!oldKeyer || !newKeyer) {
-				continue
-			}
+	if (!oldKeyer.chromaSettings && !newKeyer.chromaSettings) return commands
 
-			const oldChromaKeyer = oldKeyer.chromaSettings
-			const newChromaKeyer = newKeyer.chromaSettings
-			if (!oldChromaKeyer || !newChromaKeyer) {
-				continue
-			}
+	const oldChromaKeyer = oldKeyer.chromaSettings || Defaults.Video.UpstreamKeyerChromaSettings
+	const newChromaKeyer = newKeyer.chromaSettings || Defaults.Video.UpstreamKeyerChromaSettings
 
-			const props: Partial<UpstreamKeyerChromaSettings> = {}
-
-			for (const key in AtemCommands.MixEffectKeyChromaCommand.MaskFlags) {
-				const typedKey = key as keyof UpstreamKeyerChromaSettings
-				if (oldChromaKeyer[typedKey] !== newChromaKeyer[typedKey]) {
-					props[typedKey] = newChromaKeyer[typedKey] as any
-				}
-			}
-
-			if (Object.keys(props).length > 0) {
-				const command = new AtemCommands.MixEffectKeyChromaCommand()
-				command.upstreamKeyerId = Number(upstreamKeyerId)
-				command.mixEffect = Number(mixEffectId)
-				command.updateProps(props)
-				commands.push(command)
-			}
-		}
+	const props = diffObject(oldChromaKeyer, newChromaKeyer)
+	const command = new AtemCommands.MixEffectKeyChromaCommand(mixEffectId, upstreamKeyerId)
+	if (command.updateProps(props)) {
+		commands.push(command)
 	}
 
 	return commands
