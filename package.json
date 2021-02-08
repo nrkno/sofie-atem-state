@@ -50,7 +50,7 @@
 		"reset": "git clean -dfx && git reset --hard && yarn",
 		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate",
 		"validate:dev-dependencies": "yarn audit --groups devDependencies",
-		"license-validate": "node-license-validator -p -d --allow-licenses MIT BSD 0BSD BSD-3-Clause ISC Apache"
+		"license-validate": "node-license-validator -p -d --allow-licenses MIT BSD 0BSD BSD-3-Clause ISC Apache Unlicense"
 	},
 	"scripts-info": {
 		"info": "Display information about the scripts",
@@ -121,5 +121,12 @@
 	"standard-version": {
 		"message": "chore(release): %s [skip ci]",
 		"tagPrefix": ""
+	},
+	"resolutions": {
+		"minimist": "^1.2.5",
+		"yargs-parser": "^18.1.2",
+		"ini": "^1.3.6",
+		"dot-prop": "^5.1.2",
+		"node-fetch": "^2.6.1"
 	}
 }
