@@ -2,7 +2,12 @@ import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { diffObject } from '../../util'
 import { Defaults } from '../..'
 
-export function resolveChromaKeyerState (mixEffectId: number, upstreamKeyerId: number, oldKeyer: VideoState.USK.UpstreamKeyer, newKeyer: VideoState.USK.UpstreamKeyer): Array<AtemCommands.ISerializableCommand> {
+export function resolveChromaKeyerState(
+	mixEffectId: number,
+	upstreamKeyerId: number,
+	oldKeyer: VideoState.USK.UpstreamKeyer,
+	newKeyer: VideoState.USK.UpstreamKeyer
+): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.chromaSettings && !newKeyer.chromaSettings) return commands

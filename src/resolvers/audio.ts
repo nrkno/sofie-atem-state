@@ -1,10 +1,9 @@
 import { Commands as AtemCommands, Commands } from 'atem-connection'
 import { State as StateObject } from '../'
 import { getAllKeysNumber, diffObject } from '../util'
-import * as _ from 'underscore'
 import { Defaults } from '../defaults'
 
-export function resolveAudioState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+export function resolveAudioState(oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 	if (!newState.audio) return commands
 
@@ -26,7 +25,10 @@ export function resolveAudioState (oldState: StateObject, newState: StateObject)
 	return commands
 }
 
-export function resolveAudioMixerInputsState (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+export function resolveAudioMixerInputsState(
+	oldState: StateObject,
+	newState: StateObject
+): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (oldState.audio && newState.audio) {

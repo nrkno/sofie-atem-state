@@ -7,29 +7,33 @@ export class AtemState {
 
 	private _state: StateObject
 
-	public constructor () {
+	public constructor() {
 		this._state = AtemStateUtil.Create()
 	}
 
-	setState (state: StateObject) {
+	setState(state: StateObject): void {
 		this._state = state
 	}
 
-	getState (): StateObject {
+	getState(): StateObject {
 		return this._state
 	}
 
-	diffState (newState: StateObject): Array<Commands.ISerializableCommand> {
+	diffState(newState: StateObject): Array<Commands.ISerializableCommand> {
 		return AtemState.diffStates(this.version, this._state, newState)
 	}
 
 	/** Deprecated */
-	diffStates (oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+	diffStates(oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 		return AtemState.diffStates(this.version, oldState, newState)
 	}
 
-	static diffStates (version: Enums.ProtocolVersion, oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
-		let commands: Array<Commands.ISerializableCommand> = []
+	static diffStates(
+		version: Enums.ProtocolVersion,
+		oldState: StateObject,
+		newState: StateObject
+	): Array<Commands.ISerializableCommand> {
+		const commands: Array<Commands.ISerializableCommand> = []
 
 		commands.push(...Resolvers.videoState(oldState, newState, version))
 

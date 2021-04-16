@@ -2,10 +2,10 @@ import * as video from '../index'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 
 const STATE1 = AtemStateUtil.Create()
-;(STATE1.video.auxilliaries as number[]) = [ 0, 0, 0, 2 ]
+;(STATE1.video.auxilliaries as number[]) = [0, 0, 0, 2]
 
 const STATE2 = AtemStateUtil.Create()
-;(STATE2.video.auxilliaries as number[]) = [ 1, 0, 2, 0 ]
+;(STATE2.video.auxilliaries as number[]) = [1, 0, 2, 0]
 
 test('Unit: auxiliaries: same state gives no commands', function () {
 	// same state gives no commands:
@@ -20,18 +20,18 @@ test('Unit: media player: status command', function () {
 	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')
 	expect(commands[0].auxBus).toEqual(0)
 	expect(commands[0].properties).toEqual({
-		source: 1
+		source: 1,
 	})
 
 	expect(commands[1].constructor.name).toEqual('AuxSourceCommand')
 	expect(commands[1].auxBus).toEqual(2)
 	expect(commands[1].properties).toEqual({
-		source: 2
+		source: 2,
 	})
 
 	expect(commands[2].constructor.name).toEqual('AuxSourceCommand')
 	expect(commands[2].auxBus).toEqual(3)
 	expect(commands[2].properties).toEqual({
-		source: 0
+		source: 0,
 	})
 })

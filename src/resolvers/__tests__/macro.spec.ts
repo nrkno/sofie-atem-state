@@ -6,7 +6,7 @@ STATE1.macro.macroPlayer = {
 	isRunning: true,
 	isWaiting: false,
 	loop: true,
-	macroIndex: 12
+	macroIndex: 12,
 }
 
 const STATE2 = AtemStateUtil.Create()
@@ -14,7 +14,7 @@ STATE2.macro.macroPlayer = {
 	isRunning: true,
 	isWaiting: false,
 	loop: true,
-	macroIndex: 10
+	macroIndex: 10,
 }
 
 const STATE3 = AtemStateUtil.Create()
@@ -22,7 +22,7 @@ STATE3.macro.macroPlayer = {
 	isRunning: false,
 	isWaiting: false,
 	loop: true,
-	macroIndex: 12
+	macroIndex: 12,
 }
 
 test('Unit: macro: same state gives no commands', function () {
@@ -38,7 +38,7 @@ test('Unit: macro: change running macro', function () {
 	expect(commands[0].constructor.name).toEqual('MacroActionCommand')
 	expect(commands[0].index).toEqual(10)
 	expect(commands[0].properties).toEqual({
-		action: 0
+		action: 0,
 	})
 })
 

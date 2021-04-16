@@ -6,11 +6,7 @@ test('Unit test: Enums: TransitionStyle identical values', function () {
 	const enumVals = _.filter(_.values(Enums.TransitionStyle), _.isNumber)
 	const connVals = _.filter(_.values(ConnEnums.TransitionStyle), _.isNumber)
 
-	const extendedConnVals = [
-		...connVals,
-		Enums.TransitionStyle.CUT,
-		Enums.TransitionStyle.DUMMY
-	]
+	const extendedConnVals = [...connVals, Enums.TransitionStyle.CUT, Enums.TransitionStyle.DUMMY]
 
 	expect(extendedConnVals).toEqual(enumVals)
 })

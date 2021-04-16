@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as PatternKeyer from '../patternKeyer'
 import { Defaults } from '../../../'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
@@ -15,7 +16,7 @@ test('Unit: upstream keyers: pattern keyer undefined gives no error', function (
 	USK1.patternSettings = jsonClone(Defaults.Video.UpstreamKeyerPatternSettings)
 
 	// same state gives no commands:
-	let patternKeyer = USK2.patternSettings
+	const patternKeyer = USK2.patternSettings
 	delete USK2.patternSettings
 	const commands = PatternKeyer.resolvePatternKeyerState(0, 0, USK1, USK2)
 	expect(commands).toHaveLength(0)
@@ -30,7 +31,7 @@ test('Unit: upstream keyers: pattern keyer', function () {
 		softness: 2,
 		positionX: 300,
 		positionY: 700,
-		invert: true
+		invert: true,
 	}
 	const commands = PatternKeyer.resolvePatternKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyPatternCommand]
 
@@ -44,7 +45,7 @@ test('Unit: upstream keyers: pattern keyer', function () {
 		softness: 2,
 		positionX: 300,
 		positionY: 700,
-		invert: true
+		invert: true,
 	})
 
 	USK2.patternSettings = jsonClone(USK1.patternSettings)
@@ -62,7 +63,7 @@ test('Unit: upstream keyers: pattern keyer: new pattern, no position / symmetry'
 		style: Enums.Pattern.BottomRightBox,
 		symmetry: 5000,
 		positionX: 300,
-		positionY: 500
+		positionY: 500,
 	})
 
 	USK2.patternSettings!.positionX = 500

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as DVE from '../dveKeyer'
 import { Defaults } from '../../../'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
@@ -31,7 +32,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		positionY: 6,
 		rotation: 7,
 		lightSourceDirection: 8,
-		lightSourceAltitude: 9
+		lightSourceAltitude: 9,
 	}
 	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
 
@@ -46,7 +47,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		positionY: 6,
 		rotation: 7,
 		lightSourceDirection: 8,
-		lightSourceAltitude: 9
+		lightSourceAltitude: 9,
 	})
 
 	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
@@ -82,7 +83,7 @@ test('Unit: upstream keyers: dve keyer: border', function () {
 		borderOpacity: 7,
 		borderHue: 8,
 		borderSaturation: 9,
-		borderLuma: 10
+		borderLuma: 10,
 	})
 
 	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
@@ -96,7 +97,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		maskTop: 1,
 		maskBottom: 2,
 		maskLeft: 3,
-		maskRight: 4
+		maskRight: 4,
 	}
 	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
 
@@ -108,7 +109,7 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		maskTop: 1,
 		maskBottom: 2,
 		maskLeft: 3,
-		maskRight: 4
+		maskRight: 4,
 	})
 
 	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)

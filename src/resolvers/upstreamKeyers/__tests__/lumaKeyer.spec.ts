@@ -15,7 +15,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 	USK1.lumaSettings = jsonClone(Defaults.Video.UpstreamKeyerLumaSettings)
 
 	// same state gives no commands:
-	let lk = USK2.lumaSettings
+	const lk = USK2.lumaSettings
 	delete USK2.lumaSettings
 	const commands = LK.resolveLumaKeyerState(0, 0, USK1, USK2)
 	expect(commands).toHaveLength(0)
@@ -27,7 +27,7 @@ test('Unit: upstream keyers: luma keyer', function () {
 		preMultiplied: true,
 		clip: 1,
 		gain: 2,
-		invert: true
+		invert: true,
 	}
 	const commands = LK.resolveLumaKeyerState(0, 0, USK1, USK2) as Array<Commands.MixEffectKeyLumaCommand>
 	expect(commands).toHaveLength(1)
@@ -39,7 +39,7 @@ test('Unit: upstream keyers: luma keyer', function () {
 		preMultiplied: true,
 		clip: 1,
 		gain: 2,
-		invert: true
+		invert: true,
 	})
 
 	USK2.lumaSettings = jsonClone(USK1.lumaSettings)

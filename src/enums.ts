@@ -6,6 +6,6 @@ export namespace Enums {
 		DVE,
 		STING,
 		CUT,
-		DUMMY
+		DUMMY,
 	}
 }

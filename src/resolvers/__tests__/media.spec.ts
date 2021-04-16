@@ -10,7 +10,7 @@ const STATE1 = AtemStateUtil.Create()
 		clipFrame: 0,
 		sourceType: Enums.MediaSourceType.Clip,
 		stillIndex: 0,
-		clipIndex: 0
+		clipIndex: 0,
 	},
 	{
 		playing: true,
@@ -19,8 +19,8 @@ const STATE1 = AtemStateUtil.Create()
 		clipFrame: 0,
 		sourceType: Enums.MediaSourceType.Clip,
 		stillIndex: 0,
-		clipIndex: 0
-	}
+		clipIndex: 0,
+	},
 ]
 const STATE2 = AtemStateUtil.Create()
 ;(STATE2.media.players as MediaState.MediaPlayerState[]) = [
@@ -31,7 +31,7 @@ const STATE2 = AtemStateUtil.Create()
 		clipFrame: 25,
 		sourceType: Enums.MediaSourceType.Clip,
 		stillIndex: 0,
-		clipIndex: 0
+		clipIndex: 0,
 	},
 	{
 		playing: false,
@@ -40,8 +40,8 @@ const STATE2 = AtemStateUtil.Create()
 		clipFrame: 0,
 		sourceType: Enums.MediaSourceType.Clip,
 		stillIndex: 0,
-		clipIndex: 0
-	}
+		clipIndex: 0,
+	},
 ]
 
 test('Unit: media player: same state gives no commands', function () {
@@ -57,7 +57,7 @@ test('Unit: media player: status command', function () {
 	expect(commands[0].mediaPlayerId).toEqual(0)
 	expect(commands[0].properties).toEqual({
 		playing: true,
-		clipFrame: 25
+		clipFrame: 25,
 	})
 
 	expect(commands[1].constructor.name).toEqual('MediaPlayerStatusCommand')
@@ -65,6 +65,6 @@ test('Unit: media player: status command', function () {
 	expect(commands[1].properties).toEqual({
 		playing: false,
 		loop: true,
-		atBeginning: true
+		atBeginning: true,
 	})
 })

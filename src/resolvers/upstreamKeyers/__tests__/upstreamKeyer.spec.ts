@@ -18,7 +18,7 @@ test('Unit: upstream keyers: same state gives no commands', function () {
 
 test('Unit: upstream keyers: undefined gives no error', function () {
 	// same state gives no commands:
-	let usk = ME2.upstreamKeyers[0]
+	const usk = ME2.upstreamKeyers[0]
 	delete ME2.upstreamKeyers[0]
 	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2)
 	expect(commands).toHaveLength(0)
@@ -28,14 +28,17 @@ test('Unit: upstream keyers: undefined gives no error', function () {
 test('Unit: upstream keyers: sources', function () {
 	USK2.cutSource = 1
 	USK2.fillSource = 2
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [ Commands.MixEffectKeyFillSourceSetCommand, Commands.DownstreamKeyCutSourceCommand ]
+	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [
+		Commands.MixEffectKeyFillSourceSetCommand,
+		Commands.DownstreamKeyCutSourceCommand
+	]
 	expect(commands).toHaveLength(2)
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyFillSourceSetCommand')
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
 	expect(commands[0].properties).toEqual({
-		fillSource: 2
+		fillSource: 2,
 	})
 
 	expect(commands[1].constructor.name).toEqual('MixEffectKeyCutSourceSetCommand')
@@ -43,7 +46,7 @@ test('Unit: upstream keyers: sources', function () {
 	expect(commands[0].upstreamKeyerId).toEqual(0)
 	expect(Object.keys(commands[0].properties).length).toBe(1)
 	expect(commands[1].properties).toEqual({
-		cutSource: 1
+		cutSource: 1,
 	})
 
 	USK2.cutSource = Defaults.Video.defaultInput
@@ -59,7 +62,7 @@ test('Unit: upstream keyers: key type', function () {
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
 	expect(commands[0].properties).toEqual({
-		mixEffectKeyType: 2
+		mixEffectKeyType: 2,
 	})
 
 	USK2.mixEffectKeyType = USK1.mixEffectKeyType
@@ -74,7 +77,7 @@ test('Unit: upstream keyers: flyKey enabled', function () {
 	expect(commands[0].mixEffect).toEqual(0)
 	expect(commands[0].upstreamKeyerId).toEqual(0)
 	expect(commands[0].properties).toEqual({
-		flyEnabled: !USK1.flyEnabled
+		flyEnabled: !USK1.flyEnabled,
 	})
 
 	USK2.flyEnabled = USK1.flyEnabled
@@ -90,7 +93,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 	expect(commands[0].upstreamKeyerId).toEqual(0)
 	expect(Object.keys(commands[0].properties).length).toBe(1)
 	expect(commands[0].properties).toEqual({
-		onAir: !USK1.onAir
+		onAir: !USK1.onAir,
 	})
 
 	USK2.onAir = USK1.onAir

@@ -8,7 +8,7 @@ export interface AtemVideoState extends Omit<VideoState.AtemVideoState, 'mixEffe
 export type MixEffect = VideoState.MixEffect | ExtendedMixEffect
 
 export interface ExtendedMixEffect extends Omit<VideoState.MixEffect, 'programInput' | 'previewInput'> {
-	input: number,
+	input: number
 	transition: Enums.TransitionStyle
 }
 

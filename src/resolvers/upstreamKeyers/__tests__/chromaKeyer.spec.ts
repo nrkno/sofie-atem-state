@@ -15,7 +15,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 	USK1.chromaSettings = jsonClone(Defaults.Video.UpstreamKeyerChromaSettings)
 
 	// same state gives no commands:
-	let ck = USK2.chromaSettings
+	const ck = USK2.chromaSettings
 	delete USK2.chromaSettings
 	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2)
 	expect(commands).toHaveLength(0)
@@ -28,7 +28,7 @@ test('Unit: upstream keyers: chroma keyer', function () {
 		hue: 2,
 		lift: 3,
 		narrow: true,
-		ySuppress: 4
+		ySuppress: 4,
 	}
 	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2) as Array<Commands.MixEffectKeyChromaCommand>
 
@@ -40,7 +40,7 @@ test('Unit: upstream keyers: chroma keyer', function () {
 		hue: 2,
 		lift: 3,
 		narrow: true,
-		ySuppress: 4
+		ySuppress: 4,
 	})
 
 	USK2.chromaSettings = jsonClone(Defaults.Video.UpstreamKeyerChromaSettings)

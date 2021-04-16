@@ -1,6 +1,4 @@
-import {
-	Commands as AtemCommands,
-	Enums } from 'atem-connection'
+import { Commands as AtemCommands, Enums } from 'atem-connection'
 import { State as StateObject } from '../'
 
 import { resolveMixEffectsState } from './mixEffect'
@@ -11,7 +9,11 @@ import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
 
-export function videoState (oldState: StateObject, newState: StateObject, version: Enums.ProtocolVersion): Array<AtemCommands.ISerializableCommand> {
+export function videoState(
+	oldState: StateObject,
+	newState: StateObject,
+	version: Enums.ProtocolVersion
+): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	commands.push(...resolveMixEffectsState(oldState, newState))

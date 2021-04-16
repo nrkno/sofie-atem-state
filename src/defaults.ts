@@ -14,7 +14,7 @@ export namespace Defaults {
 			loop: false,
 			playing: false,
 			atBeginning: false,
-			clipFrame: 0
+			clipFrame: 0,
 		}
 
 		// export const MacroPlayer: MacroPlayerState = {
@@ -26,7 +26,7 @@ export namespace Defaults {
 
 		export const DownstreamerKeyerSources: Readonly<VideoState.DSK.DownstreamKeyerSources> = {
 			fillSource: defaultInput,
-			cutSource: defaultInput
+			cutSource: defaultInput,
 		}
 
 		export const DownstreamerKeyerProperties: Readonly<VideoState.DSK.DownstreamKeyerProperties> = {
@@ -41,13 +41,13 @@ export namespace Defaults {
 				top: 0,
 				bottom: 0,
 				left: 0,
-				right: 0
-			}
+				right: 0,
+			},
 		}
 
 		export const DipTransitionSettings: VideoState.DipTransitionSettings = {
 			rate: defaultRate,
-			input: defaultInput
+			input: defaultInput,
 		}
 
 		export const DVETransitionSettings: VideoState.DVETransitionSettings = {
@@ -63,11 +63,11 @@ export namespace Defaults {
 			gain: 0,
 			invertKey: false,
 			reverse: false,
-			flipFlop: false
+			flipFlop: false,
 		}
 
 		export const MixTransitionSettings: VideoState.MixTransitionSettings = {
-			rate: defaultRate
+			rate: defaultRate,
 		}
 
 		export const StingerTransitionSettings: VideoState.StingerTransitionSettings = {
@@ -81,7 +81,7 @@ export namespace Defaults {
 			preroll: 0,
 			clipDuration: defaultRate,
 			triggerPoint: Math.ceil(defaultRate / 2),
-			mixRate: 1
+			mixRate: 1,
 		}
 
 		export const WipeTransitionSettings: VideoState.WipeTransitionSettings = {
@@ -94,7 +94,7 @@ export namespace Defaults {
 			xPosition: 5000,
 			yPosition: 5000,
 			reverseDirection: false,
-			flipFlop: false
+			flipFlop: false,
 		}
 
 		// export const TransitionProperties: Omit<VideoState.TransitionProperties, 'nextStyle' | 'nextSelection'> = {
@@ -109,20 +109,20 @@ export namespace Defaults {
 			softness: 0,
 			positionX: 500,
 			positionY: 500,
-			invert: false
+			invert: false,
 		}
 		export const UpstreamKeyerLumaSettings: VideoState.USK.UpstreamKeyerLumaSettings = {
 			preMultiplied: false,
 			clip: 0,
 			gain: 0,
-			invert: false
+			invert: false,
 		}
 		export const UpstreamKeyerChromaSettings: VideoState.USK.UpstreamKeyerChromaSettings = {
 			hue: 0,
 			gain: 0,
 			ySuppress: 0,
 			lift: 0,
-			narrow: false
+			narrow: false,
 		}
 		export const UpstreamKeyerDVESettings: VideoState.USK.UpstreamKeyerDVESettings = {
 			borderEnabled: false,
@@ -152,10 +152,10 @@ export namespace Defaults {
 			maskTop: 0,
 			maskBottom: 0,
 			maskLeft: 0,
-			maskRight: 0
+			maskRight: 0,
 		}
 
-		export function flyKeyframe (id: number): VideoState.USK.UpstreamKeyerFlyKeyframe {
+		export function flyKeyframe(id: number): VideoState.USK.UpstreamKeyerFlyKeyframe {
 			return {
 				keyFrameId: id,
 
@@ -181,7 +181,7 @@ export namespace Defaults {
 				maskTop: 0,
 				maskBottom: 0,
 				maskLeft: 0,
-				maskRight: 0
+				maskRight: 0,
 			}
 		}
 
@@ -195,7 +195,7 @@ export namespace Defaults {
 			cropTop: 0,
 			cropBottom: 0,
 			cropLeft: 0,
-			cropRight: 0
+			cropRight: 0,
 		}
 
 		export const SuperSourceProperties: VideoState.SuperSource.SuperSourceProperties = {
@@ -205,7 +205,7 @@ export namespace Defaults {
 			artPreMultiplied: false,
 			artClip: 0,
 			artGain: 0,
-			artInvertKey: false
+			artInvertKey: false,
 		}
 
 		export const SuperSourceBorder: VideoState.SuperSource.SuperSourceBorder = {
@@ -221,7 +221,7 @@ export namespace Defaults {
 			borderSaturation: 0,
 			borderLuma: 0,
 			borderLightSourceDirection: 0,
-			borderLightSourceAltitude: 0
+			borderLightSourceAltitude: 0,
 		}
 	}
 
@@ -233,12 +233,12 @@ export namespace Defaults {
 			gain: 0,
 			balance: 0,
 			supportsRcaToXlrEnabled: false,
-			rcaToXlrEnabled: false
+			rcaToXlrEnabled: false,
 		}
 		export const Master: AudioState.AudioMasterChannel = {
 			gain: 0,
 			balance: 0,
-			followFadeToBlack: false
+			followFadeToBlack: false,
 		}
 	}
 }

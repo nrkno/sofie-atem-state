@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as audio from '../audio'
 import * as _ from 'underscore'
 import { jsonClone } from '../../util'
 import { AudioState, Commands, AtemStateUtil } from 'atem-connection'
 
-function literal<T> (o: T) { return o }
+function literal<T>(o: T) {
+	return o
+}
 
 const STATE1 = AtemStateUtil.Create()
 STATE1.audio = literal<AudioState.AtemClassicAudioState>({
@@ -15,7 +18,7 @@ STATE1.audio = literal<AudioState.AtemClassicAudioState>({
 			gain: 0,
 			balance: 0,
 			supportsRcaToXlrEnabled: false,
-			rcaToXlrEnabled: false
+			rcaToXlrEnabled: false,
 		}),
 		literal<AudioState.AudioChannel>({
 			sourceType: 0,
@@ -24,18 +27,18 @@ STATE1.audio = literal<AudioState.AtemClassicAudioState>({
 			gain: 5,
 			balance: 4,
 			supportsRcaToXlrEnabled: false,
-			rcaToXlrEnabled: false
-		})
+			rcaToXlrEnabled: false,
+		}),
 	],
 	hasMonitor: true,
-	numberOfChannels: 2
+	numberOfChannels: 2,
 })
 const STATE2 = AtemStateUtil.Create()
 STATE2.audio = jsonClone(STATE1.audio)
 STATE2.audio.master = {
 	gain: 0,
 	balance: 0,
-	followFadeToBlack: false
+	followFadeToBlack: false,
 }
 
 test('Unit: audio: same state gives no commands', function () {
@@ -65,7 +68,9 @@ test('Unit: audio: new channel', function () {
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerInputCommand')
 	expect(commands[0].index).toEqual(1)
-	expect(commands[0].properties).toEqual(_.omit(STATE2.audio!.channels[1]!, 'portType', 'sourceType', 'supportsRcaToXlrEnabled', 'rcaToXlrEnabled')) // at what point should it include rcaToXlrEnabled?
+	expect(commands[0].properties).toEqual(
+		_.omit(STATE2.audio!.channels[1]!, 'portType', 'sourceType', 'supportsRcaToXlrEnabled', 'rcaToXlrEnabled')
+	) // at what point should it include rcaToXlrEnabled?
 	expect(commands[0].flag).toEqual(7) // 111
 
 	STATE1.audio!.channels[1] = c
@@ -77,7 +82,9 @@ test('Unit: audio: master channel', function () {
 	const commands = audio.resolveAudioState(STATE1, STATE2) as Array<Commands.AudioMixerInputCommand>
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AudioMixerMasterCommand')
-	expect(commands[0].properties).toEqual({ gain: STATE2.audio!.master!.gain })
+	expect(commands[0].properties).toEqual({
+		gain: STATE2.audio!.master!.gain,
+	})
 	expect(commands[0].flag).toEqual(1) // 001
 
 	STATE2.audio!.master!.gain = 0
