@@ -25,9 +25,7 @@ export function getAllKeysNumber<V>(
 	newObj: { [key: number]: V } | Array<V>
 ): number[] {
 	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
-	return rawKeys
-		.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i)
-		.map((v) => parseInt(v, 10))
+	return rawKeys.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i).map((v) => parseInt(v, 10))
 }
 
 export function jsonClone<T>(src: T): T {

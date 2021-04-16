@@ -30,9 +30,7 @@ export function resolveUpstreamKeyerState(
 			)
 		}
 		if (oldKeyer.cutSource !== newKeyer.cutSource) {
-			commands.push(
-				new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource)
-			)
+			commands.push(new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource))
 		}
 
 		const typeProps = diffObject(oldKeyer, newKeyer)
