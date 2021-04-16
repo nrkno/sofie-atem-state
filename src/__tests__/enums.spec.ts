@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import * as _ from 'underscore'
 import { Enums } from '../'
 import { Enums as ConnEnums } from 'atem-connection'
 
