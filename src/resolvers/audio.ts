@@ -1,7 +1,7 @@
 import { Commands as AtemCommands, Commands } from 'atem-connection'
 import { State as StateObject } from '../'
 import { getAllKeysNumber, diffObject } from '../util'
-import { Defaults } from '../defaults'
+import * as Defaults from '../defaults'
 
 export function resolveAudioState(oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []

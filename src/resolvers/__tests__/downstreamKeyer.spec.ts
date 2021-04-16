@@ -2,7 +2,7 @@
 import * as DSK from '../downstreamKeyer'
 import { State as StateObject } from '../../'
 import { Commands, AtemStateUtil, AtemState, VideoState } from 'atem-connection'
-import { Defaults } from '../../defaults'
+import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
 
 function setupDSK(state: StateObject, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {

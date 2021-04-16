@@ -1,7 +1,7 @@
 import { Commands as AtemCommands, VideoState, Enums, AtemStateUtil, AtemState } from 'atem-connection'
 import { State as StateObject } from '..'
 import { diffObject, getAllKeysNumber } from '../util'
-import { Defaults } from '../defaults'
+import * as Defaults from '../defaults'
 
 type SuperSourceCombinedProperties = VideoState.SuperSource.SuperSourceProperties &
 	VideoState.SuperSource.SuperSourceBorder

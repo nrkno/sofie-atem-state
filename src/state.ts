@@ -1,5 +1,5 @@
 import { AtemState, VideoState } from 'atem-connection'
-import { Enums } from './enums'
+import * as Enums from './enums'
 
 export interface AtemVideoState extends Omit<VideoState.AtemVideoState, 'mixEffects'> {
 	mixEffects: Array<MixEffect | undefined>
