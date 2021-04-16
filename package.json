@@ -89,7 +89,6 @@
 		"@sofie-automation/code-standard-preset": "^0.2.4",
 		"@types/jest": "^26.0.22",
 		"@types/node": "^12.11.2",
-		"@types/underscore": "^1.11.1",
 		"codecov": "^3.8.1",
 		"gh-pages": "^3.1.0",
 		"jest": "^26.6.3",
@@ -99,8 +98,7 @@
 		"standard-version": "^9.2.0",
 		"ts-jest": "^26.5.5",
 		"typedoc": "^0.20.35",
-		"typescript": "~4.0.5",
-		"underscore": "^1.13.1"
+		"typescript": "~4.0.5"
 	},
 	"keywords": [
 		"typescript",

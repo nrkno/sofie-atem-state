@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as audio from '../audio'
-import * as _ from 'underscore'
 import { jsonClone } from '../../util'
-import { AudioState, Commands, AtemStateUtil } from 'atem-connection'
+import { AudioState, Commands, AtemStateUtil, Util } from 'atem-connection'
 
 function literal<T>(o: T) {
 	return o
@@ -69,7 +68,7 @@ test('Unit: audio: new channel', function () {
 	expect(commands[0].constructor.name).toEqual('AudioMixerInputCommand')
 	expect(commands[0].index).toEqual(1)
 	expect(commands[0].properties).toEqual(
-		_.omit(STATE2.audio!.channels[1]!, 'portType', 'sourceType', 'supportsRcaToXlrEnabled', 'rcaToXlrEnabled')
+		Util.omit(STATE2.audio!.channels[1]!, 'portType', 'sourceType', 'supportsRcaToXlrEnabled', 'rcaToXlrEnabled')
 	) // at what point should it include rcaToXlrEnabled?
 	expect(commands[0].flag).toEqual(7) // 111
 
