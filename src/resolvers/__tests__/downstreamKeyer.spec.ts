@@ -5,8 +5,8 @@ import { Commands, AtemStateUtil, AtemState, VideoState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
 
-function setupDSK(state: StateObject, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
-	const dsk = AtemStateUtil.getDownstreamKeyer(state as AtemState, index)
+function setupDSK(state: PartialDeep<StateObject>, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
+	const dsk = AtemStateUtil.getDownstreamKeyer(state, index)
 	dsk.properties = jsonClone({
 		...Defaults.Video.DownstreamerKeyerProperties,
 		...props,

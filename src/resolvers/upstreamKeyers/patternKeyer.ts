@@ -12,8 +12,8 @@ export function resolvePatternKeyerState(
 
 	if (!oldKeyer.patternSettings && !newKeyer.patternSettings) return commands
 
-	const oldPatternKeyer = oldKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
-	const newPatternKeyer = newKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
+	const oldPatternKeyer = oldKeyer.patternSettings _||_ Defaults.Video.UpstreamKeyerPatternSettings
+	const newPatternKeyer = newKeyer.patternSettings _||_ Defaults.Video.UpstreamKeyerPatternSettings
 
 	const props = diffObject(oldPatternKeyer, newPatternKeyer)
 	if (props && oldPatternKeyer.style !== newPatternKeyer.style) {

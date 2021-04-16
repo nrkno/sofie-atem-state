@@ -12,8 +12,8 @@ export function resolveDVEKeyerState(
 
 	if (!oldKeyer.dveSettings && !newKeyer.dveSettings) return commands
 
-	const oldDVEKeyer = oldKeyer.dveSettings || Defaults.Video.UpstreamKeyerDVESettings
-	const newDVEKeyer = newKeyer.dveSettings || Defaults.Video.UpstreamKeyerDVESettings
+	const oldDVEKeyer = oldKeyer.dveSettings _||_ Defaults.Video.UpstreamKeyerDVESettings
+	const newDVEKeyer = newKeyer.dveSettings _||_ Defaults.Video.UpstreamKeyerDVESettings
 
 	const props = diffObject(oldDVEKeyer, newDVEKeyer)
 	const command = new AtemCommands.MixEffectKeyDVECommand(mixEffectId, upstreamKeyerId)

@@ -8,10 +8,11 @@ import { resolveAudioState } from './audio'
 import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
+import { PartialDeep } from 'type-fest'
 
 export function videoState(
-	oldState: StateObject,
-	newState: StateObject,
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>,
 	version: Enums.ProtocolVersion
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -24,9 +25,9 @@ export function videoState(
 	commands.push(...resolveMediaPlayerState(oldState, newState))
 
 	// resolve auxilliaries:
-	for (const index of getAllKeysNumber(oldState.video.auxilliaries, newState.video.auxilliaries)) {
-		const oldSource = oldState.video.auxilliaries[index] || 0
-		const newSource = newState.video.auxilliaries[index] || 0
+	for (const index of getAllKeysNumber(oldState.video?.auxilliaries, newState.video?.auxilliaries)) {
+		const oldSource = oldState.video?.auxilliaries?.[index] ?? 0
+		const newSource = newState.video?.auxilliaries?.[index] ?? 0
 
 		if (oldSource !== newSource) {
 			commands.push(new AtemCommands.AuxSourceCommand(index, newSource))

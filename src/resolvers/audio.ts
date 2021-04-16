@@ -1,24 +1,26 @@
 import { Commands as AtemCommands, Commands } from 'atem-connection'
 import { State as StateObject } from '../'
-import { getAllKeysNumber, diffObject } from '../util'
+import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 import * as Defaults from '../defaults'
+import { PartialDeep } from 'type-fest'
 
-export function resolveAudioState(oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
+export function resolveAudioState(
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
+): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 	if (!newState.audio) return commands
 
 	commands.push(...resolveAudioMixerInputsState(oldState, newState))
 
-	if (oldState.audio) {
-		if (oldState.audio.master || newState.audio.master) {
-			const oldMaster = oldState.audio.master || Defaults.Audio.Master
-			const newMaster = newState.audio.master || Defaults.Audio.Master
+	if (oldState.audio || newState.audio) {
+		const oldMaster = fillDefaults(Defaults.Audio.Master, oldState.audio?.master)
+		const newMaster = fillDefaults(Defaults.Audio.Master, newState.audio?.master)
 
-			const props = diffObject(oldMaster, newMaster)
-			const command = new Commands.AudioMixerMasterCommand()
-			if (command.updateProps(props)) {
-				commands.push(command)
-			}
+		const props = diffObject(oldMaster, newMaster)
+		const command = new Commands.AudioMixerMasterCommand()
+		if (command.updateProps(props)) {
+			commands.push(command)
 		}
 	}
 
@@ -26,15 +28,15 @@ export function resolveAudioState(oldState: StateObject, newState: StateObject):
 }
 
 export function resolveAudioMixerInputsState(
-	oldState: StateObject,
-	newState: StateObject
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
 ): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (oldState.audio && newState.audio) {
-		for (const index of getAllKeysNumber(oldState.audio.channels, newState.audio.channels)) {
-			const oldChannel = oldState.audio.channels[index] || Defaults.Audio.Channel
-			const newChannel = newState.audio.channels[index] || Defaults.Audio.Channel
+	if (oldState.audio || newState.audio) {
+		for (const index of getAllKeysNumber(oldState.audio?.channels, newState.audio?.channels)) {
+			const oldChannel = fillDefaults(Defaults.Audio.Channel, oldState.audio?.channels?.[index])
+			const newChannel = fillDefaults(Defaults.Audio.Channel, newState.audio?.channels?.[index])
 
 			const props = diffObject(oldChannel, newChannel)
 			const command = new Commands.AudioMixerInputCommand(index)

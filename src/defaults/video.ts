@@ -42,6 +42,16 @@ export const DownstreamerKeyerProperties: Readonly<VideoState.DSK.DownstreamKeye
 	},
 }
 
+export const DownstreamKeyer: Readonly<VideoState.DSK.DownstreamKeyer> = {
+	properties: DownstreamerKeyerProperties,
+	sources: DownstreamerKeyerSources,
+
+	inTransition: false,
+	remainingFrames: 0,
+	isAuto: false,
+	onAir: false,
+}
+
 export const DipTransitionSettings: VideoState.DipTransitionSettings = {
 	rate: defaultRate,
 	input: defaultInput,

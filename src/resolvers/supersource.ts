@@ -1,14 +1,15 @@
-import { Commands as AtemCommands, VideoState, Enums, AtemStateUtil, AtemState } from 'atem-connection'
+import { Commands as AtemCommands, VideoState, Enums } from 'atem-connection'
 import { State as StateObject } from '..'
-import { diffObject, getAllKeysNumber } from '../util'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
 import * as Defaults from '../defaults'
+import { PartialDeep } from 'type-fest'
 
 type SuperSourceCombinedProperties = VideoState.SuperSource.SuperSourceProperties &
 	VideoState.SuperSource.SuperSourceBorder
 
 export function resolveSuperSourceState(
-	oldState: StateObject,
-	newState: StateObject,
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>,
 	version: Enums.ProtocolVersion
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -26,25 +27,25 @@ export function resolveSuperSourceState(
 }
 
 export function resolveSuperSourceBoxState(
-	oldState: StateObject,
-	newState: StateObject,
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>,
 	version: Enums.ProtocolVersion
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const ssrc of getAllKeysNumber(oldState.video.superSources, newState.video.superSources).sort()) {
+	for (const ssrc of getAllKeysNumber(oldState.video?.superSources, newState.video?.superSources).sort()) {
 		if (version < Enums.ProtocolVersion.V8_0 && ssrc !== 0) {
 			// 8.0 added support for multiple ssrc. So only run for the first
 			continue
 		}
 
-		const newSSrc = AtemStateUtil.getSuperSource(newState as AtemState, ssrc, true)
-		const oldSSrc = AtemStateUtil.getSuperSource(oldState as AtemState, ssrc, true)
-		for (const index in newSSrc.boxes) {
-			const props = diffObject(
-				oldSSrc.boxes[index] || Defaults.Video.SuperSourceBox,
-				newSSrc.boxes[index] || Defaults.Video.SuperSourceBox
-			)
+		const newSSrc = newState.video?.superSources?.[ssrc]
+		const oldSSrc = oldState.video?.superSources?.[ssrc]
+		for (const index of getAllKeysNumber(oldSSrc?.boxes, newSSrc?.boxes)) {
+			const oldBox = fillDefaults(Defaults.Video.SuperSourceBox, oldSSrc?.boxes?.[index])
+			const newBox = fillDefaults(Defaults.Video.SuperSourceBox, newSSrc?.boxes?.[index])
+
+			const props = diffObject(oldBox, newBox)
 			const command = new AtemCommands.SuperSourceBoxParametersCommand(ssrc, Number(index))
 			if (command.updateProps(props)) {
 				commands.push(command)
@@ -56,14 +57,15 @@ export function resolveSuperSourceBoxState(
 }
 
 export function resolveSuperSourcePropertiesState(
-	oldState: StateObject,
-	newState: StateObject
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (!newState.video.superSources[0] && !oldState.video.superSources[0]) return commands
-	const newSSrc = AtemStateUtil.getSuperSource(newState as AtemState, 0, true)
-	const oldSSrc = AtemStateUtil.getSuperSource(oldState as AtemState, 0, true)
+	if (!newState.video?.superSources?.[0] && !oldState.video?.superSources?.[0]) return commands
+	const ssrcDefaults = { properties: Defaults.Video.SuperSourceProperties, border: Defaults.Video.SuperSourceBorder }
+	const newSSrc = fillDefaults(ssrcDefaults, newState.video?.superSources?.[0])
+	const oldSSrc = fillDefaults(ssrcDefaults, oldState.video?.superSources?.[0])
 
 	const newSsProperties: Partial<SuperSourceCombinedProperties> = {
 		...newSSrc.properties,
@@ -84,19 +86,22 @@ export function resolveSuperSourcePropertiesState(
 }
 
 export function resolveSuperSourcePropertiesV8State(
-	oldState: StateObject,
-	newState: StateObject
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const ssrc of getAllKeysNumber(oldState.video.superSources, newState.video.superSources).sort()) {
-		const newSSrc = AtemStateUtil.getSuperSource(newState as AtemState, ssrc, true)
-		const oldSSrc = AtemStateUtil.getSuperSource(oldState as AtemState, ssrc, true)
-
-		const props = diffObject(
-			oldSSrc.properties || Defaults.Video.SuperSourceProperties,
-			newSSrc.properties || Defaults.Video.SuperSourceProperties
+	for (const ssrc of getAllKeysNumber(oldState.video?.superSources, newState.video?.superSources).sort()) {
+		const newSSrcProps = fillDefaults(
+			Defaults.Video.SuperSourceProperties,
+			newState.video?.superSources?.[ssrc]?.properties
 		)
+		const oldSSrcProps = fillDefaults(
+			Defaults.Video.SuperSourceProperties,
+			oldState.video?.superSources?.[ssrc]?.properties
+		)
+
+		const props = diffObject(oldSSrcProps, newSSrcProps)
 		const command = new AtemCommands.SuperSourcePropertiesV8Command(ssrc)
 		if (command.updateProps(props)) {
 			commands.push(command)
@@ -107,19 +112,16 @@ export function resolveSuperSourcePropertiesV8State(
 }
 
 export function resolveSuperSourceBorderV8State(
-	oldState: StateObject,
-	newState: StateObject
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const ssrc of getAllKeysNumber(oldState.video.superSources, newState.video.superSources).sort()) {
-		const newSSrc = AtemStateUtil.getSuperSource(newState as AtemState, ssrc, true)
-		const oldSSrc = AtemStateUtil.getSuperSource(oldState as AtemState, ssrc, true)
+	for (const ssrc of getAllKeysNumber(oldState.video?.superSources, newState.video?.superSources).sort()) {
+		const newSSrcBorder = fillDefaults(Defaults.Video.SuperSourceBorder, newState.video?.superSources?.[ssrc]?.border)
+		const oldSSrcBorder = fillDefaults(Defaults.Video.SuperSourceBorder, oldState.video?.superSources?.[ssrc]?.border)
 
-		const props = diffObject(
-			oldSSrc.border || Defaults.Video.SuperSourceBorder,
-			newSSrc.border || Defaults.Video.SuperSourceBorder
-		)
+		const props = diffObject(oldSSrcBorder, newSSrcBorder)
 		const command = new AtemCommands.SuperSourceBorderCommand(ssrc)
 		if (command.updateProps(props)) {
 			commands.push(command)
