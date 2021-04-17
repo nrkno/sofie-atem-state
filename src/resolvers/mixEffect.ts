@@ -82,7 +82,7 @@ export function resolveMixEffectsState(
 			commands.push(new AtemCommands.TransitionPositionCommand(mixEffectId, 10000)) // finish transition
 		}
 
-		if (oldMixEffect?.transitionPreview ?? false !== newMixEffect?.transitionPreview ?? false) {
+		if ((oldMixEffect?.transitionPreview ?? false) !== (newMixEffect?.transitionPreview ?? false)) {
 			commands.push(new AtemCommands.PreviewTransitionCommand(mixEffectId, newMixEffect?.transitionPreview ?? false))
 		}
 

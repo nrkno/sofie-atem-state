@@ -38,5 +38,5 @@ export function jsonClone<T>(src: T): T {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function fillDefaults<T extends object>(defaults: T, val: PartialDeep<T> | PartialObjectDeep<T> | undefined): T {
-	return deepMerge(defaults, val as Partial<T>)
+	return deepMerge(defaults, (val ?? {}) as Partial<T>)
 }

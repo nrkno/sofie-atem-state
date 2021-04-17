@@ -11,7 +11,7 @@ export function resolveMediaPlayerState(
 
 	for (const index of getAllKeysNumber(oldState.media?.players, newState.media?.players)) {
 		const newPlayer = fillDefaults(Defaults.Video.MediaPlayer, newState.media?.players?.[index])
-		const oldPlayer = fillDefaults(Defaults.Video.MediaPlayer, newState.media?.players?.[index])
+		const oldPlayer = fillDefaults(Defaults.Video.MediaPlayer, oldState.media?.players?.[index])
 
 		const props = diffObject<MediaState.MediaPlayer>(oldPlayer, newPlayer)
 		const command = new AtemCommands.MediaPlayerStatusCommand(index)
