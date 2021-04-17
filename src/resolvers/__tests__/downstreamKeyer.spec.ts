@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as DSK from '../downstreamKeyer'
 import { State as StateObject } from '../../'
-import { Commands, AtemStateUtil, AtemState, VideoState } from 'atem-connection'
+import { Commands, AtemStateUtil, VideoState, AtemState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
 
-function setupDSK(state: PartialDeep<StateObject>, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
-	const dsk = AtemStateUtil.getDownstreamKeyer(state, index)
+function setupDSK(state: StateObject, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
+	const dsk = AtemStateUtil.getDownstreamKeyer(state as AtemState, index)
 	dsk.properties = jsonClone({
 		...Defaults.Video.DownstreamerKeyerProperties,
 		...props,

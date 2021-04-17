@@ -1,19 +1,20 @@
 import { Commands as AtemCommands, VideoState } from 'atem-connection'
-import { diffObject } from '../../util'
+import { diffObject, fillDefaults } from '../../util'
 import { Defaults } from '../..'
+import { PartialDeep } from 'type-fest'
 
 export function resolveChromaKeyerState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: VideoState.USK.UpstreamKeyer,
-	newKeyer: VideoState.USK.UpstreamKeyer
+	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
+	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.chromaSettings && !newKeyer.chromaSettings) return commands
 
-	const oldChromaKeyer = oldKeyer.chromaSettings _||_ Defaults.Video.UpstreamKeyerChromaSettings
-	const newChromaKeyer = newKeyer.chromaSettings _||_ Defaults.Video.UpstreamKeyerChromaSettings
+	const oldChromaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerChromaSettings, oldKeyer.chromaSettings)
+	const newChromaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerChromaSettings, newKeyer.chromaSettings)
 
 	const props = diffObject(oldChromaKeyer, newChromaKeyer)
 	const command = new AtemCommands.MixEffectKeyChromaCommand(mixEffectId, upstreamKeyerId)

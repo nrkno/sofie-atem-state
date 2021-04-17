@@ -104,10 +104,34 @@ export const WipeTransitionSettings: VideoState.WipeTransitionSettings = {
 	flipFlop: false,
 }
 
-// export const TransitionProperties: Omit<VideoState.TransitionProperties, 'nextStyle' | 'nextSelection'> = {
-// 	style: Enums.TransitionStyle.MIX,
-// 	selection: 1
-// }
+export const TransitionProperties: VideoState.TransitionProperties = {
+	style: Enums.TransitionStyle.MIX,
+	selection: 1,
+	nextStyle: Enums.TransitionStyle.MIX,
+	nextSelection: 1,
+}
+
+export const UpstreamKeyerMask: VideoState.USK.UpstreamKeyerMaskSettings = {
+	maskEnabled: false,
+	maskTop: 0,
+	maskBottom: 0,
+	maskLeft: 0,
+	maskRight: 0,
+}
+
+export function UpstreamKeyer(id: number): VideoState.USK.UpstreamKeyer {
+	return {
+		upstreamKeyerId: id,
+		mixEffectKeyType: Enums.MixEffectKeyType.Luma,
+		flyEnabled: false,
+		flyKeyframes: [undefined, undefined],
+		canFlyKey: false,
+		fillSource: 0,
+		cutSource: 0,
+		maskSettings: UpstreamKeyerMask,
+		onAir: false,
+	}
+}
 
 export const UpstreamKeyerPatternSettings: VideoState.USK.UpstreamKeyerPatternSettings = {
 	style: Enums.Pattern.LeftToRightBar,
