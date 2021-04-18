@@ -1,5 +1,5 @@
 import { Commands as AtemCommands, Commands } from 'atem-connection'
-import { State as StateObject } from '../'
+import { State as StateObject } from '../state'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 import * as Defaults from '../defaults'
 import { PartialDeep } from 'type-fest'

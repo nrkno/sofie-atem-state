@@ -1,5 +1,5 @@
 import { Commands as AtemCommands, Enums } from 'atem-connection'
-import { State as StateObject } from '../'
+import { State as StateObject } from '../state'
 
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
@@ -9,6 +9,8 @@ import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
 import { PartialDeep } from 'type-fest'
+import { resolveColorState } from './color'
+import { resolveMultiviewerState } from './settings/multiviewer'
 
 export function videoState(
 	oldState: PartialDeep<StateObject>,
@@ -23,6 +25,8 @@ export function videoState(
 	commands.push(...resolveSuperSourceState(oldState, newState, version))
 	commands.push(...resolveAudioState(oldState, newState))
 	commands.push(...resolveMediaPlayerState(oldState, newState))
+	commands.push(...resolveColorState(oldState, newState))
+	commands.push(...resolveMultiviewerState(oldState, newState))
 
 	// resolve auxilliaries:
 	for (const index of getAllKeysNumber(oldState.video?.auxilliaries, newState.video?.auxilliaries)) {
