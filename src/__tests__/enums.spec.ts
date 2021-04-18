@@ -1,4 +1,4 @@
-import { Enums } from '../'
+import * as Enums from '../enums'
 import { Enums as ConnEnums } from 'atem-connection'
 
 function getNumberValues(obj: any): number[] {

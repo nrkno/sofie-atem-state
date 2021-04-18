@@ -1,5 +1,7 @@
 import * as ME from '../mixEffect'
-import { Enums, MixEffect, ExtendedMixEffect, Defaults } from '../../'
+import * as Enums from '../../enums'
+import { MixEffect, ExtendedMixEffect } from '../../state'
+import * as Defaults from '../../defaults'
 import { Commands, Enums as AtemEnums, AtemStateUtil, VideoState } from 'atem-connection'
 import { jsonClone } from '../../util'
 

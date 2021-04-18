@@ -1,4 +1,4 @@
-import { AtemState } from '../'
+import { AtemState } from '../state'
 import { AtemStateUtil } from 'atem-connection'
 
 test('Unit test: Atem State: Set State', function () {

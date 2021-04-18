@@ -1,6 +1,6 @@
 import { Commands as AtemCommands, Enums as AtemEnums } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import { State as StateObject } from '../'
+import { State as StateObject } from '../state'
 
 export function resolveMacroPlayerState(
 	oldState: PartialDeep<StateObject>,

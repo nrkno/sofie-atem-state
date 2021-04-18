@@ -1,6 +1,6 @@
 import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { diffObject, fillDefaults } from '../../util'
-import { Defaults } from '../..'
+import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
 
 export function resolveChromaKeyerState(

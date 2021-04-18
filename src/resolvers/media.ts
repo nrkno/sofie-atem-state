@@ -1,6 +1,7 @@
 import { Commands as AtemCommands, MediaState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import { Defaults, State as StateObject } from '../'
+import { State as StateObject } from '../state'
+import * as Defaults from '../defaults'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
 
 export function resolveMediaPlayerState(

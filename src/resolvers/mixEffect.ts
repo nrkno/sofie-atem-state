@@ -1,5 +1,7 @@
 import { Commands as AtemCommands, Enums as ConnectionEnums, VideoState } from 'atem-connection'
-import { Enums, State as StateObject, Defaults } from '../'
+import { State as StateObject } from '../state'
+import * as Defaults from '../defaults'
+import * as Enums from '../enums'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 import { ExtendedMixEffect } from '../state'
 

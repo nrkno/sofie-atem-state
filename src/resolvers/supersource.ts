@@ -1,5 +1,5 @@
 import { Commands as AtemCommands, VideoState, Enums } from 'atem-connection'
-import { State as StateObject } from '..'
+import { State as StateObject } from '../state'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
 import * as Defaults from '../defaults'
 import { PartialDeep } from 'type-fest'

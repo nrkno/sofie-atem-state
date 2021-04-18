@@ -1,6 +1,7 @@
 import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import { State as StateObject, Defaults } from '../'
+import { State as StateObject } from '../state'
+import * as Defaults from '../defaults'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 
 export function resolveDownstreamKeyerState(
