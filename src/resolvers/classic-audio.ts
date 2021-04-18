@@ -4,14 +4,14 @@ import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 import * as Defaults from '../defaults'
 import { PartialDeep } from 'type-fest'
 
-export function resolveAudioState(
+export function resolveClassicAudioState(
 	oldState: PartialDeep<StateObject>,
 	newState: PartialDeep<StateObject>
 ): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 	if (!newState.audio) return commands
 
-	commands.push(...resolveAudioMixerInputsState(oldState, newState))
+	commands.push(...resolveClassicAudioMixerInputsState(oldState, newState))
 
 	if (oldState.audio || newState.audio) {
 		const oldMaster = fillDefaults(Defaults.Audio.Master, oldState.audio?.master)
@@ -27,7 +27,7 @@ export function resolveAudioState(
 	return commands
 }
 
-export function resolveAudioMixerInputsState(
+export function resolveClassicAudioMixerInputsState(
 	oldState: PartialDeep<StateObject>,
 	newState: PartialDeep<StateObject>
 ): Array<Commands.ISerializableCommand> {

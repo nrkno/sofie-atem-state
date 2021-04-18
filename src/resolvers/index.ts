@@ -4,7 +4,7 @@ import { State as StateObject } from '../state'
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSuperSourceState } from './supersource'
-import { resolveAudioState } from './audio'
+import { resolveClassicAudioState } from './classic-audio'
 import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
@@ -23,7 +23,7 @@ export function videoState(
 	commands.push(...resolveMacroPlayerState(oldState, newState))
 	commands.push(...resolveDownstreamKeyerState(oldState, newState))
 	commands.push(...resolveSuperSourceState(oldState, newState, version))
-	commands.push(...resolveAudioState(oldState, newState))
+	commands.push(...resolveClassicAudioState(oldState, newState))
 	commands.push(...resolveMediaPlayerState(oldState, newState))
 	commands.push(...resolveColorState(oldState, newState))
 	commands.push(...resolveMultiviewerState(oldState, newState))
