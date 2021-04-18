@@ -1,5 +1,5 @@
-import { AtemState } from '../state'
 import { AtemStateUtil } from 'atem-connection'
+import { AtemState } from '../atemState'
 
 test('Unit test: Atem State: Set State', function () {
 	const state = new AtemState()
