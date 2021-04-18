@@ -11,6 +11,7 @@ import { resolveMediaPlayerState } from './media'
 import { PartialDeep } from 'type-fest'
 import { resolveColorState } from './color'
 import { resolveMultiviewerState } from './settings/multiviewer'
+import { resolveFairlightAudioState } from './falirlight-audio'
 
 export function videoState(
 	oldState: PartialDeep<StateObject>,
@@ -24,6 +25,7 @@ export function videoState(
 	commands.push(...resolveDownstreamKeyerState(oldState, newState))
 	commands.push(...resolveSuperSourceState(oldState, newState, version))
 	commands.push(...resolveClassicAudioState(oldState, newState))
+	commands.push(...resolveFairlightAudioState(oldState, newState, version))
 	commands.push(...resolveMediaPlayerState(oldState, newState))
 	commands.push(...resolveColorState(oldState, newState))
 	commands.push(...resolveMultiviewerState(oldState, newState))

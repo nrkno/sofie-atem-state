@@ -20,8 +20,11 @@ function keyIsValid(key: string, oldObj: any, newObj: any) {
 	return (oldVal !== undefined && oldVal !== null) || (newVal !== undefined && newVal !== null)
 }
 
-export function getAllKeysString<V>(oldObj: { [key: string]: V }, newObj: { [key: string]: V }): string[] {
-	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
+export function getAllKeysString<V>(
+	oldObj: { [key: string]: V } | undefined,
+	newObj: { [key: string]: V } | undefined
+): string[] {
+	const rawKeys = Object.keys(oldObj ?? {}).concat(Object.keys(newObj ?? {}))
 	return rawKeys.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i)
 }
 export function getAllKeysNumber<V>(
