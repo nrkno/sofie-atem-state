@@ -3,7 +3,6 @@ import { State as StateObject } from '../state'
 import { getAllKeysNumber, diffObject, fillDefaults, getAllKeysString } from '../util'
 import * as Defaults from '../defaults'
 import { Mutable, PartialDeep } from 'type-fest'
-import bigInt = require('big-integer')
 
 export function resolveFairlightAudioState(
 	oldState: PartialDeep<StateObject>,
@@ -175,7 +174,7 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			const newProperties = fillDefaults(Defaults.FairlightAudio.SourceProperties, newSource?.properties)
 
 			const props = diffObject<Fairlight.FairlightAudioSourceProperties>(oldProperties, newProperties)
-			const command = new AtemCommands.FairlightMixerSourceCommand(index, bigInt(sourceId))
+			const command = new AtemCommands.FairlightMixerSourceCommand(index, BigInt(sourceId))
 			if (command.updateProps(props)) {
 				commands.push(command)
 			}
@@ -186,7 +185,7 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			const newLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, newSource?.dynamics?.limiter)
 
 			const props = diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
-			const command = new AtemCommands.FairlightMixerSourceLimiterCommand(index, bigInt(sourceId))
+			const command = new AtemCommands.FairlightMixerSourceLimiterCommand(index, BigInt(sourceId))
 			if (command.updateProps(props)) {
 				commands.push(command)
 			}
@@ -197,7 +196,7 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			const newCompressor = fillDefaults(Defaults.FairlightAudio.DynamicsCompressor, newSource?.dynamics?.compressor)
 
 			const props = diffObject<Fairlight.FairlightAudioCompressorState>(oldCompressor, newCompressor)
-			const command = new AtemCommands.FairlightMixerSourceCompressorCommand(index, bigInt(sourceId))
+			const command = new AtemCommands.FairlightMixerSourceCompressorCommand(index, BigInt(sourceId))
 			if (command.updateProps(props)) {
 				commands.push(command)
 			}
@@ -208,7 +207,7 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			const newExpander = fillDefaults(Defaults.FairlightAudio.DynamicsExpander, newSource?.dynamics?.expander)
 
 			const props = diffObject<Fairlight.FairlightAudioExpanderState>(oldExpander, newExpander)
-			const command = new AtemCommands.FairlightMixerSourceExpanderCommand(index, bigInt(sourceId))
+			const command = new AtemCommands.FairlightMixerSourceExpanderCommand(index, BigInt(sourceId))
 			if (command.updateProps(props)) {
 				commands.push(command)
 			}
