@@ -1,21 +1,21 @@
 version: 2
 jobs:
-  test-node-10:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/project
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-cache-10-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-cache-10-{{ .Branch }}
-            - yarn-cache-10-
-      - run: yarn install
-      - save_cache:
-          key: yarn-cache-10-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths: [node_modules]
-      - run: yarn test
+  # test-node-10:
+  #   docker:
+  #     - image: circleci/node:10
+  #   working_directory: ~/project
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys:
+  #           - yarn-cache-10-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  #           - yarn-cache-10-{{ .Branch }}
+  #           - yarn-cache-10-
+  #     - run: yarn install
+  #     - save_cache:
+  #         key: yarn-cache-10-{{ .Branch }}-{{ checksum "yarn.lock" }}
+  #         paths: [node_modules]
+  #     - run: yarn test
 
   test-node-12:
     docker:
@@ -69,7 +69,7 @@ jobs:
           key: yarn-cache-latest-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths: [node_modules]
       - run: yarn test
-        
+
   validate-dependencies:
     docker:
       - image: circleci/node:12
@@ -117,7 +117,7 @@ jobs:
           at: ~/project
       - add_ssh_keys:
           fingerprints:
-            - "8d:6d:9a:46:be:ea:ae:99:a9:d4:97:b7:42:0e:bc:59"
+            - '8d:6d:9a:46:be:ea:ae:99:a9:d4:97:b7:42:0e:bc:59'
       - run: mkdir -p ~/.ssh
       - run:
           name: Keyscan Github
@@ -140,7 +140,7 @@ jobs:
               echo "Release"
             fi
       - run: yarn release $RELEASE_ARGS
-      - run: 
+      - run:
           name: Git push
           command: |
             if ! [ "$RELEASE_ARGS" ]; then
@@ -174,7 +174,7 @@ jobs:
             fi
       - add_ssh_keys:
           fingerprints:
-            - "8d:6d:9a:46:be:ea:ae:99:a9:d4:97:b7:42:0e:bc:59"
+            - '8d:6d:9a:46:be:ea:ae:99:a9:d4:97:b7:42:0e:bc:59'
       - run: mkdir -p ~/.ssh
       - run:
           name: Keyscan Github
@@ -182,7 +182,7 @@ jobs:
       # Clean working tree, tag, and push
       - run: git config --global user.email "info@superfly.tv"
       - run: git config --global user.name "superflytvab"
-      - run: 
+      - run:
           name: yarn release
           command: |
             COMMIT_TIMESTAMP=$(git log -1 --pretty=format:%ct HEAD)
@@ -204,7 +204,7 @@ workflows:
   version: 2
   build-test-publish:
     jobs:
-      - test-node-10
+      # - test-node-10
       - test-node-12
       - test-node-latest
       - validate-all-dependencies:
@@ -223,7 +223,7 @@ workflows:
           requires:
             - validate-dependencies
             - test-node-12
-            - test-node-10
+            # - test-node-10
           filters:
             branches:
               only:
@@ -231,7 +231,7 @@ workflows:
       - prerelease:
           requires:
             - test-node-12
-            - test-node-10
+            # - test-node-10
           filters:
             tags:
               ignore: /.*/
