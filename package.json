@@ -1,6 +1,6 @@
 {
 	"name": "atem-state",
-	"version": "0.11.0-0",
+	"version": "0.12.0-0",
 	"description": "Typescript Node.js library for comparing ATEM states",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -54,7 +54,7 @@
 		"license-validate": "yarn sofie-licensecheck"
 	},
 	"engines": {
-		"node": ">=10.10"
+		"node": ">=12.18"
 	},
 	"files": [
 		"/dist",
