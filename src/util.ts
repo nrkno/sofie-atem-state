@@ -21,17 +21,21 @@ function keyIsValid(key: string, oldObj: any, newObj: any) {
 }
 
 export function getAllKeysString<V>(
-	oldObj: { [key: string]: V } | undefined,
-	newObj: { [key: string]: V } | undefined
+	oldObj0: { [key: string]: V } | undefined,
+	newObj0: { [key: string]: V } | undefined
 ): string[] {
-	const rawKeys = Object.keys(oldObj ?? {}).concat(Object.keys(newObj ?? {}))
+	const oldObj = oldObj0 ?? {}
+	const newObj = newObj0 ?? {}
+	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
 	return rawKeys.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i)
 }
 export function getAllKeysNumber<V>(
-	oldObj: { [key: number]: V } | Array<V> | undefined,
-	newObj: { [key: number]: V } | Array<V> | undefined
+	oldObj0: { [key: number]: V } | Array<V> | undefined,
+	newObj0: { [key: number]: V } | Array<V> | undefined
 ): number[] {
-	const rawKeys = Object.keys(oldObj ?? []).concat(Object.keys(newObj ?? []))
+	const oldObj = oldObj0 ?? []
+	const newObj = newObj0 ?? []
+	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
 	return rawKeys.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i).map((v) => parseInt(v, 10))
 }
 
