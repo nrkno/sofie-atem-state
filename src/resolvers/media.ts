@@ -1,16 +1,18 @@
-import { Commands as AtemCommands, AtemStateUtil, MediaState, AtemState } from 'atem-connection'
-import { State as StateObject } from '../'
-import { diffObject, getAllKeysNumber } from '../util'
+import { Commands as AtemCommands, MediaState } from 'atem-connection'
+import { PartialDeep } from 'type-fest'
+import { State as StateObject } from '../state'
+import * as Defaults from '../defaults'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
 
 export function resolveMediaPlayerState(
-	oldState: StateObject,
-	newState: StateObject
+	oldState: PartialDeep<StateObject>,
+	newState: PartialDeep<StateObject>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index of getAllKeysNumber(oldState.media.players, newState.media.players)) {
-		const newPlayer = AtemStateUtil.getMediaPlayer(newState as AtemState, index, true)
-		const oldPlayer = AtemStateUtil.getMediaPlayer(oldState as AtemState, index, true)
+	for (const index of getAllKeysNumber(oldState.media?.players, newState.media?.players)) {
+		const newPlayer = fillDefaults(Defaults.Video.MediaPlayer, newState.media?.players?.[index])
+		const oldPlayer = fillDefaults(Defaults.Video.MediaPlayer, oldState.media?.players?.[index])
 
 		const props = diffObject<MediaState.MediaPlayer>(oldPlayer, newPlayer)
 		const command = new AtemCommands.MediaPlayerStatusCommand(index)

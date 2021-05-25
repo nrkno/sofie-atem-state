@@ -1,5 +1,5 @@
 import * as USK from '../index'
-import { Defaults } from '../../../'
+import * as Defaults from '../../../defaults'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 
 const STATE1 = AtemStateUtil.Create()

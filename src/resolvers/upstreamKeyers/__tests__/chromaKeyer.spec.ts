@@ -1,5 +1,5 @@
 import * as CK from '../chromaKeyer'
-import { Defaults } from '../../../'
+import * as Defaults from '../../../defaults'
 import { Commands, AtemStateUtil } from 'atem-connection'
 import { jsonClone } from '../../../util'
 

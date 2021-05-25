@@ -1,19 +1,20 @@
 import { Commands as AtemCommands, VideoState } from 'atem-connection'
-import { diffObject } from '../../util'
-import { Defaults } from '../..'
+import { diffObject, fillDefaults } from '../../util'
+import * as Defaults from '../../defaults'
+import { PartialDeep } from 'type-fest'
 
 export function resolvePatternKeyerState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: VideoState.USK.UpstreamKeyer,
-	newKeyer: VideoState.USK.UpstreamKeyer
+	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
+	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	if (!oldKeyer.patternSettings && !newKeyer.patternSettings) return commands
 
-	const oldPatternKeyer = oldKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
-	const newPatternKeyer = newKeyer.patternSettings || Defaults.Video.UpstreamKeyerPatternSettings
+	const oldPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, oldKeyer.patternSettings)
+	const newPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, newKeyer.patternSettings)
 
 	const props = diffObject(oldPatternKeyer, newPatternKeyer)
 	if (props && oldPatternKeyer.style !== newPatternKeyer.style) {

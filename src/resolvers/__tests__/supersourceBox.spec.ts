@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as supersource from '../supersource'
-import { Defaults } from '../../'
+import * as Defaults from '../../defaults'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 import { jsonClone } from '../../util'
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as DSK from '../downstreamKeyer'
-import { State as StateObject } from '../../'
-import { Commands, AtemStateUtil, AtemState, VideoState } from 'atem-connection'
+import { State as StateObject } from '../../state'
+import { Commands, AtemStateUtil, VideoState, AtemState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
 

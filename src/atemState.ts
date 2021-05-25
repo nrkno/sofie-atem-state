@@ -1,5 +1,5 @@
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
-import { State as StateObject } from '.'
+import { State as StateObject } from './state'
 import * as Resolvers from './resolvers'
 
 export class AtemState {
