@@ -6,9 +6,9 @@ import { Commands, Enums as AtemEnums, AtemStateUtil, VideoState } from 'atem-co
 import { jsonClone } from '../../util'
 
 const STATE1 = AtemStateUtil.Create()
-const ME1: MixEffect = (AtemStateUtil.getMixEffect(STATE1, 0) as unknown) as MixEffect
+const ME1: MixEffect = AtemStateUtil.getMixEffect(STATE1, 0) as unknown as MixEffect
 const STATE2 = AtemStateUtil.Create()
-const ME2: MixEffect = (AtemStateUtil.getMixEffect(STATE2, 0) as unknown) as MixEffect
+const ME2: MixEffect = AtemStateUtil.getMixEffect(STATE2, 0) as unknown as MixEffect
 
 test('Unit: mix effect: same state gives no commands', function () {
 	// same state gives no commands:

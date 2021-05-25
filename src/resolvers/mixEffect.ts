@@ -22,7 +22,7 @@ export function resolveMixEffectsState(
 		commands.push(...resolveTransitionSettingsState(mixEffectId, oldMixEffect, newMixEffect))
 		commands.push(...resolveUpstreamKeyerState(mixEffectId, oldMixEffect, newMixEffect))
 
-		let oldMEInput = 0
+		let oldMEInput = Defaults.Video.defaultInput
 		let oldMeTransition: Enums.TransitionStyle = Defaults.Video.TransitionProperties.style
 		if (oldMixEffect) {
 			if ('input' in oldMixEffect || 'transition' in oldMixEffect) {
@@ -35,13 +35,12 @@ export function resolveMixEffectsState(
 				}
 			}
 		}
-		// const oldMEInput = 'input' in oldMixEffect2 ? oldMixEffect2.input : oldMixEffect2.programInput
-		// const oldMeTransition =
-		// 	'transition' in oldMixEffect ? oldMixEffect.transition : oldMixEffect.transitionProperties.style
 
 		if (newMixEffect && 'input' in newMixEffect && 'transition' in newMixEffect) {
 			if (newMixEffect.input !== oldMEInput || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
-				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect.input ?? 0))
+				commands.push(
+					new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect.input ?? Defaults.Video.defaultInput)
+				)
 
 				if (newMixEffect.transition === Enums.TransitionStyle.CUT) {
 					commands.push(new AtemCommands.CutCommand(mixEffectId))
@@ -60,15 +59,18 @@ export function resolveMixEffectsState(
 				}
 			}
 		} else if ((!oldMixEffect || 'previewInput' in oldMixEffect) && (!newMixEffect || 'previewInput' in newMixEffect)) {
-			if (oldMixEffect?.previewInput !== newMixEffect?.previewInput) {
-				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect?.previewInput ?? 0))
+			const oldMePreviewInput = oldMixEffect?.previewInput ?? Defaults.Video.defaultInput
+			const newMePreviewInput = newMixEffect?.previewInput ?? Defaults.Video.defaultInput
+			if (oldMePreviewInput !== newMePreviewInput) {
+				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMePreviewInput))
 			}
-			if (oldMEInput !== newMixEffect?.programInput) {
+			const newMeProgramInput = newMixEffect?.programInput ?? Defaults.Video.defaultInput
+			if (oldMEInput !== newMeProgramInput) {
 				// @todo: check if we need to use the cut command?
 				// use cut command if:
 				//   DSK is tied
 				//   Upstream Keyer is set for next transition
-				commands.push(new AtemCommands.ProgramInputCommand(mixEffectId, newMixEffect?.programInput ?? 0))
+				commands.push(new AtemCommands.ProgramInputCommand(mixEffectId, newMeProgramInput))
 			}
 		}
 
