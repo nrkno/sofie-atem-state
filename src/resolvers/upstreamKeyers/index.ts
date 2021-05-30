@@ -8,6 +8,7 @@ import { getAllKeysNumber, diffObject, fillDefaults } from '../../util'
 import { ExtendedMixEffect } from '../../state'
 import { PartialDeep } from 'type-fest'
 import * as Defaults from '../../defaults'
+import { resolveFlyKeyerState } from './flyKey'
 
 export function resolveUpstreamKeyerState(
 	mixEffectId: number,
@@ -28,6 +29,7 @@ export function resolveUpstreamKeyerState(
 
 		commands.push(...resolveUpstreamKeyerMaskState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 		commands.push(...resolveDVEKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
+		commands.push(...resolveFlyKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 		commands.push(...resolveChromaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 		commands.push(...resolveAdvancedChromaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
 		commands.push(...resolveLumaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer, newKeyer))
