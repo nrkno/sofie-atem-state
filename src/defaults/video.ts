@@ -106,9 +106,9 @@ export const WipeTransitionSettings: VideoState.WipeTransitionSettings = {
 
 export const TransitionProperties: VideoState.TransitionProperties = {
 	style: Enums.TransitionStyle.MIX,
-	selection: 1,
+	selection: [Enums.TransitionSelection.Background],
 	nextStyle: Enums.TransitionStyle.MIX,
-	nextSelection: 1,
+	nextSelection: [Enums.TransitionSelection.Background],
 }
 
 export const UpstreamKeyerMask: VideoState.USK.UpstreamKeyerMaskSettings = {

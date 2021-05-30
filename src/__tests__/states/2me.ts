@@ -67,9 +67,9 @@ export const Legacy2MEState: AtemState = {
 				},
 				transitionProperties: {
 					style: 0,
-					selection: 1,
+					selection: [1],
 					nextStyle: 0,
-					nextSelection: 1,
+					nextSelection: [1],
 				},
 				transitionSettings: {
 					mix: {
@@ -382,9 +382,9 @@ export const Legacy2MEState: AtemState = {
 				},
 				transitionProperties: {
 					style: 0,
-					selection: 1,
+					selection: [1],
 					nextStyle: 0,
-					nextSelection: 1,
+					nextSelection: [1],
 				},
 				transitionSettings: {
 					mix: {

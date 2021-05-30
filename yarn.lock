@@ -982,10 +982,10 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-atem-connection@3.0.0-nightly-feat-bitfocus-commands-20210422-212239-b321988.0:
-  version "3.0.0-nightly-feat-bitfocus-commands-20210422-212239-b321988.0"
-  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-3.0.0-nightly-feat-bitfocus-commands-20210422-212239-b321988.0.tgz#8510665b0e349daa2b602c6dae4f44e73861c2d3"
-  integrity sha512-Hu8ovh4pecmTQ9Uk03q0XxUI1lyhQxdqBuQf2VNIxgNYwE7JS9XIpHH0IfSSEaLBNf8CqN8PV3abVTYdJoCymQ==
+atem-connection@3.0.0-nightly-latest-20210530-132658-16c3cdd.0:
+  version "3.0.0-nightly-latest-20210530-132658-16c3cdd.0"
+  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-3.0.0-nightly-latest-20210530-132658-16c3cdd.0.tgz#73847ee65e628e97ad7c42cb67d90918eb414adb"
+  integrity sha512-BAXta6Dj1saktNHTsbP1kuqeRmvKbIJdTjr8i/mfflyRnOKFz8ZyLQiaO+L6AC2KQPJSUMGjoS+lmCcZDYVojw==
   dependencies:
     eventemitter3 "^4.0.7"
     exit-hook "^2.2.1"
