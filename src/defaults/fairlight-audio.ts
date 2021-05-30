@@ -1,12 +1,14 @@
 import { Enums, Fairlight } from 'atem-connection'
 
-export const Master: Fairlight.FairlightAudioMasterChannel = {
-	equalizerEnabled: false,
-	equalizerGain: 0,
-	equalizerBands: [],
-	makeUpGain: 0,
+export const Master: Fairlight.FairlightAudioMasterChannelPropertiesState = {
 	faderGain: 0,
 	followFadeToBlack: false,
+}
+
+export const Equalizer: Fairlight.FairlightAudioEqualizerState = {
+	enabled: false,
+	gain: 0,
+	bands: [],
 }
 
 export const Monitor: Fairlight.FairlightAudioMonitorChannel = {
@@ -14,6 +16,10 @@ export const Monitor: Fairlight.FairlightAudioMonitorChannel = {
 	inputMasterGain: 0,
 	inputTalkbackGain: 0,
 	inputSidetoneGain: 0,
+}
+
+export const Dynamics: Required<Omit<Fairlight.FairlightAudioDynamicsState, 'compressor' | 'limiter' | 'expander'>> = {
+	makeUpGain: 0,
 }
 
 export const DynamicsLimiter: Fairlight.FairlightAudioLimiterState = {
@@ -64,12 +70,7 @@ export const InputProperties: Fairlight.FairlightAudioInputProperties = {
 	activeInputLevel: Enums.FairlightAnalogInputLevel.ProLine,
 }
 
-// export const InputAnalog: Fairlight.FairlightAudioInputAnalog = {
-// 	supportedInputLevels: [],
-// 	inputLevel: Enums.FairlightAnalogInputLevel.Microphone,
-// }
-
-export const SourceProperties: Fairlight.FairlightAudioSourceProperties = {
+export const SourceProperties: Fairlight.FairlightAudioSourcePropertiesState = {
 	sourceType: Enums.FairlightAudioSourceType.Stereo,
 	maxFramesDelay: 0,
 	framesDelay: 0,
@@ -78,10 +79,6 @@ export const SourceProperties: Fairlight.FairlightAudioSourceProperties = {
 	gain: 0,
 	balance: 0,
 	faderGain: 0,
-	equalizerEnabled: false,
-	equalizerGain: 0,
-	equalizerBands: [],
-	makeUpGain: 0,
 	supportedMixOptions: [],
 	mixOption: Enums.FairlightAudioMixOption.Off,
 }
