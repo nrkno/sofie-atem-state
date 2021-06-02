@@ -10,7 +10,7 @@ export const MediaPlayer: MediaState.MediaPlayer & MediaState.MediaPlayerSource 
 
 	loop: false,
 	playing: false,
-	atBeginning: false,
+	atBeginning: true,
 	clipFrame: 0,
 }
 
