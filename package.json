@@ -45,7 +45,7 @@
 		"docs:json": "typedoc --json docs/typedoc.json src/index.ts",
 		"release": "standard-version",
 		"reset": "git clean -dfx && git reset --hard && yarn",
-		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate",
+		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate --allowPackages caniuse-lite@1.0.30001230",
 		"validate:dev-dependencies": "yarn audit --groups devDependencies",
 		"license-validate": "yarn sofie-licensecheck"
 	},
