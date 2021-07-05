@@ -1,6 +1,6 @@
 {
 	"name": "atem-state",
-	"version": "0.12.0-0",
+	"version": "0.12.0",
 	"description": "Typescript Node.js library for comparing ATEM states",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -79,7 +79,7 @@
 		"source"
 	],
 	"peerDependencies": {
-		"atem-connection": "2.2.2"
+		"atem-connection": "2.3.0"
 	},
 	"dependencies": {
 		"deepmerge": "^4.2.2",
