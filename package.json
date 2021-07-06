@@ -1,6 +1,6 @@
 {
 	"name": "atem-state",
-	"version": "0.12.0",
+	"version": "0.12.1",
 	"description": "Typescript Node.js library for comparing ATEM states",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -87,7 +87,7 @@
 		"type-fest": "^1.1.3"
 	},
 	"standard-version": {
-		"message": "chore(release): %s [skip ci]",
+		"message": "chore(release): %s",
 		"tagPrefix": ""
 	},
 	"prettier": "@sofie-automation/code-standard-preset/.prettierrc.json",
