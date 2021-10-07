@@ -14,16 +14,16 @@ export function resolveMediaPlayerState(
 		const newPlayer = fillDefaults(Defaults.Video.MediaPlayer, newState.media?.players?.[index])
 		const oldPlayer = fillDefaults(Defaults.Video.MediaPlayer, oldState.media?.players?.[index])
 
-		const props = diffObject<MediaState.MediaPlayer>(oldPlayer, newPlayer)
-		const command = new AtemCommands.MediaPlayerStatusCommand(index)
-		if (command.updateProps(props)) {
-			commands.push(command)
-		}
-
 		const srcProps = diffObject<MediaState.MediaPlayerSource>(oldPlayer, newPlayer)
 		const srcCommand = new AtemCommands.MediaPlayerSourceCommand(index)
 		if (srcCommand.updateProps(srcProps)) {
 			commands.push(srcCommand)
+		}
+
+		const props = diffObject<MediaState.MediaPlayer>(oldPlayer, newPlayer)
+		const command = new AtemCommands.MediaPlayerStatusCommand(index)
+		if (command.updateProps(props)) {
+			commands.push(command)
 		}
 	}
 
