@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.1...0.12.2) (2021-12-08)
+
+
+### Bug Fixes
+
+* update media player source before playback status ([78e7dca](https://github.com/nrkno/tv-automation-atem-state/commit/78e7dca9578997ba863b434e53cb551bccce86d9))
+
 ### [0.12.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.0...0.12.1) (2021-07-06)
 
 ## [0.12.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.10.1...0.12.0) (2021-07-05)
