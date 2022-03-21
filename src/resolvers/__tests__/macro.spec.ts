@@ -27,12 +27,12 @@ STATE3.macro.macroPlayer = {
 
 test('Unit: macro: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = video.videoState(STATE1, STATE1, Enums.ProtocolVersion.V7_2)
+	const commands = video.diffState(STATE1, STATE1, Enums.ProtocolVersion.V7_2)
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: macro: change running macro', function () {
-	const commands = video.videoState(STATE1, STATE2, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
+	const commands = video.diffState(STATE1, STATE2, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
 
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('MacroActionCommand')
@@ -43,7 +43,7 @@ test('Unit: macro: change running macro', function () {
 })
 
 test('Unit: macro: stop macro', function () {
-	const commands = video.videoState(STATE2, STATE3, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
+	const commands = video.diffState(STATE2, STATE3, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
 
 	// This will change once this is supported properly, but for now it should not start playing
 	expect(commands).toHaveLength(0)

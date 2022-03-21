@@ -1,34 +1,42 @@
 import { SettingsState, Commands as AtemCommands } from 'atem-connection'
+import { DiffMultiViewer, DiffMultiViewerWindows } from '../../diff'
 import { PartialDeep } from 'type-fest'
-import { State as StateObject } from '../../state'
 import * as Defaults from '../../defaults'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 
 export function resolveMultiviewerState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldState: PartialDeep<SettingsState.MultiViewer>[],
+	newState: PartialDeep<SettingsState.MultiViewer[]>,
+	diffOptions: DiffMultiViewer | DiffMultiViewer[]
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index of getAllKeysNumber(oldState.settings?.multiViewers, newState.settings?.multiViewers)) {
-		const newMv = newState.settings?.multiViewers?.[index]
-		const oldMv = oldState.settings?.multiViewers?.[index]
+	for (const index of getAllKeysNumber(oldState, newState)) {
+		const newMv = newState?.[index]
+		const oldMv = oldState?.[index]
 
-		commands.push(...resolveMultiviewerWindowsState(index, oldMv, newMv))
+		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[index] : diffOptions
+		if (thisDiffOptions) {
+			if (thisDiffOptions.windows && thisDiffOptions.windows.length) {
+				commands.push(...resolveMultiviewerWindowsState(index, oldMv?.windows, newMv?.windows, thisDiffOptions.windows))
+			}
 
-		const newProps = fillDefaults(Defaults.Multiviewer.Properties, newMv?.properties)
-		const oldProps = fillDefaults(Defaults.Multiviewer.Properties, oldMv?.properties)
+			const newProps = fillDefaults(Defaults.Multiviewer.Properties, newMv?.properties)
+			const oldProps = fillDefaults(Defaults.Multiviewer.Properties, oldMv?.properties)
 
-		const props = diffObject<SettingsState.MultiViewerPropertiesState>(oldProps, newProps)
-		const command = new AtemCommands.MultiViewerPropertiesCommand(index)
-		if (command.updateProps(props)) {
-			commands.push(command)
-		}
+			if (thisDiffOptions.properties) {
+				const props = diffObject<SettingsState.MultiViewerPropertiesState>(oldProps, newProps)
+				const command = new AtemCommands.MultiViewerPropertiesCommand(index)
+				if (command.updateProps(props)) {
+					commands.push(command)
+				}
 
-		const oldVuOpacity = oldMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
-		const newVuOpacity = newMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
-		if (oldVuOpacity !== newVuOpacity) {
-			commands.push(new AtemCommands.MultiViewerVuOpacityCommand(index, newVuOpacity))
+				const oldVuOpacity = oldMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
+				const newVuOpacity = newMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
+				if (oldVuOpacity !== newVuOpacity) {
+					commands.push(new AtemCommands.MultiViewerVuOpacityCommand(index, newVuOpacity))
+				}
+			}
 		}
 	}
 
@@ -37,31 +45,34 @@ export function resolveMultiviewerState(
 
 export function resolveMultiviewerWindowsState(
 	index: number,
-	oldMv: PartialDeep<SettingsState.MultiViewer> | undefined,
-	newMv: PartialDeep<SettingsState.MultiViewer> | undefined
+	oldState: PartialDeep<SettingsState.MultiViewerWindowState>[] | undefined,
+	newState: PartialDeep<SettingsState.MultiViewerWindowState>[] | undefined,
+	diffOptions: DiffMultiViewerWindows
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const window of getAllKeysNumber(oldMv?.windows, newMv?.windows)) {
-		const oldWindow = oldMv?.windows?.[window]
-		const newWindow = newMv?.windows?.[window]
+	for (const window of getAllKeysNumber(oldState, newState)) {
+		const oldWindow = oldState?.[window]
+		const newWindow = newState?.[window]
 
-		const oldSource = oldWindow?.source ?? Defaults.Video.defaultInput
-		const newSource = newWindow?.source ?? Defaults.Video.defaultInput
-		if (oldSource !== newSource) {
-			commands.push(new AtemCommands.MultiViewerSourceCommand(index, window, newSource))
-		}
+		if (diffOptions === 'all' || diffOptions.includes(window)) {
+			const oldSource = oldWindow?.source ?? Defaults.Video.defaultInput
+			const newSource = newWindow?.source ?? Defaults.Video.defaultInput
+			if (oldSource !== newSource) {
+				commands.push(new AtemCommands.MultiViewerSourceCommand(index, window, newSource))
+			}
 
-		const oldSafeArea = oldWindow?.safeTitle ?? false
-		const newSafeArea = newWindow?.safeTitle ?? false
-		if (oldSafeArea !== newSafeArea) {
-			commands.push(new AtemCommands.MultiViewerWindowSafeAreaCommand(index, window, newSafeArea))
-		}
+			const oldSafeArea = oldWindow?.safeTitle ?? false
+			const newSafeArea = newWindow?.safeTitle ?? false
+			if (oldSafeArea !== newSafeArea) {
+				commands.push(new AtemCommands.MultiViewerWindowSafeAreaCommand(index, window, newSafeArea))
+			}
 
-		const oldAudioMeter = oldWindow?.audioMeter ?? false
-		const newAudioMeter = newWindow?.audioMeter ?? false
-		if (oldAudioMeter !== newAudioMeter) {
-			commands.push(new AtemCommands.MultiViewerWindowVuMeterCommand(index, window, newAudioMeter))
+			const oldAudioMeter = oldWindow?.audioMeter ?? false
+			const newAudioMeter = newWindow?.audioMeter ?? false
+			if (oldAudioMeter !== newAudioMeter) {
+				commands.push(new AtemCommands.MultiViewerWindowVuMeterCommand(index, window, newAudioMeter))
+			}
 		}
 	}
 

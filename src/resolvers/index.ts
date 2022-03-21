@@ -1,22 +1,22 @@
 import { Commands as AtemCommands, Enums } from 'atem-connection'
 import { State as StateObject } from '../state'
-
 import { resolveMixEffectsState } from './mixEffect'
 import { resolveDownstreamKeyerState } from './downstreamKeyer'
 import { resolveSuperSourceState } from './supersource'
 import { resolveClassicAudioState } from './classic-audio'
 import { resolveMacroPlayerState } from './macro'
-import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
 import { PartialDeep } from 'type-fest'
 import { resolveColorState } from './color'
 import { resolveMultiviewerState } from './settings/multiviewer'
 import { resolveFairlightAudioState } from './falirlight-audio'
-import * as Defaults from '../defaults'
+import { SectionsToDiff } from '../diff'
+import { resolveAuxiliaries } from './auxiliaries'
 
-export function videoState(
+export function diffState(
 	oldState: PartialDeep<StateObject>,
 	newState: PartialDeep<StateObject>,
+	options: SectionsToDiff,
 	version: Enums.ProtocolVersion
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -29,16 +29,17 @@ export function videoState(
 	commands.push(...resolveFairlightAudioState(oldState, newState, version))
 	commands.push(...resolveMediaPlayerState(oldState, newState))
 	commands.push(...resolveColorState(oldState, newState))
-	commands.push(...resolveMultiviewerState(oldState, newState))
 
-	// resolve auxilliaries:
-	for (const index of getAllKeysNumber(oldState.video?.auxilliaries, newState.video?.auxilliaries)) {
-		const oldSource = oldState.video?.auxilliaries?.[index] ?? Defaults.Video.defaultInput
-		const newSource = newState.video?.auxilliaries?.[index] ?? Defaults.Video.defaultInput
+	if (options.multiviewer) {
+		commands.push(
+			...resolveMultiviewerState(oldState.settings?.multiViewers, newState.settings?.multiViewers, options.multiviewer)
+		)
+	}
 
-		if (oldSource !== newSource) {
-			commands.push(new AtemCommands.AuxSourceCommand(index, newSource))
-		}
+	if (options.auxiliaries && options.auxiliaries.length) {
+		commands.push(
+			...resolveAuxiliaries(oldState.video?.auxilliaries, newState.video?.auxilliaries, options.auxiliaries)
+		)
 	}
 
 	return commands
