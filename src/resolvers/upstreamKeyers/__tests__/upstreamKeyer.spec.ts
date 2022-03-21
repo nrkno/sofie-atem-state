@@ -99,6 +99,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 	USK2.onAir = USK1.onAir
 })
 
+// eslint-disable-next-line jest/no-commented-out-tests
 // test('Unit: upstream keyer: mask', function () {
 // 	USK2.maskEnabled = true
 // 	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyMaskSetCommand]
@@ -115,6 +116,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 // 	USK2.maskEnabled = false
 // })
 
+// eslint-disable-next-line jest/no-commented-out-tests
 // test('Unit: upstream keyer: mask position', function () {
 // 	USK2.maskBottom = 1
 // 	USK2.maskTop = 2

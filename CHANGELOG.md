@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.12.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.1...0.12.2) (2021-12-08)
+
+
+### Bug Fixes
+
+* update media player source before playback status ([78e7dca](https://github.com/nrkno/tv-automation-atem-state/commit/78e7dca9578997ba863b434e53cb551bccce86d9))
+
+### [0.12.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.0...0.12.1) (2021-07-06)
+
+## [0.12.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.10.1...0.12.0) (2021-07-05)
+
+
+### Features
+
+* code-standard-preset ([ebe74fa](https://github.com/nrkno/tv-automation-atem-state/commit/ebe74facee1171a0af7d61ea7232cda4f61ca009))
+* handle partial state objects ([#18](https://github.com/nrkno/tv-automation-atem-state/issues/18)) ([7a6fdf2](https://github.com/nrkno/tv-automation-atem-state/commit/7a6fdf2e485862b30d574dfca6ee142927ff6b3f))
+* move atem-connection to be a peer-dependency ([#19](https://github.com/nrkno/tv-automation-atem-state/issues/19)) ([ae33558](https://github.com/nrkno/tv-automation-atem-state/commit/ae3355808c06a717bdc2c8b1643f9f8cc9fae04d))
+
+
+### Bug Fixes
+
+* mediaplayer default values ([6fea863](https://github.com/nrkno/tv-automation-atem-state/commit/6fea863940003f87527cb375cf1dfe8fe9efa66e))
+
 ### [0.10.1](https://github.com/nrkno/tv-automation-atem-state/compare/0.10.0...0.10.1) (2021-02-08)
 
 ## [0.10.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.9.0...0.10.0) (2020-08-17)
