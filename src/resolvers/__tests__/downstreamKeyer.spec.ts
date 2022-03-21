@@ -30,7 +30,7 @@ test('Unit: Downstream keyer: same state gives no commands', function () {
 
 test('Unit: Downstream keyer: auto and onAir commands', function () {
 	DSK1.onAir = true
-	STATE2.video.downstreamKeyers[1]! = {
+	STATE2.video.downstreamKeyers[1] = {
 		...STATE2.video.downstreamKeyers[1]!,
 		isAuto: true,
 	}
@@ -49,7 +49,7 @@ test('Unit: Downstream keyer: auto and onAir commands', function () {
 	expect(secondCommand.constructor.name).toEqual('DownstreamKeyAutoCommand')
 	expect(secondCommand.downstreamKeyerId).toEqual(1)
 	DSK1.onAir = false
-	STATE2.video.downstreamKeyers[1]! = {
+	STATE2.video.downstreamKeyers[1] = {
 		...STATE2.video.downstreamKeyers[1],
 		isAuto: false,
 	}

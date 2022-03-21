@@ -89,7 +89,7 @@ test('Unit: upstream keyers: dve keyer: border', function () {
 	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
 
-test('Unit: upstream keyers: dve keyer: general props', function () {
+test('Unit: upstream keyers: dve keyer: mask props', function () {
 	USK2.dveSettings = {
 		...USK2.dveSettings!,
 
