@@ -12,6 +12,7 @@ import { PartialDeep } from 'type-fest'
 import { resolveColorState } from './color'
 import { resolveMultiviewerState } from './settings/multiviewer'
 import { resolveFairlightAudioState } from './falirlight-audio'
+import * as Defaults from '../defaults'
 
 export function videoState(
 	oldState: PartialDeep<StateObject>,
@@ -32,8 +33,8 @@ export function videoState(
 
 	// resolve auxilliaries:
 	for (const index of getAllKeysNumber(oldState.video?.auxilliaries, newState.video?.auxilliaries)) {
-		const oldSource = oldState.video?.auxilliaries?.[index] ?? 0
-		const newSource = newState.video?.auxilliaries?.[index] ?? 0
+		const oldSource = oldState.video?.auxilliaries?.[index] ?? Defaults.Video.defaultInput
+		const newSource = newState.video?.auxilliaries?.[index] ?? Defaults.Video.defaultInput
 
 		if (oldSource !== newSource) {
 			commands.push(new AtemCommands.AuxSourceCommand(index, newSource))

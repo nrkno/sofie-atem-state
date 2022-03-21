@@ -46,8 +46,8 @@ export function resolveMultiviewerWindowsState(
 		const oldWindow = oldMv?.windows?.[window]
 		const newWindow = newMv?.windows?.[window]
 
-		const oldSource = oldWindow?.source ?? 0
-		const newSource = newWindow?.source ?? 0
+		const oldSource = oldWindow?.source ?? Defaults.Video.defaultInput
+		const newSource = newWindow?.source ?? Defaults.Video.defaultInput
 		if (oldSource !== newSource) {
 			commands.push(new AtemCommands.MultiViewerSourceCommand(index, window, newSource))
 		}

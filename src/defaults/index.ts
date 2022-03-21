@@ -1,5 +1,5 @@
 export * as ClassicAudio from './classic-audio'
 export * as FairlightAudio from './fairlight-audio'
 export * as Video from './video'
-export * from './color'
+export * as Color from './color'
 export * as Multiviewer from './multiviewer'
