@@ -1,26 +1,26 @@
-import { Commands as AtemCommands, Enums as AtemEnums } from 'atem-connection'
+import { Commands as AtemCommands, Enums as AtemEnums, Macro } from 'atem-connection'
+import { DiffMacroPlayer } from '../diff'
 import { PartialDeep } from 'type-fest'
-import { State as StateObject } from '../state'
 
 export function resolveMacroPlayerState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldPlayer: PartialDeep<Macro.MacroPlayerState> | undefined,
+	newPlayer: PartialDeep<Macro.MacroPlayerState> | undefined,
+	diffOptions: DiffMacroPlayer
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	const newPlayer = newState.macro?.macroPlayer
-	const oldPlayer = oldState.macro?.macroPlayer
-
 	// TODO - fill out more
 
-	if (
-		newPlayer &&
-		newPlayer.isRunning &&
-		newPlayer.macroIndex !== undefined &&
-		(!oldPlayer || !oldPlayer.isRunning || oldPlayer.macroIndex !== newPlayer.macroIndex)
-	) {
-		commands.push(new AtemCommands.MacroActionCommand(newPlayer.macroIndex, AtemEnums.MacroAction.Run))
-		// TODO - cancel anything running?
+	if (diffOptions.player) {
+		if (
+			newPlayer &&
+			newPlayer.isRunning &&
+			newPlayer.macroIndex !== undefined &&
+			(!oldPlayer || !oldPlayer.isRunning || oldPlayer.macroIndex !== newPlayer.macroIndex)
+		) {
+			commands.push(new AtemCommands.MacroActionCommand(newPlayer.macroIndex, AtemEnums.MacroAction.Run))
+			// TODO - cancel anything running?
+		}
 	}
 
 	return commands

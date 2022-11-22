@@ -5,8 +5,8 @@ import * as Defaults from '../../defaults'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 
 export function resolveMultiviewerState(
-	oldState: PartialDeep<SettingsState.MultiViewer>[],
-	newState: PartialDeep<SettingsState.MultiViewer[]>,
+	oldState: Array<PartialDeep<SettingsState.MultiViewer> | undefined> | undefined,
+	newState: Array<PartialDeep<SettingsState.MultiViewer> | undefined> | undefined,
 	diffOptions: DiffMultiViewer | DiffMultiViewer[]
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -45,8 +45,8 @@ export function resolveMultiviewerState(
 
 export function resolveMultiviewerWindowsState(
 	index: number,
-	oldState: PartialDeep<SettingsState.MultiViewerWindowState>[] | undefined,
-	newState: PartialDeep<SettingsState.MultiViewerWindowState>[] | undefined,
+	oldState: Array<PartialDeep<SettingsState.MultiViewerWindowState> | undefined> | undefined,
+	newState: Array<PartialDeep<SettingsState.MultiViewerWindowState> | undefined> | undefined,
 	diffOptions: DiffMultiViewerWindows
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []

@@ -1,36 +1,49 @@
 import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import { State as StateObject } from '../state'
 import * as Defaults from '../defaults'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
+import { DiffDownstreamKeyer } from '../diff'
 
 export function resolveDownstreamKeyerState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
+	newDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
+	diffOptions: DiffDownstreamKeyer | DiffDownstreamKeyer[]
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index of getAllKeysNumber(oldState.video?.downstreamKeyers, newState.video?.downstreamKeyers)) {
-		const oldDsk = fillDefaults(Defaults.Video.DownstreamKeyer, oldState.video?.downstreamKeyers?.[index])
-		const newDsk = fillDefaults(Defaults.Video.DownstreamKeyer, newState.video?.downstreamKeyers?.[index])
+	for (const index of getAllKeysNumber(oldDsks, newDsks)) {
+		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[index] : diffOptions
 
-		commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
-		commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))
+		if (thisDiffOptions) {
+			const oldDsk = fillDefaults(Defaults.Video.DownstreamKeyer, oldDsks?.[index])
+			const newDsk = fillDefaults(Defaults.Video.DownstreamKeyer, newDsks?.[index])
 
-		const oldSources = oldDsk.sources ?? Defaults.Video.DownstreamerKeyerSources
-		const newSources = newDsk.sources ?? Defaults.Video.DownstreamerKeyerSources
+			if (thisDiffOptions.properties) {
+				commands.push(...resolveDownstreamKeyerPropertiesState(index, oldDsk, newDsk))
+			}
+			if (thisDiffOptions.mask) {
+				commands.push(...resolveDownstreamKeyerMaskState(index, oldDsk, newDsk))
+			}
 
-		if (oldSources.fillSource !== newSources.fillSource) {
-			commands.push(new AtemCommands.DownstreamKeyFillSourceCommand(index, newSources.fillSource))
-		}
-		if (oldSources.cutSource !== newSources.cutSource) {
-			commands.push(new AtemCommands.DownstreamKeyCutSourceCommand(index, newSources.cutSource))
-		}
+			if (thisDiffOptions.sources) {
+				const oldSources = oldDsk.sources ?? Defaults.Video.DownstreamerKeyerSources
+				const newSources = newDsk.sources ?? Defaults.Video.DownstreamerKeyerSources
 
-		if (!oldDsk.isAuto && newDsk.isAuto) {
-			commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
-		} else if (oldDsk.onAir !== newDsk.onAir) {
-			commands.push(new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir))
+				if (oldSources.fillSource !== newSources.fillSource) {
+					commands.push(new AtemCommands.DownstreamKeyFillSourceCommand(index, newSources.fillSource))
+				}
+				if (oldSources.cutSource !== newSources.cutSource) {
+					commands.push(new AtemCommands.DownstreamKeyCutSourceCommand(index, newSources.cutSource))
+				}
+			}
+
+			if (thisDiffOptions.onAir) {
+				if (!oldDsk.isAuto && newDsk.isAuto) {
+					commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
+				} else if (oldDsk.onAir !== newDsk.onAir) {
+					commands.push(new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir))
+				}
+			}
 		}
 	}
 

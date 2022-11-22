@@ -14,11 +14,11 @@ export function resolveSuperSourceState(
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
+	commands.push(...resolveSuperSourceBoxState(oldState, newState, version))
+
 	if (version < Enums.ProtocolVersion.V8_0) {
-		commands.push(...resolveSuperSourceBoxState(oldState, newState, version))
 		commands.push(...resolveSuperSourcePropertiesState(oldState, newState))
 	} else {
-		commands.push(...resolveSuperSourceBoxState(oldState, newState, version))
 		commands.push(...resolveSuperSourcePropertiesV8State(oldState, newState))
 		commands.push(...resolveSuperSourceBorderV8State(oldState, newState))
 	}
