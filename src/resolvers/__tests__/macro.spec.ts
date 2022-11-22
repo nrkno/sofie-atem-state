@@ -1,38 +1,40 @@
-import * as video from '../index'
-import { Commands, Enums, AtemStateUtil } from 'atem-connection'
+import { Commands, Macro } from 'atem-connection'
+import { DiffMacroPlayer } from '../../diff'
+import { resolveMacroPlayerState } from '../macro'
 
-const STATE1 = AtemStateUtil.Create()
-STATE1.macro.macroPlayer = {
+const STATE1: Macro.MacroPlayerState = {
 	isRunning: true,
 	isWaiting: false,
 	loop: true,
 	macroIndex: 12,
 }
 
-const STATE2 = AtemStateUtil.Create()
-STATE2.macro.macroPlayer = {
+const STATE2: Macro.MacroPlayerState = {
 	isRunning: true,
 	isWaiting: false,
 	loop: true,
 	macroIndex: 10,
 }
 
-const STATE3 = AtemStateUtil.Create()
-STATE3.macro.macroPlayer = {
+const STATE3: Macro.MacroPlayerState = {
 	isRunning: false,
 	isWaiting: false,
 	loop: true,
 	macroIndex: 12,
 }
 
+const fullDiff: Required<DiffMacroPlayer> = {
+	player: true,
+}
+
 test('Unit: macro: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = video.diffState(STATE1, STATE1, Enums.ProtocolVersion.V7_2)
+	const commands = resolveMacroPlayerState(STATE1, STATE1, fullDiff)
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: macro: change running macro', function () {
-	const commands = video.diffState(STATE1, STATE2, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
+	const commands = resolveMacroPlayerState(STATE1, STATE2, fullDiff) as Array<Commands.MacroActionCommand>
 
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('MacroActionCommand')
@@ -43,7 +45,7 @@ test('Unit: macro: change running macro', function () {
 })
 
 test('Unit: macro: stop macro', function () {
-	const commands = video.diffState(STATE2, STATE3, Enums.ProtocolVersion.V7_2) as Array<Commands.MacroActionCommand>
+	const commands = resolveMacroPlayerState(STATE2, STATE3, fullDiff) as Array<Commands.MacroActionCommand>
 
 	// This will change once this is supported properly, but for now it should not start playing
 	expect(commands).toHaveLength(0)

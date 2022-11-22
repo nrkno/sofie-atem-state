@@ -4,6 +4,7 @@ import * as objectPath from 'object-path'
 import clone = require('fast-clone')
 import { AtemState } from '..'
 import { AtemState as ConnectionState } from 'atem-connection'
+import { DiffAllObject } from '../diff'
 
 /**
  * This file contains some 'automated' generated tests.
@@ -38,11 +39,12 @@ function getAllPathKeys(state: any): string[] {
 function runPartialStateTest(rawState: ConnectionState, iterations: number) {
 	describe(`Partial state: ${rawState.info.productIdentifier}`, function () {
 		const allPathKeys = getAllPathKeys(rawState)
+		// eslint-disable-next-line jest/no-standalone-expect
 		expect(allPathKeys.length).not.toBe(0)
 
 		test('Matching state', function () {
 			// State to itself should be completely happy
-			expect(() => AtemState.diffStates(rawState.info.apiVersion, rawState, rawState)).not.toThrow()
+			expect(() => AtemState.diffStates(rawState.info.apiVersion, rawState, rawState, DiffAllObject())).not.toThrow()
 		})
 
 		for (let i = 0; i < iterations; i++) {
@@ -57,12 +59,18 @@ function runPartialStateTest(rawState: ConnectionState, iterations: number) {
 				objectPath.del(stateModded, key)
 
 				// try diffing one way
-				expect(() => AtemState.diffStates(rawState.info.apiVersion, rawState, stateModded)).not.toThrow()
+				expect(() =>
+					AtemState.diffStates(rawState.info.apiVersion, rawState, stateModded, DiffAllObject())
+				).not.toThrow()
 
 				// and back the other
-				expect(() => AtemState.diffStates(rawState.info.apiVersion, stateModded, rawState)).not.toThrow()
+				expect(() =>
+					AtemState.diffStates(rawState.info.apiVersion, stateModded, rawState, DiffAllObject())
+				).not.toThrow()
 
-				expect(() => AtemState.diffStates(rawState.info.apiVersion, stateModded, stateModded)).not.toThrow()
+				expect(() =>
+					AtemState.diffStates(rawState.info.apiVersion, stateModded, stateModded, DiffAllObject())
+				).not.toThrow()
 			})
 		}
 	})
@@ -73,8 +81,10 @@ runPartialStateTest(Legacy2MEState, 100)
 
 test(`Cross-device diffs`, function () {
 	expect(() =>
-		AtemState.diffStates(ConstellationState.info.apiVersion, ConstellationState, Legacy2MEState)
+		AtemState.diffStates(ConstellationState.info.apiVersion, ConstellationState, Legacy2MEState, DiffAllObject())
 	).not.toThrow()
 
-	expect(() => AtemState.diffStates(Legacy2MEState.info.apiVersion, Legacy2MEState, ConstellationState)).not.toThrow()
+	expect(() =>
+		AtemState.diffStates(Legacy2MEState.info.apiVersion, Legacy2MEState, ConstellationState, DiffAllObject())
+	).not.toThrow()
 })

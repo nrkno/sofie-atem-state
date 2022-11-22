@@ -37,8 +37,8 @@ test('Unit: auxiliaries: update some inputs', function () {
 })
 
 test('Unit: auxiliaries: limit inputs', function () {
-	const commands = resolveAuxiliaries(STATE1, STATE2, [0, 1, 5])
-	expect(commands).toHaveLength(3)
+	const commands = resolveAuxiliaries(STATE1, STATE2, [0, 2, 5])
+	expect(commands).toHaveLength(2)
 
 	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')
 	expect(commands[0].auxBus).toEqual(0)
