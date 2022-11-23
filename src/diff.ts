@@ -21,6 +21,17 @@ export function DiffAllObject(): Required<SectionsToDiff> {
 		},
 		video: {
 			auxiliaries: 'all',
+			downstreamKeyers: {
+				sources: true,
+				onAir: true,
+				properties: true,
+				mask: true,
+			},
+			superSources: {
+				boxes: 'all',
+				border: true,
+				properties: true,
+			},
 		},
 	}
 }
@@ -39,11 +50,20 @@ export interface SectionsToDiff {
 	video?: {
 		auxiliaries?: DiffAuxiliaries
 		downstreamKeyers?: DiffDownstreamKeyer | DiffDownstreamKeyer[]
+		superSources?: DiffSuperSource | DiffSuperSource[]
 	}
 }
 
 export type DiffAuxiliaries = number[] | 'all'
 export type DiffColorGenerators = number[] | 'all'
+
+export interface DiffSuperSource {
+	boxes?: DiffSuperSourceBoxes
+
+	border?: boolean
+	properties?: boolean
+}
+export type DiffSuperSourceBoxes = number[] | 'all'
 
 export interface DiffDownstreamKeyer {
 	sources?: boolean

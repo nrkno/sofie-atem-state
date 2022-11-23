@@ -38,7 +38,16 @@ export function diffState(
 			)
 		)
 	}
-	commands.push(...resolveSuperSourceState(oldState, newState, version))
+	if (diffOptions.video?.superSources) {
+		commands.push(
+			...resolveSuperSourceState(
+				oldState.video?.superSources,
+				newState.video?.superSources,
+				version,
+				diffOptions.video.superSources
+			)
+		)
+	}
 	commands.push(...resolveClassicAudioState(oldState, newState))
 	commands.push(...resolveFairlightAudioState(oldState, newState, version))
 
