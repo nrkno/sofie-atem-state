@@ -14,6 +14,7 @@ export const Equalizer: Fairlight.FairlightAudioEqualizerState = {
 export const Monitor: Fairlight.FairlightAudioMonitorChannel = {
 	gain: 0,
 	inputMasterGain: 0,
+	inputMasterMuted: false,
 	inputTalkbackGain: 0,
 	inputSidetoneGain: 0,
 }

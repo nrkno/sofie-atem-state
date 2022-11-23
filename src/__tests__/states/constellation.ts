@@ -15083,6 +15083,7 @@ export const ConstellationState: AtemState = {
 		monitor: {
 			gain: -1500,
 			inputMasterGain: -600,
+			inputMasterMuted: false,
 			inputTalkbackGain: -1000,
 			inputSidetoneGain: -1000,
 		},

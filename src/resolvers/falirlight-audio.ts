@@ -2,7 +2,7 @@ import { Fairlight, Commands as AtemCommands, Enums } from 'atem-connection'
 import { State as StateObject } from '../state'
 import { getAllKeysNumber, diffObject, fillDefaults, getAllKeysString } from '../util'
 import * as Defaults from '../defaults'
-import { Mutable, PartialDeep } from 'type-fest'
+import { Writable, PartialDeep } from 'type-fest'
 
 export function resolveFairlightAudioState(
 	oldState: PartialDeep<StateObject>,
@@ -158,7 +158,7 @@ export function resolveFairlightAudioMixerInputsState(
 				const command = new AtemCommands.FairlightMixerInputCommand(index)
 
 				// Translate old properties
-				const props2: Mutable<AtemCommands.FairlightMixerInputCommand['properties']> = props
+				const props2: Writable<AtemCommands.FairlightMixerInputCommand['properties']> = props
 				props2.rcaToXlrEnabled = props.activeInputLevel === Enums.FairlightAnalogInputLevel.ProLine
 
 				if (command.updateProps(props2)) {
