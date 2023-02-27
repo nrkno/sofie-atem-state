@@ -1,27 +1,36 @@
 import { AudioState, Commands as AtemCommands, Commands } from 'atem-connection'
-import { State as StateObject } from '../state'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
 import * as Defaults from '../defaults'
 import { PartialDeep } from 'type-fest'
+import { DiffClassicAudio } from '../diff'
+import { AtemClassicAudioState } from 'atem-connection/dist/state/audio'
 
 export function resolveClassicAudioState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldState: PartialDeep<AtemClassicAudioState> | undefined,
+	newState: PartialDeep<AtemClassicAudioState> | undefined,
+	diffOptions: DiffClassicAudio
 ): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (oldState.audio || newState.audio) {
-		commands.push(...resolveClassicAudioMixerOutputsState(oldState, newState))
-		commands.push(...resolveClassicAudioMixerInputsState(oldState, newState))
+	if (oldState || newState) {
+		commands.push(...resolveClassicAudioMixerOutputsState(oldState, newState, diffOptions))
 
-		const oldAfv = oldState.audio?.audioFollowVideoCrossfadeTransitionEnabled ?? false
-		const newAfv = newState.audio?.audioFollowVideoCrossfadeTransitionEnabled ?? false
-		if (oldAfv !== newAfv) {
+		if (diffOptions.channels) {
 			commands.push(
-				new AtemCommands.AudioMixerPropertiesCommand({
-					audioFollowVideo: newAfv,
-				})
+				...resolveClassicAudioMixerInputsState(oldState?.channels, newState?.channels, diffOptions.channels)
 			)
+		}
+
+		if (diffOptions.crossfade) {
+			const oldAfv = oldState?.audioFollowVideoCrossfadeTransitionEnabled ?? false
+			const newAfv = newState?.audioFollowVideoCrossfadeTransitionEnabled ?? false
+			if (oldAfv !== newAfv) {
+				commands.push(
+					new AtemCommands.AudioMixerPropertiesCommand({
+						audioFollowVideo: newAfv,
+					})
+				)
+			}
 		}
 	}
 
@@ -29,14 +38,15 @@ export function resolveClassicAudioState(
 }
 
 export function resolveClassicAudioMixerOutputsState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldState: PartialDeep<AtemClassicAudioState> | undefined,
+	newState: PartialDeep<AtemClassicAudioState> | undefined,
+	diffOptions: DiffClassicAudio
 ): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	{
-		const oldMaster = fillDefaults(Defaults.ClassicAudio.Master, oldState.audio?.master)
-		const newMaster = fillDefaults(Defaults.ClassicAudio.Master, newState.audio?.master)
+	if (diffOptions.masterOutput) {
+		const oldMaster = fillDefaults(Defaults.ClassicAudio.Master, oldState?.master)
+		const newMaster = fillDefaults(Defaults.ClassicAudio.Master, newState?.master)
 
 		const props = diffObject<AudioState.ClassicAudioMasterChannel>(oldMaster, newMaster)
 		const command = new Commands.AudioMixerMasterCommand()
@@ -45,9 +55,9 @@ export function resolveClassicAudioMixerOutputsState(
 		}
 	}
 
-	{
-		const oldMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, oldState.audio?.monitor)
-		const newMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, newState.audio?.monitor)
+	if (diffOptions.monitorOutput) {
+		const oldMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, oldState?.monitor)
+		const newMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, newState?.monitor)
 
 		const props = diffObject<AudioState.ClassicAudioMonitorChannel>(oldMonitor, newMonitor)
 		const command = new Commands.AudioMixerMonitorCommand()
@@ -56,9 +66,9 @@ export function resolveClassicAudioMixerOutputsState(
 		}
 	}
 
-	{
-		const oldHeadphones = fillDefaults(Defaults.ClassicAudio.Headphones, oldState.audio?.headphones)
-		const newHeadphones = fillDefaults(Defaults.ClassicAudio.Headphones, newState.audio?.headphones)
+	if (diffOptions.headphonesOutput) {
+		const oldHeadphones = fillDefaults(Defaults.ClassicAudio.Headphones, oldState?.headphones)
+		const newHeadphones = fillDefaults(Defaults.ClassicAudio.Headphones, newState?.headphones)
 
 		const props = diffObject<AudioState.ClassicAudioHeadphoneOutputChannel>(oldHeadphones, newHeadphones)
 		const command = new Commands.AudioMixerHeadphonesCommand()
@@ -71,19 +81,22 @@ export function resolveClassicAudioMixerOutputsState(
 }
 
 export function resolveClassicAudioMixerInputsState(
-	oldState: PartialDeep<StateObject>,
-	newState: PartialDeep<StateObject>
+	oldState: PartialDeep<AtemClassicAudioState['channels']> | undefined,
+	newState: PartialDeep<AtemClassicAudioState['channels']> | undefined,
+	diffOptions: number[] | 'all'
 ): Array<Commands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index of getAllKeysNumber(oldState.audio?.channels, newState.audio?.channels)) {
-		const oldChannel = fillDefaults(Defaults.ClassicAudio.Channel, oldState.audio?.channels?.[index])
-		const newChannel = fillDefaults(Defaults.ClassicAudio.Channel, newState.audio?.channels?.[index])
+	for (const index of getAllKeysNumber(oldState, newState)) {
+		if (diffOptions === 'all' || diffOptions.includes(index)) {
+			const oldChannel = fillDefaults(Defaults.ClassicAudio.Channel, oldState?.[index])
+			const newChannel = fillDefaults(Defaults.ClassicAudio.Channel, newState?.[index])
 
-		const props = diffObject<AudioState.ClassicAudioChannel>(oldChannel, newChannel)
-		const command = new Commands.AudioMixerInputCommand(index)
-		if (command.updateProps(props)) {
-			commands.push(command)
+			const props = diffObject<AudioState.ClassicAudioChannel>(oldChannel, newChannel)
+			const command = new Commands.AudioMixerInputCommand(index)
+			if (command.updateProps(props)) {
+				commands.push(command)
+			}
 		}
 	}
 

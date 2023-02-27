@@ -33,6 +33,17 @@ export function DiffAllObject(): Required<SectionsToDiff> {
 				properties: true,
 			},
 		},
+		audio: {
+			classic: {
+				channels: 'all',
+
+				masterOutput: true,
+				monitorOutput: true,
+				headphonesOutput: true,
+
+				crossfade: true,
+			},
+		},
 	}
 }
 
@@ -51,6 +62,9 @@ export interface SectionsToDiff {
 		auxiliaries?: DiffAuxiliaries
 		downstreamKeyers?: DiffDownstreamKeyer | DiffDownstreamKeyer[]
 		superSources?: DiffSuperSource | DiffSuperSource[]
+	}
+	audio?: {
+		classic?: DiffClassicAudio
 	}
 }
 
@@ -85,4 +99,14 @@ export type DiffMultiViewerWindows = number[] | 'all'
 export interface DiffMultiViewer {
 	properties?: boolean
 	windows?: DiffMultiViewerWindows
+}
+
+export interface DiffClassicAudio {
+	channels?: number[] | 'all'
+
+	masterOutput?: boolean
+	monitorOutput?: boolean
+	headphonesOutput?: boolean
+
+	crossfade?: boolean
 }

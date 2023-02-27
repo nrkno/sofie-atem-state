@@ -48,7 +48,10 @@ export function diffState(
 			)
 		)
 	}
-	commands.push(...resolveClassicAudioState(oldState, newState))
+
+	if (diffOptions.audio?.classic) {
+		commands.push(...resolveClassicAudioState(oldState?.audio, newState.audio, diffOptions.audio.classic))
+	}
 	commands.push(...resolveFairlightAudioState(oldState, newState, version))
 
 	if (diffOptions.media?.players) {
