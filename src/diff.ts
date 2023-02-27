@@ -43,6 +43,29 @@ export function DiffAllObject(): Required<SectionsToDiff> {
 
 				crossfade: true,
 			},
+			fairlight: {
+				inputs: {
+					default: {
+						properties: true,
+						sources: {
+							default: {
+								properties: true,
+								equalizer: true,
+								dynamics: true,
+							},
+						},
+					},
+				},
+
+				masterOutput: {
+					properties: true,
+					equalizer: true,
+					dynamics: true,
+				},
+				monitorOutput: true,
+
+				crossfade: true,
+			},
 		},
 	}
 }
@@ -65,6 +88,7 @@ export interface SectionsToDiff {
 	}
 	audio?: {
 		classic?: DiffClassicAudio
+		fairlight?: DiffFairlightAudio
 	}
 }
 
@@ -109,4 +133,31 @@ export interface DiffClassicAudio {
 	headphonesOutput?: boolean
 
 	crossfade?: boolean
+}
+
+export interface DiffFairlightAudio {
+	inputs?: Record<number | 'default', DiffFairlightAudioInput | undefined>
+
+	masterOutput?: DiffFairlightAudioMaster
+	monitorOutput?: boolean
+
+	crossfade?: boolean
+}
+
+export interface DiffFairlightAudioInput {
+	properties?: boolean
+
+	sources?: Record<number | 'default', DiffFairlightAudioInputSource | undefined>
+}
+
+export interface DiffFairlightAudioInputSource {
+	properties?: boolean
+	equalizer?: boolean
+	dynamics?: boolean
+}
+
+export interface DiffFairlightAudioMaster {
+	properties?: boolean
+	equalizer?: boolean
+	dynamics?: boolean
 }
