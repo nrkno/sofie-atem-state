@@ -17,7 +17,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 	// same state gives no commands:
 	const ck = USK2.chromaSettings
 	delete USK2.chromaSettings
-	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2)
+	const commands = CK.resolveChromaKeyerState(0, 0, USK1.chromaSettings, USK2.chromaSettings)
 	expect(commands).toHaveLength(0)
 	USK2.chromaSettings = ck
 })
@@ -30,7 +30,12 @@ test('Unit: upstream keyers: chroma keyer', function () {
 		narrow: true,
 		ySuppress: 4,
 	}
-	const commands = CK.resolveChromaKeyerState(0, 0, USK1, USK2) as Array<Commands.MixEffectKeyChromaCommand>
+	const commands = CK.resolveChromaKeyerState(
+		0,
+		0,
+		USK1.chromaSettings,
+		USK2.chromaSettings
+	) as Array<Commands.MixEffectKeyChromaCommand>
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyChromaCommand')
 	expect(commands[0].mixEffect).toEqual(0)

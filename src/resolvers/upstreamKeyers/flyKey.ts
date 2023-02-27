@@ -3,22 +3,30 @@ import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
 
-export function resolveFlyKeyerState(
+type FlyFrmaesState = [
+	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined,
+	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined
+]
+
+export function resolveFlyKeyerFramesState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
-	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
+	oldState: PartialDeep<FlyFrmaesState>,
+	newState: PartialDeep<FlyFrmaesState>,
+	diffOptions: number[] | 'all'
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	for (const index of getAllKeysNumber(oldKeyer.flyKeyframes, newKeyer.flyKeyframes)) {
-		const newKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), oldKeyer.flyKeyframes?.[index])
-		const oldKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), newKeyer.flyKeyframes?.[index])
+	for (const index of getAllKeysNumber(oldState, newState)) {
+		if (diffOptions === 'all' || diffOptions.includes(index)) {
+			const newKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), oldState?.[index])
+			const oldKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), newState?.[index])
 
-		const props = diffObject(oldKeyframe, newKeyframe)
-		const command = new AtemCommands.MixEffectKeyFlyKeyframeCommand(mixEffectId, upstreamKeyerId, index)
-		if (command.updateProps(props)) {
-			commands.push(command)
+			const props = diffObject(oldKeyframe, newKeyframe)
+			const command = new AtemCommands.MixEffectKeyFlyKeyframeCommand(mixEffectId, upstreamKeyerId, index)
+			if (command.updateProps(props)) {
+				commands.push(command)
+			}
 		}
 	}
 

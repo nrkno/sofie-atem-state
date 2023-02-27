@@ -6,15 +6,15 @@ import { PartialDeep } from 'type-fest'
 export function resolveDVEKeyerState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
-	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
+	oldState: PartialDeep<VideoState.USK.UpstreamKeyerDVESettings> | undefined,
+	newState: PartialDeep<VideoState.USK.UpstreamKeyerDVESettings> | undefined
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (!oldKeyer.dveSettings && !newKeyer.dveSettings) return commands
+	if (!oldState && !newState) return commands
 
-	const oldDVEKeyer = fillDefaults(Defaults.Video.UpstreamKeyerDVESettings, oldKeyer.dveSettings)
-	const newDVEKeyer = fillDefaults(Defaults.Video.UpstreamKeyerDVESettings, newKeyer.dveSettings)
+	const oldDVEKeyer = fillDefaults(Defaults.Video.UpstreamKeyerDVESettings, oldState)
+	const newDVEKeyer = fillDefaults(Defaults.Video.UpstreamKeyerDVESettings, newState)
 
 	const props = diffObject(oldDVEKeyer, newDVEKeyer)
 	const command = new AtemCommands.MixEffectKeyDVECommand(mixEffectId, upstreamKeyerId)

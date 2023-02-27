@@ -21,7 +21,11 @@ export function diffState(
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	commands.push(...resolveMixEffectsState(oldState, newState))
+	if (diffOptions.video?.mixEffects) {
+		commands.push(
+			...resolveMixEffectsState(oldState.video?.mixEffects, newState.video?.mixEffects, diffOptions.video.mixEffects)
+		)
+	}
 
 	if (diffOptions.macros?.player) {
 		commands.push(

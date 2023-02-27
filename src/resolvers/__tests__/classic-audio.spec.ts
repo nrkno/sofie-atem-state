@@ -47,7 +47,7 @@ STATE2.master = {
 	followFadeToBlack: false,
 }
 
-const diffObject = DiffAllObject().audio.classic!
+const diffObject = DiffAllObject().audio!.classic!
 
 test('Unit: audio: same state gives no commands', function () {
 	// same state gives no commands:

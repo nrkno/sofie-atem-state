@@ -1,5 +1,6 @@
-export function DiffAllObject(): Required<SectionsToDiff> {
-	// TODO - use a DeepRequired to ensure we don't miss anything
+import { DeepComplete } from './util'
+
+export function DiffAllObject(): DeepComplete<SectionsToDiff> {
 	return {
 		colorGenerators: 'all',
 		macros: {
@@ -26,6 +27,33 @@ export function DiffAllObject(): Required<SectionsToDiff> {
 				onAir: true,
 				properties: true,
 				mask: true,
+			},
+			mixEffects: {
+				programPreview: true,
+				transitionStatus: true,
+
+				transitionProperties: true,
+				transitionSettings: {
+					dip: true,
+					DVE: true,
+					mix: true,
+					stinger: true,
+					wipe: true,
+				},
+
+				upstreamKeyers: {
+					sources: true,
+					onAir: true,
+					type: true,
+					mask: true,
+
+					flyKeyframes: 'all',
+					dveSettings: true,
+					chromaSettings: true,
+					advancedChromaSettings: true,
+					lumaSettings: true,
+					patternSettings: true,
+				},
 			},
 			superSources: {
 				boxes: 'all',
@@ -84,6 +112,7 @@ export interface SectionsToDiff {
 	video?: {
 		auxiliaries?: DiffAuxiliaries
 		downstreamKeyers?: DiffDownstreamKeyer | DiffDownstreamKeyer[]
+		mixEffects?: DiffMixEffect | DiffMixEffect[]
 		superSources?: DiffSuperSource | DiffSuperSource[]
 	}
 	audio?: {
@@ -103,6 +132,36 @@ export interface DiffSuperSource {
 }
 export type DiffSuperSourceBoxes = number[] | 'all'
 
+export interface DiffMixEffect {
+	programPreview?: boolean
+	transitionStatus?: boolean
+
+	transitionProperties?: boolean
+	transitionSettings?: DiffMixEffectTransitionSettings
+
+	upstreamKeyers?: DiffUpstreamKeyer | DiffUpstreamKeyer[]
+}
+export interface DiffUpstreamKeyer {
+	sources?: boolean
+	onAir?: boolean
+	type?: boolean
+	mask?: boolean
+
+	flyKeyframes?: number[] | 'all'
+	dveSettings?: boolean
+	chromaSettings?: boolean
+	advancedChromaSettings?: boolean
+	lumaSettings?: boolean
+	patternSettings?: boolean
+}
+
+export interface DiffMixEffectTransitionSettings {
+	dip?: boolean
+	DVE?: boolean
+	mix?: boolean
+	stinger?: boolean
+	wipe?: boolean
+}
 export interface DiffDownstreamKeyer {
 	sources?: boolean
 	onAir?: boolean

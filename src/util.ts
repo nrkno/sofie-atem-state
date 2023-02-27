@@ -2,6 +2,24 @@ import { PartialDeep } from 'type-fest'
 import * as deepMerge from 'deepmerge'
 import { PartialObjectDeep } from 'type-fest/source/partial-deep'
 
+/**
+ * Make all optional properties be required and `| undefined`
+ * This is useful to ensure that no property is missed, when manually converting between types, but allowing fields to be undefined
+ */
+export type Complete<T> = {
+	[P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>> ? T[P] : T[P] | undefined
+}
+
+/**
+ * Make all optional properties be required and `| undefined`
+ * This is useful to ensure that no property is missed, when manually converting between types, but allowing fields to be undefined
+ */
+export type DeepComplete<T> = {
+	[P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>>
+		? DeepComplete<T[P]>
+		: DeepComplete<T[P]> | undefined
+}
+
 export function diffObject<T>(oldObj: Partial<T>, newObj: Partial<T>): Partial<T> {
 	const diff: Partial<T> = {}
 	for (const key in newObj) {
