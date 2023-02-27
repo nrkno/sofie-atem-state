@@ -25,9 +25,10 @@ export function resolveMixEffectsState(
 		let oldMEInput = Defaults.Video.defaultInput
 		let oldMeTransition: Enums.TransitionStyle = Defaults.Video.TransitionProperties.style
 		if (oldMixEffect) {
-			if ('input' in oldMixEffect || 'transition' in oldMixEffect) {
-				oldMEInput = oldMixEffect.input ?? oldMEInput
-				oldMeTransition = oldMixEffect.transition ?? oldMeTransition
+			const oldMixEffectExt = oldMixEffect as ExtendedMixEffect
+			if ('input' in oldMixEffectExt || 'transition' in oldMixEffectExt) {
+				oldMEInput = oldMixEffectExt.input ?? oldMEInput
+				oldMeTransition = oldMixEffectExt.transition ?? oldMeTransition
 			} else {
 				oldMeTransition = oldMixEffect.transitionProperties?.style ?? oldMeTransition
 				if ('programInput' in oldMixEffect) {
