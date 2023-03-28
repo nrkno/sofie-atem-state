@@ -1,6 +1,18 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [Convential Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for commit guidelines.
+
+## [1.0.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.2...v1.0.0) (Tue Mar 28 2023)
+
+## Breaking changes
+
+### Features
+
+* **!** require node 14 or 16 [258c966](https://github.com/nrkno/tv-automation-atem-state/commit/258c966f5d1b853cbce9809387c75cb5c04d2361)
+
+### Features
+
+* more sections and configurable diffing (#20) [8b329fe](https://github.com/nrkno/tv-automation-atem-state/commit/8b329fe953c9ba55df4fb34226b1f81ee0de22b9)
 
 ### [0.12.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.1...0.12.2) (2021-12-08)
 
