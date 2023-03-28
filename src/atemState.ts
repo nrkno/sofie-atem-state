@@ -1,6 +1,7 @@
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
 import { State as StateObject } from './state'
 import * as Resolvers from './resolvers'
+import { SectionsToDiff } from './diff'
 
 export class AtemState {
 	version: Enums.ProtocolVersion = Enums.ProtocolVersion.V7_2
@@ -19,24 +20,16 @@ export class AtemState {
 		return this._state
 	}
 
-	diffState(newState: StateObject): Array<Commands.ISerializableCommand> {
-		return AtemState.diffStates(this.version, this._state, newState)
-	}
-
-	/** Deprecated */
-	diffStates(oldState: StateObject, newState: StateObject): Array<Commands.ISerializableCommand> {
-		return AtemState.diffStates(this.version, oldState, newState)
+	diffState(newState: StateObject, options: SectionsToDiff): Array<Commands.ISerializableCommand> {
+		return AtemState.diffStates(this.version, this._state, newState, options)
 	}
 
 	static diffStates(
 		version: Enums.ProtocolVersion,
 		oldState: StateObject,
-		newState: StateObject
+		newState: StateObject,
+		options: SectionsToDiff
 	): Array<Commands.ISerializableCommand> {
-		const commands: Array<Commands.ISerializableCommand> = []
-
-		commands.push(...Resolvers.videoState(oldState, newState, version))
-
-		return commands
+		return Resolvers.diffState(oldState, newState, options, version)
 	}
 }

@@ -6,15 +6,15 @@ import { PartialDeep } from 'type-fest'
 export function resolvePatternKeyerState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
-	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
+	oldState: PartialDeep<VideoState.USK.UpstreamKeyerPatternSettings> | undefined,
+	newState: PartialDeep<VideoState.USK.UpstreamKeyerPatternSettings> | undefined
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (!oldKeyer.patternSettings && !newKeyer.patternSettings) return commands
+	if (!oldState && !newState) return commands
 
-	const oldPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, oldKeyer.patternSettings)
-	const newPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, newKeyer.patternSettings)
+	const oldPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, oldState)
+	const newPatternKeyer = fillDefaults(Defaults.Video.UpstreamKeyerPatternSettings, newState)
 
 	const props = diffObject(oldPatternKeyer, newPatternKeyer)
 	if (props && oldPatternKeyer.style !== newPatternKeyer.style) {

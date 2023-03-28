@@ -1,4 +1,5 @@
 import { AtemStateUtil } from 'atem-connection'
+import { DiffAllObject } from '../diff'
 import { AtemState } from '../atemState'
 
 test('Unit test: Atem State: Set State', function () {
@@ -20,7 +21,7 @@ test('Unit test: Atem State: Diff State', function () {
 
 	const newObj2 = AtemStateUtil.Create()
 	;(newObj2.video.auxilliaries as number[]) = [0, 0, 2]
-	const commands = state.diffState(newObj2)
+	const commands = state.diffState(newObj2, DiffAllObject())
 
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')

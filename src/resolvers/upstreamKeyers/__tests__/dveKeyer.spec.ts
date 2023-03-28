@@ -17,7 +17,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 
 	// same state gives no commands:
 	delete USK2.dveSettings
-	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2)
+	const commands = DVE.resolveDVEKeyerState(0, 0, USK1.dveSettings, USK2.dveSettings)
 	expect(commands).toHaveLength(0)
 	USK2.dveSettings = jsonClone(Defaults.Video.UpstreamKeyerDVESettings)
 })
@@ -34,7 +34,12 @@ test('Unit: upstream keyers: dve keyer: general props', function () {
 		lightSourceDirection: 8,
 		lightSourceAltitude: 9,
 	}
-	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(
+		0,
+		0,
+		USK1.dveSettings,
+		USK2.dveSettings
+	) as Commands.MixEffectKeyDVECommand[]
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -66,7 +71,12 @@ test('Unit: upstream keyers: dve keyer: border', function () {
 	USK2.dveSettings!.borderHue = 8
 	USK2.dveSettings!.borderSaturation = 9
 	USK2.dveSettings!.borderLuma = 10
-	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(
+		0,
+		0,
+		USK1.dveSettings,
+		USK2.dveSettings
+	) as Commands.MixEffectKeyDVECommand[]
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)
@@ -99,7 +109,12 @@ test('Unit: upstream keyers: dve keyer: mask props', function () {
 		maskLeft: 3,
 		maskRight: 4,
 	}
-	const commands = DVE.resolveDVEKeyerState(0, 0, USK1, USK2) as [Commands.MixEffectKeyDVECommand]
+	const commands = DVE.resolveDVEKeyerState(
+		0,
+		0,
+		USK1.dveSettings,
+		USK2.dveSettings
+	) as Commands.MixEffectKeyDVECommand[]
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyDVECommand')
 	expect(commands[0].mixEffect).toEqual(0)

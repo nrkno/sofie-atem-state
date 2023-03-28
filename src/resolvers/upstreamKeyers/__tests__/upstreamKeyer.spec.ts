@@ -1,6 +1,7 @@
 import * as USK from '../index'
 import * as Defaults from '../../../defaults'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'
+import { DiffAllObject, DiffMixEffect } from '../../../diff'
 
 const STATE1 = AtemStateUtil.Create()
 const ME1 = AtemStateUtil.getMixEffect(STATE1, 0)
@@ -10,9 +11,11 @@ const STATE2 = AtemStateUtil.Create()
 const ME2 = AtemStateUtil.getMixEffect(STATE2, 0)
 const USK2 = AtemStateUtil.getUpstreamKeyer(ME2, 0)
 
+const fullDiffOptions = (DiffAllObject().video?.mixEffects as DiffMixEffect).upstreamKeyers!
+
 test('Unit: upstream keyers: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2)
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions)
 	expect(commands).toHaveLength(0)
 })
 
@@ -20,7 +23,7 @@ test('Unit: upstream keyers: undefined gives no error', function () {
 	// same state gives no commands:
 	const usk = ME2.upstreamKeyers[0]
 	delete ME2.upstreamKeyers[0]
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2)
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions)
 	expect(commands).toHaveLength(0)
 	ME2.upstreamKeyers[0] = usk
 })
@@ -28,7 +31,7 @@ test('Unit: upstream keyers: undefined gives no error', function () {
 test('Unit: upstream keyers: sources', function () {
 	USK2.cutSource = 1
 	USK2.fillSource = 2
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [
 		Commands.MixEffectKeyFillSourceSetCommand,
 		Commands.DownstreamKeyCutSourceCommand
 	]
@@ -55,7 +58,9 @@ test('Unit: upstream keyers: sources', function () {
 
 test('Unit: upstream keyers: key type', function () {
 	USK2.mixEffectKeyType = Enums.MixEffectKeyType.Pattern
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyTypeSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [
+		Commands.MixEffectKeyTypeSetCommand
+	]
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyTypeSetCommand')
@@ -70,7 +75,9 @@ test('Unit: upstream keyers: key type', function () {
 
 test('Unit: upstream keyers: flyKey enabled', function () {
 	USK2.flyEnabled = !USK1.flyEnabled
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyTypeSetCommand]
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [
+		Commands.MixEffectKeyTypeSetCommand
+	]
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyTypeSetCommand')
@@ -85,7 +92,9 @@ test('Unit: upstream keyers: flyKey enabled', function () {
 
 test('Unit: upstream keyers: keyer on air', function () {
 	USK2.onAir = !USK1.onAir
-	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyOnAirCommand]
+	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [
+		Commands.MixEffectKeyOnAirCommand
+	]
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyOnAirCommand')
@@ -102,7 +111,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 // eslint-disable-next-line jest/no-commented-out-tests
 // test('Unit: upstream keyer: mask', function () {
 // 	USK2.maskEnabled = true
-// 	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyMaskSetCommand]
+// 	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [Commands.MixEffectKeyMaskSetCommand]
 // 	expect(commands).toHaveLength(1)
 
 // 	expect(commands[0].constructor.name).toEqual('MixEffectKeyMaskSetCommand')
@@ -122,7 +131,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 // 	USK2.maskTop = 2
 // 	USK2.maskLeft = 3
 // 	USK2.maskRight = 4
-// 	const commands = USK.resolveUpstreamKeyerState(0, ME1, ME2) as [Commands.MixEffectKeyMaskSetCommand]
+// 	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [Commands.MixEffectKeyMaskSetCommand]
 // 	expect(commands).toHaveLength(1)
 
 // 	expect(commands[0].constructor.name).toEqual('MixEffectKeyMaskSetCommand')

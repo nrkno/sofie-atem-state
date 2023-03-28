@@ -6,15 +6,15 @@ import { PartialDeep } from 'type-fest'
 export function resolveLumaKeyerState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>,
-	newKeyer: PartialDeep<VideoState.USK.UpstreamKeyer>
+	oldState: PartialDeep<VideoState.USK.UpstreamKeyerLumaSettings> | undefined,
+	newState: PartialDeep<VideoState.USK.UpstreamKeyerLumaSettings> | undefined
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
-	if (!oldKeyer.lumaSettings && !newKeyer.lumaSettings) return commands
+	if (!oldState && !newState) return commands
 
-	const oldLumaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerLumaSettings, oldKeyer.lumaSettings)
-	const newLumaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerLumaSettings, newKeyer.lumaSettings)
+	const oldLumaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerLumaSettings, oldState)
+	const newLumaKeyer = fillDefaults(Defaults.Video.UpstreamKeyerLumaSettings, newState)
 
 	const props = diffObject(oldLumaKeyer, newLumaKeyer)
 	const command = new AtemCommands.MixEffectKeyLumaCommand(mixEffectId, upstreamKeyerId)

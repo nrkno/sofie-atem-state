@@ -1,41 +1,44 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as DSK from '../downstreamKeyer'
-import { State as StateObject } from '../../state'
-import { Commands, AtemStateUtil, VideoState, AtemState } from 'atem-connection'
+import { resolveDownstreamKeyerState } from '../downstreamKeyer'
+import { Commands, VideoState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
+import { DiffDownstreamKeyer } from '../../diff'
 
-function setupDSK(state: StateObject, index: number, props?: Partial<VideoState.DSK.DownstreamKeyer>) {
-	const dsk = AtemStateUtil.getDownstreamKeyer(state as AtemState, index)
-	dsk.properties = jsonClone({
-		...Defaults.Video.DownstreamerKeyerProperties,
-		...props,
+function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<VideoState.DSK.DownstreamKeyer> {
+	return jsonClone({
+		...Defaults.Video.DownstreamKeyer,
+		isTowardsOnAir: false,
+		sources: Defaults.Video.DownstreamerKeyerSources,
+		properties: {
+			...Defaults.Video.DownstreamerKeyerProperties,
+			...props,
+		},
 	})
-	dsk.sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
-	return dsk
 }
 
-const STATE1 = AtemStateUtil.Create()
-setupDSK(STATE1, 0)
-setupDSK(STATE1, 1)
+const DSK1 = [setupDSK(), setupDSK()]
+const DSK2 = [setupDSK(), setupDSK()]
 
-const STATE2 = AtemStateUtil.Create()
-const DSK1 = setupDSK(STATE2, 0)
-let DSK2 = setupDSK(STATE2, 1)
+const fullDiff: Required<DiffDownstreamKeyer> = {
+	sources: true,
+	onAir: true,
+	properties: true,
+	mask: true,
+}
 
 test('Unit: Downstream keyer: same state gives no commands', function () {
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE1)
+	const commands = resolveDownstreamKeyerState(DSK1, DSK1, fullDiff)
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: Downstream keyer: auto and onAir commands', function () {
-	DSK1.onAir = true
-	STATE2.video.downstreamKeyers[1] = {
-		...STATE2.video.downstreamKeyers[1]!,
+	DSK2[0].onAir = true
+	DSK2[1] = {
+		...DSK2[1],
 		isAuto: true,
 	}
 
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyOnAirCommand
@@ -48,20 +51,19 @@ test('Unit: Downstream keyer: auto and onAir commands', function () {
 	const secondCommand = commands[1] as Commands.DownstreamKeyAutoCommand
 	expect(secondCommand.constructor.name).toEqual('DownstreamKeyAutoCommand')
 	expect(secondCommand.downstreamKeyerId).toEqual(1)
-	DSK1.onAir = false
-	STATE2.video.downstreamKeyers[1] = {
-		...STATE2.video.downstreamKeyers[1],
+
+	DSK2[0].onAir = false
+	DSK2[1] = {
+		...DSK2[1],
 		isAuto: false,
 	}
-
-	DSK2 = STATE2.video.downstreamKeyers[1]
 })
 
 test('Unit: Downstream keyer: sources', function () {
-	DSK1.sources!.fillSource = 1
-	DSK2.sources!.cutSource = 2
+	DSK2[0].sources.fillSource = 1
+	DSK2[1].sources.cutSource = 2
 
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyFillSourceCommand
@@ -78,13 +80,13 @@ test('Unit: Downstream keyer: sources', function () {
 		input: 2,
 	})
 
-	delete DSK1.sources
-	delete DSK2.sources
+	DSK2[0].sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
+	DSK2[1].sources = jsonClone(Defaults.Video.DownstreamerKeyerSources)
 })
 
 test('Unit: Downstream keyer: rate', function () {
-	DSK1.properties!.rate = 50
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	DSK2[0].properties.rate = 50
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyRateCommand
@@ -93,12 +95,12 @@ test('Unit: Downstream keyer: rate', function () {
 	expect(firstCommand.properties).toEqual({
 		rate: 50,
 	})
-	DSK1.properties!.rate = 25
+	DSK2[0].properties.rate = DSK1[0].properties.rate
 })
 
 test('Unit: Downstream keyer: tie', function () {
-	DSK1.properties!.tie = true
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	DSK2[0].properties.tie = true
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyTieCommand
@@ -107,15 +109,15 @@ test('Unit: Downstream keyer: tie', function () {
 	expect(firstCommand.properties).toEqual({
 		tie: true,
 	})
-	DSK1.properties!.tie = false
+	DSK2[0].properties.tie = false
 })
 
 test('Unit: Downstream keyer: properties', function () {
-	DSK1.properties!.preMultiply = true
-	DSK1.properties!.clip = 500
-	DSK1.properties!.gain = 50
-	DSK1.properties!.invert = true
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	DSK2[0].properties.preMultiply = true
+	DSK2[0].properties.clip = 500
+	DSK2[0].properties.gain = 50
+	DSK2[0].properties.invert = true
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyGeneralCommand
@@ -127,21 +129,21 @@ test('Unit: Downstream keyer: properties', function () {
 		gain: 50,
 		invert: true,
 	})
-	DSK1.properties!.preMultiply = false
-	DSK1.properties!.clip = 0
-	DSK1.properties!.gain = 0
-	DSK1.properties!.invert = false
+	DSK2[0].properties.preMultiply = false
+	DSK2[0].properties.clip = 0
+	DSK2[0].properties.gain = 0
+	DSK2[0].properties.invert = false
 })
 
 test('Unit: Downstream keyer: mask', function () {
-	DSK1.properties!.mask = {
+	DSK2[0].properties.mask = {
 		enabled: true,
 		top: 1,
 		bottom: 2,
 		left: 3,
 		right: 4,
 	}
-	const commands = DSK.resolveDownstreamKeyerState(STATE1, STATE2)
+	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyMaskCommand
@@ -154,7 +156,7 @@ test('Unit: Downstream keyer: mask', function () {
 		left: 3,
 		right: 4,
 	})
-	DSK1.properties!.mask = {
+	DSK2[0].properties.mask = {
 		enabled: false,
 		top: 0,
 		bottom: 0,

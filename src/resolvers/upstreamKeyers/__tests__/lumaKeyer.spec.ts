@@ -17,7 +17,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 	// same state gives no commands:
 	const lk = USK2.lumaSettings
 	delete USK2.lumaSettings
-	const commands = LK.resolveLumaKeyerState(0, 0, USK1, USK2)
+	const commands = LK.resolveLumaKeyerState(0, 0, USK1.lumaSettings, USK2.lumaSettings)
 	expect(commands).toHaveLength(0)
 	USK2.lumaSettings = lk
 })
@@ -29,7 +29,12 @@ test('Unit: upstream keyers: luma keyer', function () {
 		gain: 2,
 		invert: true,
 	}
-	const commands = LK.resolveLumaKeyerState(0, 0, USK1, USK2) as Array<Commands.MixEffectKeyLumaCommand>
+	const commands = LK.resolveLumaKeyerState(
+		0,
+		0,
+		USK1.lumaSettings,
+		USK2.lumaSettings
+	) as Array<Commands.MixEffectKeyLumaCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyLumaCommand')
