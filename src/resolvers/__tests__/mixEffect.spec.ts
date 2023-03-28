@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as ME from '../mixEffect'
 import * as Enums from '../../enums'
 import { MixEffect, ExtendedMixEffect } from '../../state'

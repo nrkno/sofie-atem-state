@@ -3,7 +3,7 @@ import { Enums as ConnEnums } from 'atem-connection'
 
 function getNumberValues(obj: any): number[] {
 	const isNumber = (v: any): v is number => typeof v === 'number'
-	return Object.values(obj).filter(isNumber)
+	return Object.values<any>(obj).filter(isNumber)
 }
 
 test('Unit test: Enums: TransitionStyle identical values', function () {

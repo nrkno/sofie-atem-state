@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as USK from '../index'
 import * as Defaults from '../../../defaults'
 import { Commands, Enums, AtemStateUtil } from 'atem-connection'

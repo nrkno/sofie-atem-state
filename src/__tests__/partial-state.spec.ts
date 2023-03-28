@@ -17,7 +17,7 @@ import { DiffAllObject } from '../diff'
 function getAllPathKeys(state: any): string[] {
 	const keys: string[] = []
 	if (state && typeof state === 'object') {
-		for (const [k, o] of Object.entries(state)) {
+		for (const [k, o] of Object.entries<any>(state)) {
 			if (o) {
 				keys.push(k)
 				const childKeys = getAllPathKeys(o)
