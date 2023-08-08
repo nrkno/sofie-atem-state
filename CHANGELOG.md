@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.13.0](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.2...0.13.0) (2023-08-08)
+
+
+### Features
+
+* fairlight audio routing ([a2ad66f](https://github.com/nrkno/tv-automation-atem-state/commit/a2ad66f81ac893e838d542b367a0f16100416dbb))
+
+
+### Bug Fixes
+
+* fairlight audio routing diffing ([e7347b4](https://github.com/nrkno/tv-automation-atem-state/commit/e7347b47144d046d3ba99868f2e0be5fcbe4b5ff))
+
 ### [0.12.2](https://github.com/nrkno/tv-automation-atem-state/compare/0.12.1...0.12.2) (2021-12-08)
 
 
