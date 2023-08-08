@@ -12,7 +12,7 @@ export function resolveFairlightAudioState(
 
 	if (newState.fairlight.audioRouting || oldState.fairlight?.audioRouting) {
 		commands.push(
-			...resolveFairlightAudioRoutingState(newState.fairlight.audioRouting, oldState.fairlight?.audioRouting)
+			...resolveFairlightAudioRoutingState(oldState?.fairlight?.audioRouting, newState.fairlight.audioRouting)
 		)
 	}
 
@@ -26,16 +26,24 @@ export function resolveFairlightAudioRoutingState(
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
 	for (const outputId of getAllKeysNumber(oldState?.outputs, newState?.outputs)) {
+		const oldPropertiesRaw = oldState?.outputs?.[outputId]
+		const newPropertiesRaw = newState?.outputs?.[outputId]
+
+		// Ignore if it is not present in the new state. This is not ideal, but necessary to avoid losing the default routing when setting a single value
+		if (!newPropertiesRaw) continue
+
 		const oldProperties = fillDefaults<Pick<Fairlight.FairlightAudioRoutingOutput, 'sourceId'>>(
 			{ sourceId: 0 },
-			oldState?.outputs?.[outputId]
+			oldPropertiesRaw
 		)
 		const newProperties = fillDefaults<Pick<Fairlight.FairlightAudioRoutingOutput, 'sourceId'>>(
 			{ sourceId: 0 },
-			newState?.outputs?.[outputId]
+			newPropertiesRaw
 		)
 
 		const props = diffObject<Fairlight.FairlightAudioRoutingOutput>(oldProperties, newProperties)
+		delete props.name
+
 		const command = new AtemCommands.AudioRoutingOutputCommand(outputId)
 		if (command.updateProps(props)) {
 			commands.push(command)
