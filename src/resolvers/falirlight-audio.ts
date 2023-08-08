@@ -9,7 +9,6 @@ import {
 	DiffFairlightAudioRouting,
 } from '../diff'
 import { OmitReadonly } from 'atem-connection/dist/lib/types'
-import { FairlightAudioRoutingOutput, FairlightAudioRoutingSource } from 'atem-connection/dist/state/fairlight'
 
 export function resolveFairlightAudioState(
 	oldState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
@@ -303,16 +302,17 @@ export function resolveFairlightAudioRoutingState(
 			const thisDiffOptions = diffOptions.sources[sourceId] ?? diffOptions.sources['default']
 
 			if (thisDiffOptions?.name) {
-				const oldProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingSource>>(
+				const oldProperties = fillDefaults<OmitReadonly<Fairlight.FairlightAudioRoutingSource>>(
 					{ name: `Source ${sourceId}` },
 					oldState?.sources?.[sourceId]
 				)
-				const newProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingSource>>(
+				const newProperties = fillDefaults<OmitReadonly<Fairlight.FairlightAudioRoutingSource>>(
 					{ name: `Source ${sourceId}` },
 					newState?.sources?.[sourceId]
 				)
 
-				const props = diffObject<FairlightAudioRoutingSource>(oldProperties, newProperties)
+				const props = diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingSource>>(oldProperties, newProperties)
+
 				const command = new AtemCommands.AudioRoutingSourceCommand(sourceId)
 				if (command.updateProps(props)) {
 					commands.push(command)
@@ -325,17 +325,21 @@ export function resolveFairlightAudioRoutingState(
 		for (const outputId of getAllKeysNumber(oldState?.outputs, newState?.outputs)) {
 			const thisDiffOptions = diffOptions.outputs[outputId] ?? diffOptions.outputs['default']
 
-			if (thisDiffOptions?.name) {
-				const oldProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingOutput>>(
+			if (thisDiffOptions) {
+				const oldProperties = fillDefaults<OmitReadonly<Fairlight.FairlightAudioRoutingOutput>>(
 					{ name: `Output ${outputId}`, sourceId: 0 },
 					oldState?.outputs?.[outputId]
 				)
-				const newProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingOutput>>(
+				const newProperties = fillDefaults<OmitReadonly<Fairlight.FairlightAudioRoutingOutput>>(
 					{ name: `Output ${outputId}`, sourceId: 0 },
 					newState?.outputs?.[outputId]
 				)
 
-				const props = diffObject<FairlightAudioRoutingOutput>(oldProperties, newProperties)
+				// Filter out any properties not being diffed
+				const props = diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingOutput>>(oldProperties, newProperties)
+				if (!thisDiffOptions.name) delete props.name
+				if (!thisDiffOptions.sourceId) delete props.sourceId
+
 				const command = new AtemCommands.AudioRoutingOutputCommand(outputId)
 				if (command.updateProps(props)) {
 					commands.push(command)
