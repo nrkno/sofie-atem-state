@@ -93,6 +93,20 @@ export function DiffAllObject(): DeepComplete<SectionsToDiff> {
 				monitorOutput: true,
 
 				crossfade: true,
+
+				audioRouting: {
+					sources: {
+						default: {
+							name: true,
+						},
+					},
+					outputs: {
+						default: {
+							name: true,
+							sourceId: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -201,6 +215,8 @@ export interface DiffFairlightAudio {
 	monitorOutput?: boolean
 
 	crossfade?: boolean
+
+	audioRouting?: DiffFairlightAudioRouting
 }
 
 export interface DiffFairlightAudioInput {
@@ -219,4 +235,18 @@ export interface DiffFairlightAudioMaster {
 	properties?: boolean
 	equalizer?: boolean
 	dynamics?: boolean
+}
+
+export interface DiffFairlightAudioRouting {
+	sources?: Record<number | 'default', DiffFairlightAudioRoutingSource | undefined>
+	outputs?: Record<number | 'default', DiffFairlightAudioRoutingOutput | undefined>
+}
+
+export interface DiffFairlightAudioRoutingSource {
+	name?: boolean
+}
+
+export interface DiffFairlightAudioRoutingOutput {
+	name?: boolean
+	sourceId?: boolean
 }

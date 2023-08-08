@@ -2,7 +2,14 @@ import { Fairlight, Commands as AtemCommands, Enums } from 'atem-connection'
 import { getAllKeysNumber, diffObject, fillDefaults, getAllKeysString } from '../util'
 import * as Defaults from '../defaults'
 import { Writable, PartialDeep } from 'type-fest'
-import { DiffFairlightAudio, DiffFairlightAudioInput, DiffFairlightAudioInputSource } from '../diff'
+import {
+	DiffFairlightAudio,
+	DiffFairlightAudioInput,
+	DiffFairlightAudioInputSource,
+	DiffFairlightAudioRouting,
+} from '../diff'
+import { OmitReadonly } from 'atem-connection/dist/lib/types'
+import { FairlightAudioRoutingOutput, FairlightAudioRoutingSource } from 'atem-connection/dist/state/fairlight'
 
 export function resolveFairlightAudioState(
 	oldState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
@@ -31,6 +38,12 @@ export function resolveFairlightAudioState(
 					commands.push(command)
 				}
 			}
+		}
+
+		if (diffOptions.audioRouting && (oldState?.audioRouting || newState?.audioRouting)) {
+			commands.push(
+				...resolveFairlightAudioRoutingState(oldState?.audioRouting, newState?.audioRouting, diffOptions.audioRouting)
+			)
 		}
 	}
 
@@ -268,6 +281,62 @@ export function resolveFairlightAudioMixerInputSourcesState(
 
 				const props = diffObject<Fairlight.FairlightAudioEqualizerBandState>(oldBand, newBand)
 				const command = new AtemCommands.FairlightMixerMasterEqualizerBandCommand(index)
+				if (command.updateProps(props)) {
+					commands.push(command)
+				}
+			}
+		}
+	}
+
+	return commands
+}
+
+export function resolveFairlightAudioRoutingState(
+	oldState: PartialDeep<Fairlight.FairlightAudioRouting> | undefined,
+	newState: PartialDeep<Fairlight.FairlightAudioRouting> | undefined,
+	diffOptions: DiffFairlightAudioRouting
+): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
+
+	if (diffOptions.sources) {
+		for (const sourceId of getAllKeysNumber(oldState?.sources, newState?.sources)) {
+			const thisDiffOptions = diffOptions.sources[sourceId] ?? diffOptions.sources['default']
+
+			if (thisDiffOptions?.name) {
+				const oldProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingSource>>(
+					{ name: `Source ${sourceId}` },
+					oldState?.sources?.[sourceId]
+				)
+				const newProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingSource>>(
+					{ name: `Source ${sourceId}` },
+					newState?.sources?.[sourceId]
+				)
+
+				const props = diffObject<FairlightAudioRoutingSource>(oldProperties, newProperties)
+				const command = new AtemCommands.AudioRoutingSourceCommand(sourceId)
+				if (command.updateProps(props)) {
+					commands.push(command)
+				}
+			}
+		}
+	}
+
+	if (diffOptions.outputs) {
+		for (const outputId of getAllKeysNumber(oldState?.outputs, newState?.outputs)) {
+			const thisDiffOptions = diffOptions.outputs[outputId] ?? diffOptions.outputs['default']
+
+			if (thisDiffOptions?.name) {
+				const oldProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingOutput>>(
+					{ name: `Output ${outputId}`, sourceId: 0 },
+					oldState?.outputs?.[outputId]
+				)
+				const newProperties = fillDefaults<OmitReadonly<FairlightAudioRoutingOutput>>(
+					{ name: `Output ${outputId}`, sourceId: 0 },
+					newState?.outputs?.[outputId]
+				)
+
+				const props = diffObject<FairlightAudioRoutingOutput>(oldProperties, newProperties)
+				const command = new AtemCommands.AudioRoutingOutputCommand(outputId)
 				if (command.updateProps(props)) {
 					commands.push(command)
 				}

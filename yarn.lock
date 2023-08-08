@@ -612,7 +612,7 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@julusian/freetype2@^1.1.0":
+"@julusian/freetype2@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@julusian/freetype2/-/freetype2-1.1.2.tgz#c4a4030785214ad1f9b833d78b8571b78afe76a0"
   integrity sha512-Y7JCIE2EIvQtne3J1FY5eweD4GcCGG3nX323Yq2AOGus9/1PGjcxTv8OWL34ONt11kuTMItEt9klddZzIeUHvQ==
@@ -1031,20 +1031,20 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-atem-connection@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-3.2.0.tgz#139b6f935a774d40e2ec337746777d3e87ca0c54"
-  integrity sha512-9kn/uC6DQIIGSg+n+M84lXm9nPOXkvKHN3/TFnsAev/xVeFSSy5OgvfqkcUF3/+HxJNeuUc4bj+ezEVn/AKbMA==
+atem-connection@3.3.0-nightly-master-20230802-084852-005f0d57.0:
+  version "3.3.0-nightly-master-20230802-084852-005f0d57.0"
+  resolved "https://registry.yarnpkg.com/atem-connection/-/atem-connection-3.3.0-nightly-master-20230802-084852-005f0d57.0.tgz#17d57ea314ec554ec3c7999801e49ed8f4827538"
+  integrity sha512-KD2awoZJPOdCzPsDwJr1YdS3JTAvkpijMEuXZhXO9U1e4bcZAO5/5HZv+HuLYwdp0dqayqxIHMNlvaDhfUEkkw==
   dependencies:
-    "@julusian/freetype2" "^1.1.0"
+    "@julusian/freetype2" "^1.1.2"
     debug "^4.3.4"
     eventemitter3 "^4.0.7"
     exit-hook "^2.2.1"
     nanotimer "^0.3.15"
     p-lazy "^3.1.0"
     p-queue "^6.6.2"
-    threadedclass "^1.1.1"
-    tslib "^2.3.1"
+    threadedclass "^1.2.1"
+    tslib "^2.5.0"
     wavefile "^8.4.4"
 
 babel-jest@^29.6.2:
@@ -3890,7 +3890,7 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-threadedclass@^1.1.1:
+threadedclass@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/threadedclass/-/threadedclass-1.2.1.tgz#1ce1316f6835cec238edabba75421e654f2c5572"
   integrity sha512-b8dUXW0K3dUWYrQakKhXvY/Owrnd3p+NKTI0BVEuAU/o7PsLupoNDCadK6V3WwyVLKCy0CS/d1xBmc6uZNPgOw==
@@ -3964,7 +3964,7 @@ tslib@^1.13.0, tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.1.0, tslib@^2.3.1, tslib@^2.6.1:
+tslib@^2.1.0, tslib@^2.5.0, tslib@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.1.tgz#fd8c9a0ff42590b25703c0acb3de3d3f4ede0410"
   integrity sha512-t0hLfiEKfMUoqhG+U1oid7Pva4bbDPHYfJNiB7BiIjRkj1pyC++4N3huJfqY6aRH6VTB0rvtzQwjM4K6qpfOig==

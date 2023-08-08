@@ -64,7 +64,7 @@
 		"@types/jest": "^29.5.3",
 		"@types/node": "^14.18.54",
 		"@types/object-path": "^0.11.1",
-		"atem-connection": "3.2.0",
+		"atem-connection": "3.3.0-nightly-master-20230802-084852-005f0d57.0",
 		"fast-clone": "^1.5.13",
 		"jest": "^29.6.2",
 		"object-path": "^0.11.8",
@@ -81,7 +81,7 @@
 		"source"
 	],
 	"peerDependencies": {
-		"atem-connection": "3.1.0"
+		"atem-connection": "3.3.0-nightly-master-20230802-084852-005f0d57.0"
 	},
 	"dependencies": {
 		"deepmerge": "^4.3.1",
