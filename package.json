@@ -61,7 +61,7 @@
 		"@sofie-automation/code-standard-preset": "^0.3.0",
 		"@types/jest": "^26.0.23",
 		"@types/node": "^12.20.13",
-		"atem-connection": "~2.4",
+		"atem-connection": "~2.5",
 		"jest": "^26.6.3",
 		"open-cli": "^6",
 		"rimraf": "^3.0.2",
@@ -77,7 +77,7 @@
 		"source"
 	],
 	"peerDependencies": {
-		"atem-connection": "~2.4"
+		"atem-connection": "~2.5"
 	},
 	"dependencies": {
 		"deepmerge": "^4.2.2",

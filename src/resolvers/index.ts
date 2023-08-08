@@ -9,6 +9,7 @@ import { resolveMacroPlayerState } from './macro'
 import { getAllKeysNumber } from '../util'
 import { resolveMediaPlayerState } from './media'
 import { PartialDeep } from 'type-fest'
+import { resolveFairlightAudioState } from './fairlight-audio'
 
 export function videoState(
 	oldState: PartialDeep<StateObject>,
@@ -22,6 +23,7 @@ export function videoState(
 	commands.push(...resolveDownstreamKeyerState(oldState, newState))
 	commands.push(...resolveSuperSourceState(oldState, newState, version))
 	commands.push(...resolveAudioState(oldState, newState))
+	commands.push(...resolveFairlightAudioState(oldState, newState))
 	commands.push(...resolveMediaPlayerState(oldState, newState))
 
 	// resolve auxilliaries:
