@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>atem-state | atem-state</title>
+	<title>ExtendedMixEffect | atem-state</title>
 	<meta name="description" content="Documentation for atem-state">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">:root {
@@ -2674,7 +2674,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">atem-state</a></strong>
+					<strong><a href="../index.html">atem-state</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2705,76 +2705,183 @@ img {
 <nav class="tsd-navigation secondary">
 	<ul>
 		<li class=" tsd-kind-class">
-			<a href="classes/atemstate.html" class="tsd-kind-icon">Atem<wbr>State</a>
+			<a href="../classes/atemstate.html" class="tsd-kind-icon">Atem<wbr>State</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/atemvideostate.html" class="tsd-kind-icon">Atem<wbr>Video<wbr>State</a>
+			<a href="atemvideostate.html" class="tsd-kind-icon">Atem<wbr>Video<wbr>State</a>
+		</li>
+		<li class="current tsd-kind-interface">
+			<a href="extendedmixeffect.html" class="tsd-kind-icon">Extended<wbr>Mix<wbr>Effect</a>
+			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#fadetoblack" class="tsd-kind-icon">fade<wbr>ToBlack</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#index" class="tsd-kind-icon">index</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="extendedmixeffect.html#input" class="tsd-kind-icon">input</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="extendedmixeffect.html#transition" class="tsd-kind-icon">transition</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#transitionposition" class="tsd-kind-icon">transition<wbr>Position</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#transitionpreview" class="tsd-kind-icon">transition<wbr>Preview</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#transitionproperties" class="tsd-kind-icon">transition<wbr>Properties</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#transitionsettings" class="tsd-kind-icon">transition<wbr>Settings</a>
+				</li>
+				<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+					<a href="extendedmixeffect.html#upstreamkeyers" class="tsd-kind-icon">upstream<wbr>Keyers</a>
+				</li>
+			</ul>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/extendedmixeffect.html" class="tsd-kind-icon">Extended<wbr>Mix<wbr>Effect</a>
-		</li>
-		<li class=" tsd-kind-interface">
-			<a href="interfaces/state.html" class="tsd-kind-icon">State</a>
+			<a href="state.html" class="tsd-kind-icon">State</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#mixeffect" class="tsd-kind-icon">Mix<wbr>Effect</a>
+			<a href="../modules.html#mixeffect" class="tsd-kind-icon">Mix<wbr>Effect</a>
 		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
-		<div class="tsd-panel tsd-typography">
-			<a href="#sofie-the-modern-tv-news-studio-automation-system-atem-state-library" id="sofie-the-modern-tv-news-studio-automation-system-atem-state-library" style="color: inherit; text-decoration: none;">
-				<h1>Sofie: The Modern TV News Studio Automation System (ATEM State library)</h1>
-			</a>
-			<p><a href="https://circleci.com/gh/nrkno/tv-automation-atem-state"><img src="https://circleci.com/gh/nrkno/tv-automation-atem-state.svg?style=svg" alt="CircleCI"></a>
-			<a href="https://codecov.io/gh/nrkno/tv-automation-atem-state"><img src="https://codecov.io/gh/nrkno/tv-automation-atem-state/branch/master/graph/badge.svg" alt="codecov"></a></p>
-			<p>This library is used in the <a href="https://github.com/nrkno/Sofie-TV-automation/"><strong>Sofie</strong> TV News Studio Automation System</a>.</p>
-			<p>It can compare two ATEM states and generate the necessary commands for the <a href="https://github.com/nrkno/tv-automation-atem-connection">ATEM-connection library</a> to send to the ATEM device such that it will reach the target state.</p>
-		</div>
+		<section class="tsd-panel tsd-hierarchy">
+			<h3>Hierarchy</h3>
+			<ul class="tsd-hierarchy">
+				<li>
+					<span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">VideoState.MixEffect</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;programInput&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;previewInput&quot;</span><span class="tsd-signature-symbol">&gt;</span>
+					<ul class="tsd-hierarchy">
+						<li>
+							<span class="target">ExtendedMixEffect</span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Namespaces</h3>
+						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-namespace"><a href="modules/defaults.html" class="tsd-kind-icon">Defaults</a></li>
-							<li class="tsd-kind-namespace"><a href="modules/enums.html" class="tsd-kind-icon">Enums</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Classes</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-class"><a href="classes/atemstate.html" class="tsd-kind-icon">Atem<wbr>State</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Interfaces</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-interface"><a href="interfaces/atemvideostate.html" class="tsd-kind-icon">Atem<wbr>Video<wbr>State</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/extendedmixeffect.html" class="tsd-kind-icon">Extended<wbr>Mix<wbr>Effect</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/state.html" class="tsd-kind-icon">State</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Type aliases</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-type-alias"><a href="modules.html#mixeffect" class="tsd-kind-icon">Mix<wbr>Effect</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#fadetoblack" class="tsd-kind-icon">fade<wbr>ToBlack</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#index" class="tsd-kind-icon">index</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="extendedmixeffect.html#input" class="tsd-kind-icon">input</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="extendedmixeffect.html#transition" class="tsd-kind-icon">transition</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#transitionposition" class="tsd-kind-icon">transition<wbr>Position</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#transitionpreview" class="tsd-kind-icon">transition<wbr>Preview</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#transitionproperties" class="tsd-kind-icon">transition<wbr>Properties</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#transitionsettings" class="tsd-kind-icon">transition<wbr>Settings</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="extendedmixeffect.html#upstreamkeyers" class="tsd-kind-icon">upstream<wbr>Keyers</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Type aliases</h2>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="mixeffect" class="tsd-anchor"></a>
-				<h3>Mix<wbr>Effect</h3>
-				<div class="tsd-signature tsd-kind-icon">Mix<wbr>Effect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">VideoState.MixEffect</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/extendedmixeffect.html" class="tsd-signature-type" data-tsd-kind="Interface">ExtendedMixEffect</a></div>
+			<h2>Properties</h2>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="fadetoblack" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> fade<wbr>ToBlack</h3>
+				<div class="tsd-signature tsd-kind-icon">fade<wbr>ToBlack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">FadeToBlackProperties</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.fadeToBlack</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:73</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="index" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> index</h3>
+				<div class="tsd-signature tsd-kind-icon">index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.index</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:69</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="input" class="tsd-anchor"></a>
+				<h3>input</h3>
+				<div class="tsd-signature tsd-kind-icon">input<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/nrkno/sofie-atem-state/blob/f6c4ca5/src/state.ts#L8">src/state.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/nrkno/sofie-atem-state/blob/f6c4ca5/src/state.ts#L11">src/state.ts:11</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="transition" class="tsd-anchor"></a>
+				<h3>transition</h3>
+				<div class="tsd-signature tsd-kind-icon">transition<span class="tsd-signature-symbol">:</span> <a href="../enums/enums.transitionstyle.html" class="tsd-signature-type" data-tsd-kind="Enumeration">TransitionStyle</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/nrkno/sofie-atem-state/blob/f6c4ca5/src/state.ts#L12">src/state.ts:12</a></li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="transitionposition" class="tsd-anchor"></a>
+				<h3>transition<wbr>Position</h3>
+				<div class="tsd-signature tsd-kind-icon">transition<wbr>Position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TransitionPosition</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.transitionPosition</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:74</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="transitionpreview" class="tsd-anchor"></a>
+				<h3>transition<wbr>Preview</h3>
+				<div class="tsd-signature tsd-kind-icon">transition<wbr>Preview<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.transitionPreview</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:72</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="transitionproperties" class="tsd-anchor"></a>
+				<h3>transition<wbr>Properties</h3>
+				<div class="tsd-signature tsd-kind-icon">transition<wbr>Properties<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TransitionProperties</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.transitionProperties</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:75</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="transitionsettings" class="tsd-anchor"></a>
+				<h3>transition<wbr>Settings</h3>
+				<div class="tsd-signature tsd-kind-icon">transition<wbr>Settings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TransitionSettings</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.transitionSettings</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:76</li>
+					</ul>
+				</aside>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
+				<a name="upstreamkeyers" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> upstream<wbr>Keyers</h3>
+				<div class="tsd-signature tsd-kind-icon">upstream<wbr>Keyers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UpstreamKeyer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+					<p>Inherited from Omit.upstreamKeyers</p>
+					<ul>
+						<li>Defined in node_modules/atem-connection/dist/state/video/index.d.ts:77</li>
 					</ul>
 				</aside>
 			</section>
