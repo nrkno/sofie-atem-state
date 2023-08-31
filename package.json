@@ -51,7 +51,7 @@
 		"license-validate": "yarn sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
 	},
 	"engines": {
-		"node": "^14.18 || ^16.14 || ^18.0"
+		"node": "^14.18 || ^16.14 || >=18.0"
 	},
 	"files": [
 		"/dist",
