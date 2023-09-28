@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Convential Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for commit guidelines.
 
+## [1.1.0](https://github.com/nrkno/sofie-atem-state/compare/v1.0.1...v1.1.0) (Thu Sep 28 2023)
+
+
+### Fixes
+
+* fairlight audio routing [ca94d36](https://github.com/nrkno/sofie-atem-state/commit/ca94d365a8ed158ea8796fc875fbb3d94ffccc2a)
+
+### Features
+
+* fairlight audio routing [99761eb](https://github.com/nrkno/sofie-atem-state/commit/99761eb10dd81158400849698f18fbfc0b09ca12)
+
 ## [1.0.1](https://github.com/nrkno/sofie-atem-state/compare/v1.0.0...v1.0.1) (Tue Mar 28 2023)
 
 
