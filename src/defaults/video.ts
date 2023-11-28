@@ -216,13 +216,6 @@ export function flyKeyframe(id: number): VideoState.USK.UpstreamKeyerFlyKeyframe
 	}
 }
 
-export const FlyKeyProperties: VideoState.USK.UpstreamKeyerFlySettings = {
-	isASet: false,
-	isBSet: false,
-	isAtKeyFrame: Enums.IsAtKeyFrame.None,
-	runToInfiniteIndex: Enums.FlyKeyDirection.CentreOfKey,
-}
-
 export const SuperSourceBox: VideoState.SuperSource.SuperSourceBox = {
 	enabled: false,
 	source: defaultInput,
