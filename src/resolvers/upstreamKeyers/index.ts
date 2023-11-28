@@ -6,7 +6,7 @@ import { resolvePatternKeyerState } from './patternKeyer'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../../util'
 import { PartialDeep } from 'type-fest'
 import * as Defaults from '../../defaults'
-import { resolveFlyKeyerFramesState } from './flyKey'
+import { resolveFlyKeyerFramesState, resolveFlyPropertiesState } from './flyKey'
 import { DiffUpstreamKeyer } from '../../diff'
 
 export function resolveUpstreamKeyerState(
@@ -41,6 +41,11 @@ export function resolveUpstreamKeyerState(
 					newKeyer.flyKeyframes,
 					thisDiffOptions.flyKeyframes
 				)
+			)
+		}
+		if (thisDiffOptions.flyProperties) {
+			commands.push(
+				...resolveFlyPropertiesState(mixEffectId, upstreamKeyerId, oldKeyer.flyProperties, newKeyer.flyProperties)
 			)
 		}
 
