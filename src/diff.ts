@@ -48,6 +48,7 @@ export function DiffAllObject(): DeepComplete<SectionsToDiff> {
 					mask: true,
 
 					flyKeyframes: 'all',
+					flyProperties: true,
 					dveSettings: true,
 					chromaSettings: true,
 					advancedChromaSettings: true,
@@ -162,6 +163,7 @@ export interface DiffUpstreamKeyer {
 	mask?: boolean
 
 	flyKeyframes?: number[] | 'all'
+	flyProperties?: boolean
 	dveSettings?: boolean
 	chromaSettings?: boolean
 	advancedChromaSettings?: boolean

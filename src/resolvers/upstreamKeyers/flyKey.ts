@@ -1,9 +1,9 @@
-import { Commands as AtemCommands, VideoState } from 'atem-connection'
+import { Commands as AtemCommands, Enums, VideoState } from 'atem-connection'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
 
-type FlyFrmaesState = [
+type FlyFramesState = [
 	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined,
 	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined
 ]
@@ -11,8 +11,8 @@ type FlyFrmaesState = [
 export function resolveFlyKeyerFramesState(
 	mixEffectId: number,
 	upstreamKeyerId: number,
-	oldState: PartialDeep<FlyFrmaesState>,
-	newState: PartialDeep<FlyFrmaesState>,
+	oldState: PartialDeep<FlyFramesState>,
+	newState: PartialDeep<FlyFramesState>,
 	diffOptions: number[] | 'all'
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
@@ -28,6 +28,30 @@ export function resolveFlyKeyerFramesState(
 				commands.push(command)
 			}
 		}
+	}
+
+	return commands
+}
+
+export function resolveFlyPropertiesState(
+	mixEffectId: number,
+	upstreamKeyerId: number,
+	oldState: Partial<VideoState.USK.UpstreamKeyerFlySettings> | undefined,
+	newState: PartialDeep<VideoState.USK.UpstreamKeyerFlySettings> | undefined
+): Array<AtemCommands.ISerializableCommand> {
+	const commands: Array<AtemCommands.ISerializableCommand> = []
+
+	if (!oldState && !newState) return commands
+
+	const oldKeyProps = fillDefaults(Defaults.Video.FlyKeyProperties, oldState)
+	const newKeyProps = fillDefaults(Defaults.Video.FlyKeyProperties, newState)
+
+	if (oldKeyProps.isAtKeyFrame !== newKeyProps.isAtKeyFrame) {
+		const keyframe: Enums.FlyKeyKeyFrame = newKeyProps.isAtKeyFrame as number
+
+		commands.push(
+			new AtemCommands.MixEffectKeyRunToCommand(mixEffectId, upstreamKeyerId, keyframe, newKeyProps.runToInfiniteIndex)
+		)
 	}
 
 	return commands
