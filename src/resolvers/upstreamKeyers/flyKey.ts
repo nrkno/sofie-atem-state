@@ -19,11 +19,11 @@ export function resolveFlyKeyerFramesState(
 
 	for (const index of getAllKeysNumber(oldState, newState)) {
 		if (diffOptions === 'all' || diffOptions.includes(index)) {
-			const newKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), oldState?.[index])
-			const oldKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), newState?.[index])
+			const newKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), newState?.[index])
+			const oldKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), oldState?.[index])
 
 			const props = diffObject(oldKeyframe, newKeyframe)
-			const command = new AtemCommands.MixEffectKeyFlyKeyframeCommand(mixEffectId, upstreamKeyerId, index)
+			const command = new AtemCommands.MixEffectKeyFlyKeyframeCommand(mixEffectId, upstreamKeyerId, index + 1)
 			if (command.updateProps(props)) {
 				commands.push(command)
 			}
