@@ -5,11 +5,11 @@
 
 This is the _ATEM State_ library of the [**Sofie** TV Automation System](https://github.com/nrkno/Sofie-TV-automation/). It can compare two states and generate the necessary commands for the [ATEM Connection library](https://github.com/nrkno/sofie-atem-connection) to send to the Blackmagic Design ATEM device such that it will reach the target state.
 
-### General Sofie System Info
-* [Documentation](https://nrkno.github.io/sofie-core/)
-* [Releases](https://nrkno.github.io/sofie-core/releases)
+## General Sofie System Information
+* [_Sofie_ Documentation](https://nrkno.github.io/sofie-core/)
+* [_Sofie_ Releases](https://nrkno.github.io/sofie-core/releases)
 * [Contribution Guidelines](CONTRIBUTING.md)
-*  [License](LICENSE)
+* [License](LICENSE)
 
 ---
 
