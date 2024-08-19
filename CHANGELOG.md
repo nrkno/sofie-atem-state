@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [Convential Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for commit guidelines.
 
+## [1.2.0](https://github.com/nrkno/sofie-atem-state/compare/v1.1.0...v1.2.0) (Mon Aug 19 2024)
+
+
+### Fixes
+
+* resolveFlyKeyerFramesState state reversed + indexing [72953da](https://github.com/nrkno/sofie-atem-state/commit/72953da51045b067d8465f584176b8d2cd843f45)
+
+### Features
+
+* fly key settings (#28) [3e4ccf1](https://github.com/nrkno/sofie-atem-state/commit/3e4ccf190138823c4dd92fe279b77b5c4601e7c1)
+
 ## [1.1.0](https://github.com/nrkno/sofie-atem-state/compare/v1.0.1...v1.1.0) (Thu Sep 28 2023)
 
 
