@@ -81,7 +81,7 @@
 		"source"
 	],
 	"peerDependencies": {
-		"atem-connection": "3.4"
+		"atem-connection": "^3.4"
 	},
 	"dependencies": {
 		"deepmerge": "^4.3.1",
